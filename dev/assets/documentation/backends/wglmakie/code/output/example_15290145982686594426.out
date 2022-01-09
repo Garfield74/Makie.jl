@@ -1,7 +1,7 @@
 ~~~
-<div id="ce3e88fa-baf7-4a3a-82d7-d9d12fb9d432" data-jscall-id="108">
+<div id="6f85af5e-d0b1-409e-944d-6e909891c6e6" data-jscall-id="108">
   <div data-jscall-id="103">slider 1: 
-    <input step="1" max="100" min="1" data-jscall-id="104" value="1" oninput="JSServe.update_obs('12259087976914257066', parseFloat(value))" type="range" />
+    <input step="1" max="100" min="1" data-jscall-id="104" value="1" oninput="JSServe.update_obs('1259538055631647428', parseFloat(value))" type="range" />
     <p data-jscall-id="102">1</p>
   </div>
   <script data-jscall-id="105" type="text/javascript">
@@ -20,11 +20,11 @@
 </script>
   <script data-jscall-id="107" type="text/javascript">
 (()=> {
-    JSServe.register_sub_session('ce3e88fa-baf7-4a3a-82d7-d9d12fb9d432')
-    const init_data_b64 = 'H4sIAAAAAAAAA8WTwU7cMBRF1e18xdtRJAS2SZwYiW5gNRLQarpDleUmDzBN7Mh2hhlV3dAvYNlli8R0XfoR/YX+TU2AAaQRozJIZGXp3XeVc699OmnUuLKq/Pb19vTqhy5/U8ZSQfJMZFzQhKUZ4fxn7Q9lGDf4PZ2KTy+lPFZD5Qunm9BNpbzoD7ZsiVPNhbetK/DvH4ehdQYOWlMEbQ1YI9umVAFfGzyRQ1W1uAyfexC/tTVtArrGVipocwj2ALb3dsBEXw/KlGDDETrot5VW0G16OLHuE9TWh2oMygOOGiwClhudYWGND9BIrLBGE2ATpMS4KOMg4ChIuU8+dMqpZlUbg+59HEb19A97X3qTm52zmfiTbVvv3uM/p4TNz5Q+KOCSMko5SzLKCE8ZYUTQWfmXUfsrZYLzfJ0JyrM0mvJklrSzzUhOKM+zTIgkJ4IJsr5wrW9vau3S2XwD/cEA3RBXr6uVV5VJFYLTH9vY9IzUV2DJB2yWVq4tlv873mRuYvRpaHvPgFar0WJkj/b7kmDaLFjZo7fxiWTvnoGs212Mbd5rvzuKf5mvE2aEBQAA'
+    JSServe.register_sub_session('6f85af5e-d0b1-409e-944d-6e909891c6e6')
+    const init_data_b64 = 'H4sIAAAAAAAAA8WTwW4TMRCGxTVPMbdSqWptZ3djI5ULPUWCgsKtQpbZnRbDrr2yZ9NEiEt5Ao4cKVLDmb4Er8DbYLYlgBSloqmET5bmn7G//7fPFq2Z195UH9//2t07t9UlF7nKh5LleTHkRTbKhPzSxBNN8xY/5Uvt2aXWr83UxDLYlvqq1hfjySNf4VJzEX0XSvz+LSB1wcFx50qy3oF3umsrQ3jf4amemrrDbXg7gLT29qwjDK2vDVl3Av4YDg4fg0tzIxhXgadXGGDc1dZA3xnh1Ic30PhI9RxMBJy1WBJWD/qBpXeRoNVYY4OOYB+0xtSoU4FwRlofsRe9cqnZtc5heJ6KSb284eDdYHHd82El/uLAN0/+4P/MmbjRUv63/dkoF0XGcia5EqOcjQq2yv4qab8WQyml4hmXShVcFUqskvZjZTpTSaGYEJnIGBeKb5zq0+tUe3P2H8J4MsEwxd2rZPXPxLQhCvZll4JeYfoObEXCdmvnasT2P7ub3egYvx3a4R2gNWa2GdnafP8nmHUbRrb2Nd6S7NkdkPW9G7Kt/+y/t+oHSyaR/YEFAAA='
     JSServe.init_from_b64(init_data_b64)
     if (!true){
-        JSServe.update_obs('1769702085627883333', true)
+        JSServe.update_obs('17527514082465268467', true)
     }
 })()
 </script>
