@@ -1,7 +1,7 @@
 ~~~
-<div id="6f85af5e-d0b1-409e-944d-6e909891c6e6" data-jscall-id="108">
+<div id="18a86d4d-e24c-438c-ac34-34e7bb27f3c8" data-jscall-id="108" style="visibility: hidden;">
   <div data-jscall-id="103">slider 1: 
-    <input step="1" max="100" min="1" data-jscall-id="104" value="1" oninput="JSServe.update_obs('1259538055631647428', parseFloat(value))" type="range" />
+    <input step="1" max="100" min="1" data-jscall-id="104" value="1" oninput="JSServe.update_obs('7225406205390975558', parseFloat(value))" type="range" />
     <p data-jscall-id="102">1</p>
   </div>
   <script data-jscall-id="105" type="text/javascript">
@@ -20,11 +20,11 @@
 </script>
   <script data-jscall-id="107" type="text/javascript">
 (()=> {
-    JSServe.register_sub_session('6f85af5e-d0b1-409e-944d-6e909891c6e6')
-    const init_data_b64 = 'H4sIAAAAAAAAA8WTwW4TMRCGxTVPMbdSqWptZ3djI5ULPUWCgsKtQpbZnRbDrr2yZ9NEiEt5Ao4cKVLDmb4Er8DbYLYlgBSloqmET5bmn7G//7fPFq2Z195UH9//2t07t9UlF7nKh5LleTHkRTbKhPzSxBNN8xY/5Uvt2aXWr83UxDLYlvqq1hfjySNf4VJzEX0XSvz+LSB1wcFx50qy3oF3umsrQ3jf4amemrrDbXg7gLT29qwjDK2vDVl3Av4YDg4fg0tzIxhXgadXGGDc1dZA3xnh1Ic30PhI9RxMBJy1WBJWD/qBpXeRoNVYY4OOYB+0xtSoU4FwRlofsRe9cqnZtc5heJ6KSb284eDdYHHd82El/uLAN0/+4P/MmbjRUv63/dkoF0XGcia5EqOcjQq2yv4qab8WQyml4hmXShVcFUqskvZjZTpTSaGYEJnIGBeKb5zq0+tUe3P2H8J4MsEwxd2rZPXPxLQhCvZll4JeYfoObEXCdmvnasT2P7ub3egYvx3a4R2gNWa2GdnafP8nmHUbRrb2Nd6S7NkdkPW9G7Kt/+y/t+oHSyaR/YEFAAA='
+    JSServe.register_sub_session('18a86d4d-e24c-438c-ac34-34e7bb27f3c8')
+    const init_data_b64 = 'H4sIAAAAAAAAA8VUwY7TMBQU136Fb9lK266d2EmMtBxgOVAJFlRuCFlu/FoMiR0lTrcR4lLOSHDlBkhb7stH8Av8Ddl0aQFVW9GuRE6O3rxJZiaZ+SKXdWql+vj21+nWZ60uIt9nFIc+ZgHHPGKMxV+zciJcncMntsLOL4R4KaeyTAqdu3YqxPlgeM8qWGHOS1sVCfz4XoCrCoPGlUmctgZZI6pcSQcHBs7EVKYVdNHrDmquoyNtHBS5TaXTZoLsGJ2cPkSm4S2RNApZ9wIKNKhSLVG7WaIzW7xCmS1dWiNZIpjlkDhQt1vCxJrSoVxAChkYh46RENAsimbgYOaEeIaft8gVpq+NgeJpM2zQqzfsvOksrnY+bJS/OLHZo9/0fyHY32op+cP+b4RyHGIWxjzwKWGURZxt8l+1YIxpQHHMWehHmLC4WdgEXjI3vCGhIWeEhJzHhPNo72QfXyXbGnR8Bw2GQyim0F+mKy5TE9K5Qo+qJuwNxh8ir3SQe4dLiu4/O0y3u0Z203Z6A9oyOdtX2rUZ/09p2uwt7bovckdpT25AWru7n7gtP/18J23v1n0m8zzVibxsU6Fs1vSUsknVltcE3P1lj92tH6gDj8QyDhVVPfBp0qNBnPRkEtBeQCEajfxoHCSx120b8C/WfunqFPpTXeqRTrWrm8d47V0K3qoM3691+esj/wkU9gA+YQYAAA=='
     JSServe.init_from_b64(init_data_b64)
     if (!true){
-        JSServe.update_obs('17527514082465268467', true)
+        JSServe.update_obs('328301964565722100', true)
     }
 })()
 </script>
