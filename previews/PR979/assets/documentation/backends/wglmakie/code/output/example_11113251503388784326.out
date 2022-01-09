@@ -1,8 +1,8 @@
 ~~~
-<div id="949123ad-d9c1-4b43-8338-c363dd4ca6bd" data-jscall-id="128">
+<div id="d31522d9-6258-44e8-af7e-1b050f0914e5" data-jscall-id="128" style="visibility: hidden;">
   <div data-jscall-id="122">
     <div class=" flex flex-row" data-jscall-id="121">
-      <input step="1" max="360" min="0" data-jscall-id="123" value="0" oninput="JSServe.update_obs('13100188605211306182', parseFloat(value))" type="range" />
+      <input step="1" max="360" min="0" data-jscall-id="123" value="0" oninput="JSServe.update_obs('17203515820071682936', parseFloat(value))" type="range" />
       <div class="h-6 w-6 p-2 m-2 rounded shadow" data-jscall-id="120"></div>
     </div>
   </div>
@@ -23,11 +23,11 @@
 </script>
   <script data-jscall-id="127" type="text/javascript">
 (()=> {
-    JSServe.register_sub_session('949123ad-d9c1-4b43-8338-c363dd4ca6bd')
-    const init_data_b64 = 'H4sIAAAAAAAAA8WTz0/CMBTH5cpf0SwhQFxIu9FuPeAFTxz8EY7GNGWrMB3rsnUEYrzgX+DRo5qAd/w3/AP8b2wQ0cMCkZHYQ/uSvvfN+3xfO53HfBJK7j/ef0cHz4H/hmwEIXJdArGFkA0Jcq3XYdpnahKLJ7xOni4Yu+YjnnpJEKvlLWOzTrctfbHOmaUySzzx4SVCZUkErrLIU4GMQG2QifptGejFmBjxkHkyUmKsGLuAl41UTULR6HHvpp/ILPLbMpQJaAFjkIY1AxwCXa53wySwYmJYqRvlu/lK4SG3s/mxHJ78au0FWXA7LlrjlnTygiBqWxZxXNrExKUOISjPmvfSYClNqEMxtSluWgRTQizczEtf2U4hdbQydKCrT4Ist7DtZyvbtb+ZaB2BTrcrkpFoZLHPlWCRrmFcqSToZUrUcgZhgmqqRFw1vyTqf/bY3mob2g3tdA9oQz4uRrZlxP+JFkRF0TY+yB3RzveAtqwtDLfx1/+E9BPORDWQJwUAAA=='
+    JSServe.register_sub_session('d31522d9-6258-44e8-af7e-1b050f0914e5')
+    const init_data_b64 = 'H4sIAAAAAAAAA8WUz27TQBDG6TVPsYpUORFJtLv22t5DOVA40AN/lCNCq413kizYXsteR40Ql3BGgis3QGq4l9fgAXgbNm6aIhSlIqmEZVlj+Zvx/L6xZ7Es5Dw1Un1+fx3d+6rVDxJR7DPCYopxRMKYcj/8nlUTYecFfGEb8eJSiNdyJquk1IVtngpxcTY8NQo2movK1GUCv5ISbF3maFznidUmR51pDd23LeQOIWAmU5GY3MK5FeIlfjWo7DyFwUgmbyalqXN1alJTohPUnlZpp43uI5furu1eiI97DB932613y3WFT1s7Wz4y2dM/WvtGKL4dl2xwjxpxwDENoyBwWTwKWBgzvs2bn0dTJ790ssDnGIeY4jCKiTu3qa9sJyRgsc8583HICaMuOtj252vbnb81nDxAZ8MhlDMY1IWSFkTucoS0ttSj2kJnyyB6yKssFF7vqkT3nz32b7eN7Mf27A7YMnl+GNruEf9PMp0fOrSdH+SeaC/uAK3JPRRu91+/2Avuw2qbuXYqi2RRpDqRq1UnlMnc5lImqTPI7WAC9nEKq/Dh/InqeMp33lLF+yFlcT8IIO7LcQR9MsIMjzEnATCv22zKv6qut+RMV3qkU23n7jVec5eC17o25uMNF70J+W84fZKB/wUAAA=='
     JSServe.init_from_b64(init_data_b64)
     if (!true){
-        JSServe.update_obs('4986698988234089668', true)
+        JSServe.update_obs('8368605097550522144', true)
     }
 })()
 </script>
