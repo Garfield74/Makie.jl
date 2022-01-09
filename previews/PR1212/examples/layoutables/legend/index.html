@@ -1,0 +1,198 @@
+<!doctype html> <!-- Minimal Mistakes Jekyll Theme 4.16.4 by Michael Rose Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes Free for personal and commercial use under the MIT license https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE --> <html lang=en > <meta charset=UTF-8 > <meta name=viewport  content="width=device-width, initial-scale=1"> <link rel=stylesheet  href="/previews/PR1212/libs/highlight/github.min.css"> <link rel=stylesheet  href="/previews/PR1212/css/franklin.css"> <link rel=stylesheet  href="/previews/PR1212/css/minimal-mistakes.css"> <link rel=stylesheet  href="/previews/PR1212/css/makie.css"> <link rel=icon  href="/previews/PR1212/assets/icon_transparent.png"> <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/fontawesome.min.css" rel=stylesheet  type="text/css"/> <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/solid.min.css" rel=stylesheet  type="text/css"/> <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/brands.min.css" rel=stylesheet  type="text/css"/> <!--[if IE ]> <style> /* old IE unsupported flexbox fixes */ .greedy-nav .site-title { padding-right: 3em; } .greedy-nav button { position: absolute; top: 0; right: 0; height: 100%; } </style> <![endif]--> <title>Legend</title> <body class=layout--single > <div class=masthead > <div class=masthead__inner-wrap > <div class=masthead__menu > <nav id=site-nav  class=greedy-nav > <a class=title-icon  href="/previews/PR1212/"><img src="/previews/PR1212/assets/makie_logo_transparent.svg"/></a> <ul class=visible-links > <li class=masthead__menu-item > <a href="https://github.com/JuliaPlots/Makie.jl"><img src="/previews/PR1212/assets/GitHub-Mark-64px.png" class=masthead-icon  /></a> <li class=masthead__menu-item ><a href="/previews/PR1212/examples/">Examples</a> <li class=masthead__menu-item ><a href="/previews/PR1212/tutorials/">Tutorials</a> <li class=masthead__menu-item ><a href="/previews/PR1212/documentation/">Documentation</a> </ul> <button class="greedy-nav__toggle hidden" type=button > <span class=visually-hidden >Toggle menu</span> <div class=navicon ></div> </button> <ul class="hidden-links hidden"></ul> </nav> </div> </div> </div> <div class=initial-content > <div id=main  role=main > <div class=franklin-content ><h1 id=legend ><a href="#legend" class=header-anchor >Legend</a></h1> <h2 id=creating_a_legend_from_elements ><a href="#creating_a_legend_from_elements" class=header-anchor >Creating A Legend From Elements</a></h2> <p>You can create a basic Legend by passing a vector of legend entries and a vector of labels, plus an optional title as the third argument.</p> <p>The elements in the vector of legend entries can either be plot objects or LegendElements like LineElement, MarkerElement and PolyElement. Or they can be vectors of such objects that will be layered together as one.</p> <h3 id=legend_element_attributes ><a href="#legend_element_attributes" class=header-anchor >Legend element attributes</a></h3> <p>The standard plot objects like <code>Scatter</code> or <code>Lines</code> have predefined conversions to <code>MarkerElement</code>s and <code>LineElement</code>s that copy the relevant plot attributes to the legend element. If an attribute has a vector-like value, it falls back to the scalar default of the legend. The legend defaults themselves are by default inherited from the main theme. For example, <code>polystrokewidth</code> of the legend falls back to <code>patchstrokewidth</code> of the main theme. In the following example, you can see that the legend for <code>sca2</code> copies the <code>:rect</code> marker but not the vector-valued color.</p> <pre><code class=language-julia >using CairoMakie
+
+f &#61; Figure&#40;&#41;
+
+Axis&#40;f&#91;1, 1&#93;&#41;
+
+xs &#61; 0:0.5:10
+ys &#61; sin.&#40;xs&#41;
+lin &#61; lines&#33;&#40;xs, ys, color &#61; :blue&#41;
+sca &#61; scatter&#33;&#40;xs, ys, color &#61; :red&#41;
+sca2 &#61; scatter&#33;&#40;xs, ys .&#43; 0.5, color &#61; 1:length&#40;xs&#41;, marker &#61; :rect&#41;
+
+Legend&#40;f&#91;1, 2&#93;,
+    &#91;lin, sca, &#91;lin, sca&#93;, sca2&#93;,
+    &#91;&quot;a line&quot;, &quot;some dots&quot;, &quot;both together&quot;, &quot;rect markers&quot;&#93;&#41;
+
+f</code></pre></p> <p> <a id=example_1011103331786001230 > <img src="/previews/PR1212/assets/examples/layoutables/legend/code/output/example_1011103331786001230.png" alt=""> </a> <h2 id=creating_a_legend_from_an_axis ><a href="#creating_a_legend_from_an_axis" class=header-anchor >Creating A Legend From An Axis</a></h2> <p>You can also create a Legend by passing it an axis object, like <code>Axis</code>, <code>LScene</code> or <code>Scene</code>. All plots that have a <code>label</code> attribute set will be put into the legend, in the order that they appear in the axis, and you can optionally pass a title as the third argument.</p> <pre><code class=language-julia >using CairoMakie
+
+f &#61; Figure&#40;&#41;
+
+ax &#61; f&#91;1, 1&#93; &#61; Axis&#40;f&#41;
+
+lines&#33;&#40;0..15, sin, label &#61; &quot;sin&quot;, color &#61; :blue&#41;
+lines&#33;&#40;0..15, cos, label &#61; &quot;cos&quot;, color &#61; :red&#41;
+lines&#33;&#40;0..15, x -&gt; -cos&#40;x&#41;, label &#61; &quot;-cos&quot;, color &#61; :green&#41;
+
+f&#91;1, 2&#93; &#61; Legend&#40;f, ax, &quot;Trig Functions&quot;, framevisible &#61; false&#41;
+
+f</code></pre></p> <p> <a id=example_3855389068877976802 > <img src="/previews/PR1212/assets/examples/layoutables/legend/code/output/example_3855389068877976802.png" alt=""> </a> <p>With the keywords <code>merge</code> and <code>unique</code> you can control how plot objects with the same labels are treated. If <code>merge</code> is <code>true</code>, all plot objects with the same label will be layered on top of each other into one legend entry. If <code>unique</code> is <code>true</code>, all plot objects with the same plot type and label will be reduced to one occurrence.</p> <pre><code class=language-julia >using CairoMakie
+
+f &#61; Figure&#40;&#41;
+
+traces &#61; cumsum&#40;randn&#40;10, 5&#41;, dims &#61; 1&#41;
+
+for &#40;i, &#40;merge, unique&#41;&#41; in enumerate&#40;
+        Iterators.product&#40;&#91;false, true&#93;, &#91;false true&#93;&#41;&#41;
+
+    ax &#61; Axis&#40;f&#91;fldmod1&#40;i, 2&#41;...&#93;,
+        title &#61; &quot;merge &#61; &#36;merge, unique &#61; &#36;unique&quot;&#41;
+
+    for trace in eachcol&#40;traces&#41;
+        lines&#33;&#40;trace, label &#61; &quot;single&quot;, color &#61; &#40;:black, 0.2&#41;&#41;
+    end
+
+    mu &#61; vec&#40;sum&#40;traces, dims &#61; 2&#41; ./ 5&#41;
+    lines&#33;&#40;mu, label &#61; &quot;mean&quot;&#41;
+    scatter&#33;&#40;mu, label &#61; &quot;mean&quot;&#41;
+
+    axislegend&#40;ax, merge &#61; merge, unique &#61; unique&#41;
+
+end
+
+f</code></pre></p> <p> <a id=example_16556234139797033347 > <img src="/previews/PR1212/assets/examples/layoutables/legend/code/output/example_16556234139797033347.png" alt=""> </a> <h2 id=multi-bank_legend ><a href="#multi-bank_legend" class=header-anchor >Multi-Bank Legend</a></h2> <p>You can control the number of banks with the <code>nbanks</code> attribute. Banks are columns when in vertical mode, and rows when in horizontal mode.</p> <pre><code class=language-julia >using CairoMakie
+
+f &#61; Figure&#40;&#41;
+
+Axis&#40;f&#91;1, 1&#93;&#41;
+
+xs &#61; 0:0.1:10
+lins &#61; &#91;lines&#33;&#40;xs, sin.&#40;xs .&#43; 3v&#41;, color &#61; RGBf0&#40;v, 0, 1-v&#41;&#41; for v in 0:0.1:1&#93;
+
+Legend&#40;f&#91;1, 2&#93;, lins, string.&#40;1:length&#40;lins&#41;&#41;, nbanks &#61; 3&#41;
+
+f</code></pre></p> <p> <a id=example_8199269684885548373 > <img src="/previews/PR1212/assets/examples/layoutables/legend/code/output/example_8199269684885548373.png" alt=""> </a> <h2 id=legend_inside_an_axis ><a href="#legend_inside_an_axis" class=header-anchor >Legend Inside An Axis</a></h2> <p>The <code>axislegend</code> function is a quick way to add a legend to an Axis. You can pass a selected axis plus arguments which are forwarded to the <code>Legend</code> constructor, or the current axis is used by default. If you pass only a string, it&#39;s used as the title with the current axis.</p> <p>The position can be set via a shortcut symbol, first halign &#40;l, r, c&#41; then valign &#40;b, t, c&#41;, such as :lt for left, top and :cb for center bottom.</p> <pre><code class=language-julia >using CairoMakie
+
+f &#61; Figure&#40;&#41;
+
+ax &#61; Axis&#40;f&#91;1, 1&#93;&#41;
+
+sc1 &#61; scatter&#33;&#40;randn&#40;10, 2&#41;, color &#61; :red, label &#61; &quot;Red Dots&quot;&#41;
+sc2 &#61; scatter&#33;&#40;randn&#40;10, 2&#41;, color &#61; :blue, label &#61; &quot;Blue Dots&quot;&#41;
+scatter&#33;&#40;randn&#40;10, 2&#41;, color &#61; :orange, label &#61; &quot;Orange Dots&quot;&#41;
+scatter&#33;&#40;randn&#40;10, 2&#41;, color &#61; :cyan, label &#61; &quot;Cyan Dots&quot;&#41;
+
+axislegend&#40;&#41;
+
+axislegend&#40;&quot;Titled Legend&quot;, position &#61; :lb&#41;
+
+axislegend&#40;ax, &#91;sc1, sc2&#93;, &#91;&quot;One&quot;, &quot;Two&quot;&#93;, &quot;Selected Dots&quot;, position &#61; :rb,
+    orientation &#61; :horizontal&#41;
+
+f</code></pre></p> <p> <a id=example_8079969162601109406 > <img src="/previews/PR1212/assets/examples/layoutables/legend/code/output/example_8079969162601109406.png" alt=""> </a> <p>Alternatively, you can simply add a Legend to the same layout slot that an axis lives in. As long as the axis is bigger than the legend you can set the legend&#39;s <code>tellheight</code> and <code>tellwidth</code> to <code>false</code> and position it using the align variables. You can use the margin keyword to keep the legend from touching the axis spines.</p> <pre><code class=language-julia >using CairoMakie
+
+haligns &#61; &#91;:left, :right, :center&#93;
+valigns &#61; &#91;:top, :bottom, :center&#93;
+
+f &#61; Figure&#40;&#41;
+
+Axis&#40;f&#91;1, 1&#93;&#41;
+
+xs &#61; 0:0.1:10
+lins &#61; &#91;lines&#33;&#40;xs, sin.&#40;xs .* i&#41;, color &#61; color&#41;
+    for &#40;i, color&#41; in zip&#40;1:3, &#91;:red, :blue, :green&#93;&#41;&#93;
+
+for &#40;j, ha, va&#41; in zip&#40;1:3, haligns, valigns&#41;
+    Legend&#40;
+        f&#91;1, 1&#93;, lins, &#91;&quot;Line &#36;i&quot; for i in 1:3&#93;,
+        &quot;&#36;ha &amp; &#36;va&quot;,
+        tellheight &#61; false,
+        tellwidth &#61; false,
+        margin &#61; &#40;10, 10, 10, 10&#41;,
+        halign &#61; ha, valign &#61; va, orientation &#61; :horizontal
+    &#41;
+end
+
+f</code></pre></p> <p> <a id=example_6496361355257737470 > <img src="/previews/PR1212/assets/examples/layoutables/legend/code/output/example_6496361355257737470.png" alt=""> </a> <h2 id=creating_legend_entries_manually ><a href="#creating_legend_entries_manually" class=header-anchor >Creating Legend Entries Manually</a></h2> <p>Sometimes you might want to construct legend entries from scratch to have maximum control. So far you can use <code>LineElement</code>s, <code>MarkerElement</code>s or <code>PolyElement</code>s. The attributes for these elements are the following &#40;the <code>&#91;&#93;</code> parts can be left out when constructing these elements directly, but have to be fully written out for the attributes that the legend holds&#41;:</p> <pre><code class=language-julia ># LineElement
+&#91;line&#93;points, &#91;line&#93;color, linestyle, linewidth
+
+# MarkerElement
+&#91;marker&#93;points, marker, markersize, &#91;marker&#93;color,
+&#91;marker&#93;strokewidth, &#91;marker&#93;strokecolor
+
+# PolyElement
+&#91;poly&#93;points, &#91;poly&#93;color, &#91;poly&#93;strokewidth, &#91;poly&#93;strokecolor</code></pre> <p>The attributes <code>linepoints</code>, <code>markerpoints</code> and <code>polypoints</code> decide where in the legend entry patch rectangle the plot objects are placed. These values should be normalized to a 1 by 1 rectangle, and the final shape depends on the <code>patchsize</code> of the legend. For example, if you want wider line and poly markers, you could set the <code>patchsize</code> of the legend to <code>&#40;50, 30&#41;</code>.</p> <pre><code class=language-julia >using CairoMakie
+
+f &#61; Figure&#40;&#41;
+
+Axis&#40;f&#91;1, 1&#93;&#41;
+
+elem_1 &#61; &#91;LineElement&#40;color &#61; :red, linestyle &#61; nothing&#41;,
+          MarkerElement&#40;color &#61; :blue, marker &#61; &#39;x&#39;, markersize &#61; 15,
+          strokecolor &#61; :black&#41;&#93;
+
+elem_2 &#61; &#91;PolyElement&#40;color &#61; :red, strokecolor &#61; :blue, strokewidth &#61; 1&#41;,
+          LineElement&#40;color &#61; :black, linestyle &#61; :dash&#41;&#93;
+
+elem_3 &#61; LineElement&#40;color &#61; :green, linestyle &#61; nothing,
+        points &#61; Point2f0&#91;&#40;0, 0&#41;, &#40;0, 1&#41;, &#40;1, 0&#41;, &#40;1, 1&#41;&#93;&#41;
+
+elem_4 &#61; MarkerElement&#40;color &#61; :blue, marker &#61; &#39;π&#39;, markersize &#61; 15,
+        points &#61; Point2f0&#91;&#40;0.2, 0.2&#41;, &#40;0.5, 0.8&#41;, &#40;0.8, 0.2&#41;&#93;&#41;
+
+elem_5 &#61; PolyElement&#40;color &#61; :green, strokecolor &#61; :black, strokewidth &#61; 2,
+        points &#61; Point2f0&#91;&#40;0, 0&#41;, &#40;1, 0&#41;, &#40;0, 1&#41;&#93;&#41;
+
+Legend&#40;f&#91;1, 2&#93;,
+    &#91;elem_1, elem_2, elem_3, elem_4, elem_5&#93;,
+    &#91;&quot;Line &amp; Marker&quot;, &quot;Poly &amp; Line&quot;, &quot;Line&quot;, &quot;Marker&quot;, &quot;Poly&quot;&#93;,
+    patchsize &#61; &#40;35, 35&#41;, rowgap &#61; 10&#41;
+
+f</code></pre></p> <p> <a id=example_18300490621340887677 > <img src="/previews/PR1212/assets/examples/layoutables/legend/code/output/example_18300490621340887677.png" alt=""> </a> <h2 id=horizontal_legend ><a href="#horizontal_legend" class=header-anchor >Horizontal Legend</a></h2> <p>In case you want the legend entries to be listed horizontally, set the <code>orientation</code> attribute to <code>:horizontal</code>. In this case the <code>nbanks</code> attribute refers to the number of rows instead of columns. To keep an adjacent axis from potentially shrinking to the width of the horizontal legend, set <code>tellwidth &#61; false</code> and <code>tellheight &#61; true</code> if you place the legend below or above the axis.</p> <pre><code class=language-julia >using CairoMakie
+
+f &#61; Figure&#40;&#41;
+
+Axis&#40;f&#91;1, 1&#93;&#41;
+
+xs &#61; 0:0.5:10
+ys &#61; sin.&#40;xs&#41;
+lin &#61; lines&#33;&#40;xs, ys, color &#61; :blue&#41;
+sca &#61; scatter&#33;&#40;xs, ys, color &#61; :red, markersize &#61; 15&#41;
+
+Legend&#40;f&#91;1, 2&#93;, &#91;lin, sca, lin&#93;, &#91;&quot;a line&quot;, &quot;some dots&quot;, &quot;line again&quot;&#93;&#41;
+
+Legend&#40;f&#91;2, 1&#93;, &#91;lin, sca, lin&#93;, &#91;&quot;a line&quot;, &quot;some dots&quot;, &quot;line again&quot;&#93;,
+    orientation &#61; :horizontal, tellwidth &#61; false, tellheight &#61; true&#41;
+
+f</code></pre></p> <p> <a id=example_10173715086820214783 > <img src="/previews/PR1212/assets/examples/layoutables/legend/code/output/example_10173715086820214783.png" alt=""> </a> <h2 id=multi-group_legends ><a href="#multi-group_legends" class=header-anchor >Multi-Group Legends</a></h2> <p>Sometimes a legend consists of multiple groups, for example in a plot where both marker size and color are varied and those properties need to be visualized separately, but still together in one legend. Each group&#39;s content is given as an array of elements and an array of labels, each within one collective array. You can shift the position of the titles relative to each group with the <code>titleposition</code> attribute, either <code>:left</code> or <code>:top</code>.</p> <pre><code class=language-julia >using CairoMakie
+
+f &#61; Figure&#40;&#41;
+
+Axis&#40;f&#91;1, 1&#93;&#41;
+
+markersizes &#61; &#91;5, 10, 15, 20&#93;
+colors &#61; &#91;:red, :green, :blue, :orange&#93;
+
+for ms in markersizes, color in colors
+    scatter&#33;&#40;randn&#40;5, 2&#41;, markersize &#61; ms, color &#61; color&#41;
+end
+
+group_size &#61; &#91;MarkerElement&#40;marker &#61; :circle, color &#61; :black,
+    strokecolor &#61; :transparent,
+    markersize &#61; ms&#41; for ms in markersizes&#93;
+
+group_color &#61; &#91;PolyElement&#40;color &#61; color, strokecolor &#61; :transparent&#41;
+    for color in colors&#93;
+
+legends &#61; &#91;Legend&#40;f,
+    &#91;group_size, group_color&#93;,
+    &#91;string.&#40;markersizes&#41;, string.&#40;colors&#41;&#93;,
+    &#91;&quot;Size&quot;, &quot;Color&quot;&#93;&#41; for _ in 1:6&#93;
+
+f&#91;1, 2:4&#93; &#61; legends&#91;1:3&#93;
+f&#91;2:4, 2&#93; &#61; legends&#91;4:6&#93;
+
+for l in legends&#91;4:6&#93;
+    l.orientation &#61; :horizontal
+    l.tellheight &#61; true
+    l.tellwidth &#61; false
+end
+
+legends&#91;2&#93;.titleposition &#61; :left
+legends&#91;5&#93;.titleposition &#61; :left
+
+legends&#91;3&#93;.nbanks &#61; 2
+legends&#91;5&#93;.nbanks &#61; 2
+legends&#91;6&#93;.nbanks &#61; 2
+
+f</code></pre></p> <p> <a id=example_13748480395996139778 > <img src="/previews/PR1212/assets/examples/layoutables/legend/code/output/example_13748480395996139778.png" alt=""> </a> <div class=page-foot > <div class=copyright > &copy; Makie.jl. Last modified: August 10, 2021. Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>. <p>These docs were autogenerated using Makie: v0.15.0, GLMakie: v0.4.4, CairoMakie: v0.6.3, WGLMakie: v0.4.4</p> </div> </div> </div> </div> </div> <div class=page__footer > <footer> <div class=page__footer-follow > <ul class=social-icons > <li><a href="https://twitter.com/MakiePlots" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden=true ></i> Twitter</a> <li><a href="https://github.com/JuliaPlots/Makie.jl" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden=true ></i> GitHub</a> </ul> </div> <div class=page__footer-copyright >&copy; Makie.jl. Powered by <a href="https://github.com/tlienart/Franklin.jl">Franklin</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel=nofollow >Minimal Mistakes</a>.</div> </footer> </div> <script src="/previews/PR1212/libs/minimal-mistakes/main.min.js"></script> <script defer src="https://use.fontawesome.com/releases/v5.8.2/js/all.js" integrity="sha384-DJ25uNYET2XCl5ZF++U8eNxPWqcKohUUBUpKGlNLMchM7q4Wjg2CUpjHLaL8yYPH" crossorigin=anonymous ></script> <script src="/previews/PR1212/libs/highlight/highlight.pack.js"></script> <script>hljs.initHighlightingOnLoad();hljs.configure({tabReplace: ' '});</script>

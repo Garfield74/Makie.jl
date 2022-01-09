@@ -1,0 +1,49 @@
+<!doctype html> <!-- Minimal Mistakes Jekyll Theme 4.16.4 by Michael Rose Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes Free for personal and commercial use under the MIT license https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE --> <html lang=en > <meta charset=UTF-8 > <meta name=viewport  content="width=device-width, initial-scale=1"> <link rel=stylesheet  href="/previews/PR1212/libs/highlight/github.min.css"> <link rel=stylesheet  href="/previews/PR1212/css/franklin.css"> <link rel=stylesheet  href="/previews/PR1212/css/minimal-mistakes.css"> <link rel=stylesheet  href="/previews/PR1212/css/makie.css"> <link rel=icon  href="/previews/PR1212/assets/icon_transparent.png"> <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/fontawesome.min.css" rel=stylesheet  type="text/css"/> <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/solid.min.css" rel=stylesheet  type="text/css"/> <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/brands.min.css" rel=stylesheet  type="text/css"/> <!--[if IE ]> <style> /* old IE unsupported flexbox fixes */ .greedy-nav .site-title { padding-right: 3em; } .greedy-nav button { position: absolute; top: 0; right: 0; height: 100%; } </style> <![endif]--> <title>band</title> <body class=layout--single > <div class=masthead > <div class=masthead__inner-wrap > <div class=masthead__menu > <nav id=site-nav  class=greedy-nav > <a class=title-icon  href="/previews/PR1212/"><img src="/previews/PR1212/assets/makie_logo_transparent.svg"/></a> <ul class=visible-links > <li class=masthead__menu-item > <a href="https://github.com/JuliaPlots/Makie.jl"><img src="/previews/PR1212/assets/GitHub-Mark-64px.png" class=masthead-icon  /></a> <li class=masthead__menu-item ><a href="/previews/PR1212/examples/">Examples</a> <li class=masthead__menu-item ><a href="/previews/PR1212/tutorials/">Tutorials</a> <li class=masthead__menu-item ><a href="/previews/PR1212/documentation/">Documentation</a> </ul> <button class="greedy-nav__toggle hidden" type=button > <span class=visually-hidden >Toggle menu</span> <div class=navicon ></div> </button> <ul class="hidden-links hidden"></ul> </nav> </div> </div> </div> <div class=initial-content > <div id=main  role=main > <div class=franklin-content ><h1 id=band ><a href="#band" class=header-anchor >band</a></h1> <div class=docstring > <h2 class=doc-header  id=band > <a href="#band">band</a> <div class=doc-type ></div> </h2> <div class=doc-content ><pre><code class=language-julia >band&#40;x, ylower, yupper; kwargs...&#41;
+band&#40;lower, upper; kwargs...&#41;</code></pre> <p>Plots a band from <code>ylower</code> to <code>yupper</code> along <code>x</code>. The form <code>band&#40;lower, upper&#41;</code> plots a <a href="https://en.wikipedia.org/wiki/Ruled_surface">ruled surface</a> between the points in <code>lower</code> and <code>upper</code>.</p> <h2 id=attributes ><a href="#attributes" class=header-anchor >Attributes</a></h2> <p>Available attributes and their defaults for <code>MakieCore.Combined&#123;Makie.band, T&#125; where T</code> are: </p> <pre><code class=language-julia >ambient         Float32&#91;0.55, 0.55, 0.55&#93;
+  color           :black
+  colormap        :viridis
+  colorrange      MakieCore.Automatic&#40;&#41;
+  cycle           &#91;:color &#61;&gt; :patchcolor&#93;
+  diffuse         Float32&#91;0.4, 0.4, 0.4&#93;
+  inspectable     true
+  interpolate     false
+  lightposition   :eyeposition
+  linewidth       1
+  nan_color       RGBA&#123;Float32&#125;&#40;0.0f0,0.0f0,0.0f0,0.0f0&#41;
+  overdraw        false
+  shading         true
+  shininess       32.0f0
+  specular        Float32&#91;0.2, 0.2, 0.2&#93;
+  ssao            false
+  transparency    false
+  visible         true</code></pre> </div> </div> <h3 id=examples ><a href="#examples" class=header-anchor >Examples</a></h3> <pre><code class=language-julia >using CairoMakie
+
+f &#61; Figure&#40;&#41;
+Axis&#40;f&#91;1, 1&#93;&#41;
+
+xs &#61; 1:0.2:10
+ys_low &#61; -0.2 .* sin.&#40;xs&#41; .- 0.25
+ys_high &#61; 0.2 .* sin.&#40;xs&#41; .&#43; 0.25
+
+band&#33;&#40;xs, ys_low, ys_high&#41;
+band&#33;&#40;xs, ys_low .- 1, ys_high .-1, color &#61; :red&#41;
+
+f</code></pre></p> <p> <a id=example_16793429407272474940 > <img src="/previews/PR1212/assets/examples/plotting_functions/band/code/output/example_16793429407272474940.png" alt=""> </a> <pre><code class=language-julia >using Statistics
+using CairoMakie
+
+f &#61; Figure&#40;&#41;
+Axis&#40;f&#91;1, 1&#93;&#41;
+
+n, m &#61; 100, 101
+t &#61; range&#40;0, 1, length&#61;m&#41;
+X &#61; cumsum&#40;randn&#40;n, m&#41;, dims &#61; 2&#41;
+X &#61; X .- X&#91;:, 1&#93;
+μ &#61; vec&#40;mean&#40;X, dims&#61;1&#41;&#41; # mean
+lines&#33;&#40;t, μ&#41;              # plot mean line
+σ &#61; vec&#40;std&#40;X, dims&#61;1&#41;&#41;  # stddev
+band&#33;&#40;t, μ &#43; σ, μ - σ&#41;   # plot stddev band
+f</code></pre></p> <p> <a id=example_10499194249938380329 > <img src="/previews/PR1212/assets/examples/plotting_functions/band/code/output/example_10499194249938380329.png" alt=""> </a> <pre><code class=language-julia >using GLMakie
+lower &#61; fill&#40;Point3f0&#40;0,0,0&#41;, 100&#41;
+upper &#61; &#91;Point3f0&#40;sin&#40;x&#41;, cos&#40;x&#41;, 1.0&#41; for x in range&#40;0,2pi, length&#61;100&#41;&#93;
+col &#61; repeat&#40;&#91;1:50;50:-1:1&#93;,outer&#61;2&#41;
+band&#40;lower, upper, color&#61;col, axis&#61;&#40;type&#61;Axis3,&#41;&#41;</code></pre></p> <p> <a id=example_15083847939650193599 > <img src="/previews/PR1212/assets/examples/plotting_functions/band/code/output/example_15083847939650193599.png" alt=""> </a> <div class=page-foot > <div class=copyright > &copy; Makie.jl. Last modified: August 10, 2021. Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>. <p>These docs were autogenerated using Makie: v0.15.0, GLMakie: v0.4.4, CairoMakie: v0.6.3, WGLMakie: v0.4.4</p> </div> </div> </div> </div> </div> <div class=page__footer > <footer> <div class=page__footer-follow > <ul class=social-icons > <li><a href="https://twitter.com/MakiePlots" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden=true ></i> Twitter</a> <li><a href="https://github.com/JuliaPlots/Makie.jl" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden=true ></i> GitHub</a> </ul> </div> <div class=page__footer-copyright >&copy; Makie.jl. Powered by <a href="https://github.com/tlienart/Franklin.jl">Franklin</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel=nofollow >Minimal Mistakes</a>.</div> </footer> </div> <script src="/previews/PR1212/libs/minimal-mistakes/main.min.js"></script> <script defer src="https://use.fontawesome.com/releases/v5.8.2/js/all.js" integrity="sha384-DJ25uNYET2XCl5ZF++U8eNxPWqcKohUUBUpKGlNLMchM7q4Wjg2CUpjHLaL8yYPH" crossorigin=anonymous ></script> <script src="/previews/PR1212/libs/highlight/highlight.pack.js"></script> <script>hljs.initHighlightingOnLoad();hljs.configure({tabReplace: ' '});</script>

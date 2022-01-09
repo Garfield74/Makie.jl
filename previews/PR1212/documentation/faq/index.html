@@ -1,0 +1,122 @@
+<!doctype html> <!-- Minimal Mistakes Jekyll Theme 4.16.4 by Michael Rose Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes Free for personal and commercial use under the MIT license https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE --> <html lang=en > <meta charset=UTF-8 > <meta name=viewport  content="width=device-width, initial-scale=1"> <link rel=stylesheet  href="/previews/PR1212/libs/highlight/github.min.css"> <link rel=stylesheet  href="/previews/PR1212/css/franklin.css"> <link rel=stylesheet  href="/previews/PR1212/css/minimal-mistakes.css"> <link rel=stylesheet  href="/previews/PR1212/css/makie.css"> <link rel=icon  href="/previews/PR1212/assets/icon_transparent.png"> <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/fontawesome.min.css" rel=stylesheet  type="text/css"/> <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/solid.min.css" rel=stylesheet  type="text/css"/> <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/brands.min.css" rel=stylesheet  type="text/css"/> <!--[if IE ]> <style> /* old IE unsupported flexbox fixes */ .greedy-nav .site-title { padding-right: 3em; } .greedy-nav button { position: absolute; top: 0; right: 0; height: 100%; } </style> <![endif]--> <title>Frequently Asked Questions</title> <body class=layout--single > <div class=masthead > <div class=masthead__inner-wrap > <div class=masthead__menu > <nav id=site-nav  class=greedy-nav > <a class=title-icon  href="/previews/PR1212/"><img src="/previews/PR1212/assets/makie_logo_transparent.svg"/></a> <ul class=visible-links > <li class=masthead__menu-item > <a href="https://github.com/JuliaPlots/Makie.jl"><img src="/previews/PR1212/assets/GitHub-Mark-64px.png" class=masthead-icon  /></a> <li class=masthead__menu-item ><a href="/previews/PR1212/examples/">Examples</a> <li class=masthead__menu-item ><a href="/previews/PR1212/tutorials/">Tutorials</a> <li class=masthead__menu-item ><a href="/previews/PR1212/documentation/">Documentation</a> </ul> <button class="greedy-nav__toggle hidden" type=button > <span class=visually-hidden >Toggle menu</span> <div class=navicon ></div> </button> <ul class="hidden-links hidden"></ul> </nav> </div> </div> </div> <div class=initial-content > <div id=main  role=main > <div class=franklin-content ><h1 id=frequently_asked_questions ><a href="#frequently_asked_questions" class=header-anchor >Frequently Asked Questions</a></h1> <h2 id=installation_issues ><a href="#installation_issues" class=header-anchor >Installation Issues</a></h2> <p>We assume you are running Julia on the default system image without PackageCompiler.</p> <h3 id=no_scene_displayed_or_glmakie_fails_to_build ><a href="#no_scene_displayed_or_glmakie_fails_to_build" class=header-anchor >No <code>Scene</code> displayed or GLMakie fails to build</a></h3> <p>If <code>Makie</code> builds, but when plotting no window or plot is displayed, your backend may not have built correctly. By default, Makie will try to use GLMakie as a backend, but if it does not build correctly for whatever reason, then scenes will not be displayed. Ensure that your graphics card supports OpenGL; if it does not &#40;old models, or relatively old integrated graphics cards&#41;, then you may want to consider CairoMakie.</p> <h2 id=plotting_issues ><a href="#plotting_issues" class=header-anchor >Plotting issues</a></h2> <h3 id=dimensions_too_large ><a href="#dimensions_too_large" class=header-anchor >Dimensions too large</a></h3> <p>In general, plotting functions tend to plot whatever&#39;s given to them as a single texture. This can lead to GL errors, or OpenGL failing silently. To circumvent this, one can &#39;tile&#39; the plots &#40;i.e., assemble them piece-by-piece&#41; to decrease the individual texture size.</p> <h4 id=2d_plots_heatmaps_images_etc ><a href="#2d_plots_heatmaps_images_etc" class=header-anchor >2d plots &#40;heatmaps, images, etc.&#41;</a></h4> <pre><code class=language-julia >heatmap&#40;rand&#40;Float32, 24900, 26620&#41;&#41;</code></pre>
+<p>may either fail with an error</p>
+<pre><code class=language-julia >Error showing value of type Scene:
+ERROR: glTexImage 2D: width too large. Width: 24900
+&#91;...&#93;</code></pre>
+<p>or fail silently:</p>
+<p><img src="https://user-images.githubusercontent.com/32143268/55675737-96357280-5894-11e9-9170-1ffd21f544cc.png" alt="untiled heatmap" /></p>
+<p>Tiling the plot, as shown below, yields a correct image.</p>
+<pre><code class=language-julia >sc &#61; Scene&#40;&#41;
+data &#61; rand&#40;Float32, 24900, 26620&#41;
+heatmap&#33;&#40;sc, 1:size&#40;data, 1&#41;÷2, 1:size&#40;data, 2&#41;÷2, data&#91;1:end÷2, 1:end÷2&#93;&#41;
+heatmap&#33;&#40;sc, &#40;size&#40;data, 1&#41;÷2 &#43; 1&#41;:size&#40;data, 1&#41;, 1:size&#40;data, 2&#41;÷2, data&#91;&#40;end÷2 &#43; 1&#41;:end, 1:end÷2&#93;&#41;
+heatmap&#33;&#40;sc, 1:size&#40;data, 1&#41;÷2, &#40;size&#40;data, 2&#41;÷2 &#43; 1&#41;:size&#40;data, 2&#41;, data&#91;1:end÷2, &#40;end÷2 &#43; 1&#41;:end&#93;&#41;
+heatmap&#33;&#40;sc, &#40;size&#40;data, 1&#41;÷2 &#43; 1&#41;:size&#40;data, 1&#41;, &#40;size&#40;data, 2&#41;÷2 &#43; 1&#41;:size&#40;data, 2&#41;,
+         data&#91;&#40;end÷2 &#43; 1&#41;:end, &#40;end÷2 &#43; 1&#41;:end&#93;&#41;</code></pre>
+<p><img src="https://user-images.githubusercontent.com/32143268/61105143-a3b35780-a496-11e9-83d1-bebe549aa593.png" alt="tiled heatmap" /></p>
+<h4 id=3d_plots_volumes ><a href="#3d_plots_volumes" class=header-anchor >3d plots &#40;volumes&#41;</a></h4>
+<p>The approach here is similar to that for the 2d plots, except that here there is a helpful function that gives the maximum texture size. You can check the maximum texture size with:</p>
+<pre><code class=language-julia >using Makie, GLMakie, ModernGL
+# simple plot to open a window &#40;needs to be open for opengl&#41;
+display&#40;scatter&#40;rand&#40;10&#41;&#41;&#41;
+glGetIntegerv&#40;GL_MAX_3D_TEXTURE_SIZE&#41;</code></pre>
+<p>and then just split the volume:</p>
+<pre><code class=language-julia >vol &#61; rand&#40;506, 720, 1440&#41;
+ranges &#61; &#40;1:256, 1:256, 1:256&#41;
+scene &#61; volume&#40;ranges..., vol&#91;ranges...&#93;&#41;
+for i in 1:3
+    global ranges
+    ranges &#61; ntuple&#40;3&#41; do j
+        s &#61; j &#61;&#61; i ? last&#40;ranges&#91;j&#93;&#41; : 1
+        e &#61; j &#61;&#61; i ? size&#40;vol, j&#41; : last&#40;ranges&#91;j&#93;&#41;
+        s:e
+    end
+    volume&#33;&#40;ranges..., vol&#91;ranges...&#93;&#41;
+end
+scene</code></pre>
+<h2 id=general_issues ><a href="#general_issues" class=header-anchor >General issues</a></h2>
+<h3 id=my_font_doesnt_work ><a href="#my_font_doesnt_work" class=header-anchor >My font doesn&#39;t work&#33;</a></h3>
+<p>If <code>Makie</code> can&#39;t find your font, you can do two things:</p>
+<ol>
+<li><p>Check that the name matches and that the font is in one of the directories in:</p>
+<ul>
+<li><p><code>using FreeTypeAbstraction; FreeTypeAbstraction.valid_fontpaths</code></p>
+
+</ul>
+
+<li><p>You can add a custom font path via the environment variable:</p>
+<ul>
+<li><p><code>ENV&#91;&quot;FREETYPE_ABSTRACTION_FONT_PATH&quot;&#93; &#61; &quot;/path/to/your/fonts&quot;</code></p>
+
+</ul>
+
+<li><p>Specify the path to the font; instead of <code>font &#61; &quot;Noto&quot;</code>, you could write <code>joindir&#40;homedir&#40;&#41;, &quot;Noto.ttf&quot;&#41;</code> or something.</p>
+
+</ol>
+<h2 id=layout_issues ><a href="#layout_issues" class=header-anchor >Layout Issues</a></h2>
+<h3 id=elements_are_squashed_into_the_lower_left_corner ><a href="#elements_are_squashed_into_the_lower_left_corner" class=header-anchor >Elements are squashed into the lower left corner</a></h3>
+<p>Layoutable elements require a bounding box that they align themselves to. If you place such an element in a layout, the bounding box is controlled by that layout. If you forget to put an element in a layout, it will have its default bounding box of <code>BBox&#40;0, 100, 0, 100&#41;</code> which ends up being in the lower left corner. You can also choose to specify a bounding box manually if you need more control.</p>
+<pre><code class=language-julia >using CairoMakie
+
+f &#61; Figure&#40;&#41;
+
+ax1 &#61; Axis&#40;f, title &#61; &quot;Squashed&quot;&#41;
+ax2 &#61; Axis&#40;f&#91;1, 1&#93;, title &#61; &quot;Placed in Layout&quot;&#41;
+ax3 &#61; Axis&#40;f, bbox &#61; BBox&#40;200, 600, 100, 500&#41;,
+  title &#61; &quot;Placed at BBox&#40;200, 600, 100, 500&#41;&quot;&#41;
+
+f</code></pre></p>
+<p>
+  <a id=example_17937530959443368362 >
+   <img src="/previews/PR1212/assets/documentation/faq/code/output/example_17937530959443368362.png" alt=""> 
+  </a>
+  
+<h3 id=columns_or_rows_are_shrunk_to_the_size_of_text_or_another_element ><a href="#columns_or_rows_are_shrunk_to_the_size_of_text_or_another_element" class=header-anchor >Columns or rows are shrunk to the size of Text or another element</a></h3>
+<p>Columns or rows that have size <code>Auto&#40;true&#41;</code> try to determine the width or height of all single-spanned elements that are placed in them, and if any elements report their size the row or column will shrink to the maximum reported size. This is so smaller elements with a known size take as little space as needed. But if there is other content in the row that should take more space, you can give the offending element the attribute <code>tellheight &#61; false</code> or <code>tellwidth &#61; false</code>. This way, its own size can be determined automatically, but it doesn&#39;t report it to the row or column of the layout. Alternatively, you can set the size of that row or column to <code>Auto&#40;false&#41;</code> &#40;or any other value than <code>Auto&#40;true&#41;</code>&#41;.</p>
+<pre><code class=language-julia >using CairoMakie
+
+f &#61; Figure&#40;&#41;
+
+Axis&#40;f&#91;1, 1&#93;, title &#61; &quot;Shrunk&quot;&#41;
+Axis&#40;f&#91;2, 1&#93;, title &#61; &quot;Expanded&quot;&#41;
+Label&#40;f&#91;1, 2&#93;, &quot;tellheight &#61; true&quot;, tellheight &#61; true&#41;
+Label&#40;f&#91;2, 2&#93;, &quot;tellheight &#61; false&quot;, tellheight &#61; false&#41;
+
+f</code></pre></p>
+<p>
+  <a id=example_1508600226322032452 >
+   <img src="/previews/PR1212/assets/documentation/faq/code/output/example_1508600226322032452.png" alt=""> 
+  </a>
+  
+<div class=page-foot >
+  <div class=copyright >
+    &copy; Makie.jl. Last modified: August 10, 2021. Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
+      <p>These docs were autogenerated using Makie: v0.15.0, GLMakie: v0.4.4, CairoMakie: v0.6.3, WGLMakie: v0.4.4</p>
+  </div>
+</div>
+</div>
+
+      </div> 
+    </div>   
+
+    <div class=page__footer >
+      <footer>
+        
+        
+        <div class=page__footer-follow >
+          <ul class=social-icons >
+            <li><a href="https://twitter.com/MakiePlots" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden=true ></i> Twitter</a>
+            <li><a href="https://github.com/JuliaPlots/Makie.jl" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden=true ></i> GitHub</a>
+          </ul>
+        </div>
+        <div class=page__footer-copyright >&copy; Makie.jl. Powered by <a href="https://github.com/tlienart/Franklin.jl">Franklin</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel=nofollow >Minimal Mistakes</a>.</div>
+      </footer>
+    </div>
+
+    <script src="/previews/PR1212/libs/minimal-mistakes/main.min.js"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.8.2/js/all.js" integrity="sha384-DJ25uNYET2XCl5ZF++U8eNxPWqcKohUUBUpKGlNLMchM7q4Wjg2CUpjHLaL8yYPH" crossorigin=anonymous ></script>
+
+    
+    
+        <script src="/previews/PR1212/libs/highlight/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();hljs.configure({tabReplace: '    '});</script>

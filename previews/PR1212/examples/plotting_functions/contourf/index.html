@@ -1,0 +1,137 @@
+<!doctype html> <!-- Minimal Mistakes Jekyll Theme 4.16.4 by Michael Rose Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes Free for personal and commercial use under the MIT license https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE --> <html lang=en > <meta charset=UTF-8 > <meta name=viewport  content="width=device-width, initial-scale=1"> <link rel=stylesheet  href="/previews/PR1212/libs/highlight/github.min.css"> <link rel=stylesheet  href="/previews/PR1212/css/franklin.css"> <link rel=stylesheet  href="/previews/PR1212/css/minimal-mistakes.css"> <link rel=stylesheet  href="/previews/PR1212/css/makie.css"> <link rel=icon  href="/previews/PR1212/assets/icon_transparent.png"> <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/fontawesome.min.css" rel=stylesheet  type="text/css"/> <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/solid.min.css" rel=stylesheet  type="text/css"/> <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/brands.min.css" rel=stylesheet  type="text/css"/> <!--[if IE ]> <style> /* old IE unsupported flexbox fixes */ .greedy-nav .site-title { padding-right: 3em; } .greedy-nav button { position: absolute; top: 0; right: 0; height: 100%; } </style> <![endif]--> <title>contourf</title> <body class=layout--single > <div class=masthead > <div class=masthead__inner-wrap > <div class=masthead__menu > <nav id=site-nav  class=greedy-nav > <a class=title-icon  href="/previews/PR1212/"><img src="/previews/PR1212/assets/makie_logo_transparent.svg"/></a> <ul class=visible-links > <li class=masthead__menu-item > <a href="https://github.com/JuliaPlots/Makie.jl"><img src="/previews/PR1212/assets/GitHub-Mark-64px.png" class=masthead-icon  /></a> <li class=masthead__menu-item ><a href="/previews/PR1212/examples/">Examples</a> <li class=masthead__menu-item ><a href="/previews/PR1212/tutorials/">Tutorials</a> <li class=masthead__menu-item ><a href="/previews/PR1212/documentation/">Documentation</a> </ul> <button class="greedy-nav__toggle hidden" type=button > <span class=visually-hidden >Toggle menu</span> <div class=navicon ></div> </button> <ul class="hidden-links hidden"></ul> </nav> </div> </div> </div> <div class=initial-content > <div id=main  role=main > <div class=franklin-content ><h1 id=contourf ><a href="#contourf" class=header-anchor >contourf</a></h1> <div class=docstring > <h2 class=doc-header  id=contourf > <a href="#contourf">contourf</a> <div class=doc-type ></div> </h2> <div class=doc-content ><pre><code class=language-julia >contourf&#40;xs, ys, zs; kwargs...&#41;</code></pre>
+<p>Plots a filled contour of the height information in <code>zs</code> at horizontal grid positions <code>xs</code> and vertical grid positions <code>ys</code>.</p>
+<p>The attribute <code>levels</code> can be either</p>
+<ul>
+<li><p>an <code>Int</code> that produces n equally wide levels or bands</p>
+
+<li><p>an <code>AbstractVector&#123;&lt;:Real&#125;</code> that lists n consecutive edges from low to high, which result in n-1 levels or bands</p>
+
+</ul>
+<p>You can also set the <code>mode</code> attribute to <code>:relative</code>. In this mode you specify edges by the fraction between minimum and maximum value of <code>zs</code>. This can be used for example to draw bands for the upper 90&#37; while excluding the lower 10&#37; with <code>levels &#61; 0.1:0.1:1.0, mode &#61; :relative</code>.</p>
+<p>In :normal mode, if you want to show a band from <code>-Inf</code> to the low edge, set <code>extendlow</code> to <code>:auto</code> for the same color as the first level, or specify a different color &#40;default <code>nothing</code> means no extended band&#41; If you want to show a band from the high edge to <code>Inf</code>, set <code>extendhigh</code> to <code>:auto</code> for the same color as the last level, or specify a different color &#40;default <code>nothing</code> means no extended band&#41;</p>
+<h2 id=attributes ><a href="#attributes" class=header-anchor >Attributes</a></h2>
+<p>Available attributes and their defaults for <code>MakieCore.Combined&#123;Makie.contourf, T&#125; where T</code> are: </p>
+<pre><code class=language-julia >colormap     :viridis
+  extendhigh   &quot;nothing&quot;
+  extendlow    &quot;nothing&quot;
+  inspectable  true
+  levels       10
+  mode         :normal</code></pre>
+</div>
+  </div>
+
+<pre><code class=language-julia >using CairoMakie
+
+xs &#61; LinRange&#40;0, 10, 100&#41;
+ys &#61; LinRange&#40;0, 10, 100&#41;
+zs &#61; &#91;cos&#40;x&#41; * sin&#40;y&#41; for x in xs, y in ys&#93;
+
+f &#61; Figure&#40;&#41;
+Axis&#40;f&#91;1, 1&#93;&#41;
+
+co &#61; contourf&#33;&#40;xs, ys, zs, levels &#61; 10&#41;
+
+Colorbar&#40;f&#91;1, 2&#93;, co&#41;
+
+f</code></pre></p>
+<p>
+  <a id=example_12354956969698130536 >
+   <img src="/previews/PR1212/assets/examples/plotting_functions/contourf/code/output/example_12354956969698130536.png" alt=""> 
+  </a>
+  
+<pre><code class=language-julia >using CairoMakie
+
+xs &#61; LinRange&#40;0, 10, 100&#41;
+ys &#61; LinRange&#40;0, 10, 100&#41;
+zs &#61; &#91;cos&#40;x&#41; * sin&#40;y&#41; for x in xs, y in ys&#93;
+
+f &#61; Figure&#40;&#41;
+Axis&#40;f&#91;1, 1&#93;&#41;
+
+co &#61; contourf&#33;&#40;xs, ys, zs, levels &#61; -0.75:0.25:0.5,
+    extendlow &#61; :cyan, extendhigh &#61; :magenta&#41;
+
+Colorbar&#40;f&#91;1, 2&#93;, co&#41;
+
+f</code></pre></p>
+<p>
+  <a id=example_12691470936948131756 >
+   <img src="/previews/PR1212/assets/examples/plotting_functions/contourf/code/output/example_12691470936948131756.png" alt=""> 
+  </a>
+  
+<pre><code class=language-julia >using CairoMakie
+
+xs &#61; LinRange&#40;0, 10, 100&#41;
+ys &#61; LinRange&#40;0, 10, 100&#41;
+zs &#61; &#91;cos&#40;x&#41; * sin&#40;y&#41; for x in xs, y in ys&#93;
+
+f &#61; Figure&#40;&#41;
+Axis&#40;f&#91;1, 1&#93;&#41;
+
+co &#61; contourf&#33;&#40;xs, ys, zs,
+    levels &#61; -0.75:0.25:0.5,
+    extendlow &#61; :auto, extendhigh &#61; :auto&#41;
+
+Colorbar&#40;f&#91;1, 2&#93;, co&#41;
+
+f</code></pre></p>
+<p>
+  <a id=example_12506555011887986210 >
+   <img src="/previews/PR1212/assets/examples/plotting_functions/contourf/code/output/example_12506555011887986210.png" alt=""> 
+  </a>
+  
+<h4 id=relative_mode ><a href="#relative_mode" class=header-anchor >Relative mode</a></h4>
+<p>Sometimes it&#39;s beneficial to drop one part of the range of values, usually towards the outer boundary. Rather than specifying the levels to include manually, you can set the <code>mode</code> attribute to <code>:relative</code> and specify the levels from 0 to 1, relative to the current minimum and maximum value.</p>
+<pre><code class=language-julia >using CairoMakie
+
+
+using Makie.KernelDensity
+
+k &#61; kde&#40;&#91;randn&#40;&#41; &#43; rand&#40;&#91;0, 5&#93;&#41; for i in 1:10000, j in 1:2&#93;&#41;
+
+f &#61; Figure&#40;resolution &#61; &#40;800, 500&#41;&#41;
+
+Axis&#40;f&#91;1, 1&#93;, title &#61; &quot;Relative mode, drop lowest 10&#37;&quot;&#41;
+contourf&#33;&#40;k, levels &#61; 0.1:0.1:1, mode &#61; :relative&#41;
+
+Axis&#40;f&#91;1, 2&#93;, title &#61; &quot;Normal mode&quot;&#41;
+contourf&#33;&#40;k, levels &#61; 10&#41;
+
+f</code></pre></p>
+<p>
+  <a id=example_10462394763136043265 >
+   <img src="/previews/PR1212/assets/examples/plotting_functions/contourf/code/output/example_10462394763136043265.png" alt=""> 
+  </a>
+  
+<div class=page-foot >
+  <div class=copyright >
+    &copy; Makie.jl. Last modified: August 10, 2021. Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
+      <p>These docs were autogenerated using Makie: v0.15.0, GLMakie: v0.4.4, CairoMakie: v0.6.3, WGLMakie: v0.4.4</p>
+  </div>
+</div>
+</div>
+
+      </div> 
+    </div>   
+
+    <div class=page__footer >
+      <footer>
+        
+        
+        <div class=page__footer-follow >
+          <ul class=social-icons >
+            <li><a href="https://twitter.com/MakiePlots" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden=true ></i> Twitter</a>
+            <li><a href="https://github.com/JuliaPlots/Makie.jl" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden=true ></i> GitHub</a>
+          </ul>
+        </div>
+        <div class=page__footer-copyright >&copy; Makie.jl. Powered by <a href="https://github.com/tlienart/Franklin.jl">Franklin</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel=nofollow >Minimal Mistakes</a>.</div>
+      </footer>
+    </div>
+
+    <script src="/previews/PR1212/libs/minimal-mistakes/main.min.js"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.8.2/js/all.js" integrity="sha384-DJ25uNYET2XCl5ZF++U8eNxPWqcKohUUBUpKGlNLMchM7q4Wjg2CUpjHLaL8yYPH" crossorigin=anonymous ></script>
+
+    
+    
+        <script src="/previews/PR1212/libs/highlight/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();hljs.configure({tabReplace: '    '});</script>

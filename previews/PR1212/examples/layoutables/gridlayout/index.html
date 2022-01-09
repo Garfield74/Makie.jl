@@ -1,0 +1,126 @@
+<!doctype html> <!-- Minimal Mistakes Jekyll Theme 4.16.4 by Michael Rose Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes Free for personal and commercial use under the MIT license https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE --> <html lang=en > <meta charset=UTF-8 > <meta name=viewport  content="width=device-width, initial-scale=1"> <link rel=stylesheet  href="/previews/PR1212/libs/highlight/github.min.css"> <link rel=stylesheet  href="/previews/PR1212/css/franklin.css"> <link rel=stylesheet  href="/previews/PR1212/css/minimal-mistakes.css"> <link rel=stylesheet  href="/previews/PR1212/css/makie.css"> <link rel=icon  href="/previews/PR1212/assets/icon_transparent.png"> <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/fontawesome.min.css" rel=stylesheet  type="text/css"/> <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/solid.min.css" rel=stylesheet  type="text/css"/> <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/brands.min.css" rel=stylesheet  type="text/css"/> <!--[if IE ]> <style> /* old IE unsupported flexbox fixes */ .greedy-nav .site-title { padding-right: 3em; } .greedy-nav button { position: absolute; top: 0; right: 0; height: 100%; } </style> <![endif]--> <title>GridLayout</title> <body class=layout--single > <div class=masthead > <div class=masthead__inner-wrap > <div class=masthead__menu > <nav id=site-nav  class=greedy-nav > <a class=title-icon  href="/previews/PR1212/"><img src="/previews/PR1212/assets/makie_logo_transparent.svg"/></a> <ul class=visible-links > <li class=masthead__menu-item > <a href="https://github.com/JuliaPlots/Makie.jl"><img src="/previews/PR1212/assets/GitHub-Mark-64px.png" class=masthead-icon  /></a> <li class=masthead__menu-item ><a href="/previews/PR1212/examples/">Examples</a> <li class=masthead__menu-item ><a href="/previews/PR1212/tutorials/">Tutorials</a> <li class=masthead__menu-item ><a href="/previews/PR1212/documentation/">Documentation</a> </ul> <button class="greedy-nav__toggle hidden" type=button > <span class=visually-hidden >Toggle menu</span> <div class=navicon ></div> </button> <ul class="hidden-links hidden"></ul> </nav> </div> </div> </div> <div class=initial-content > <div id=main  role=main > <div class=franklin-content ><h1 id=gridlayout ><a href="#gridlayout" class=header-anchor >GridLayout</a></h1> <h2 id=setting_column_and_row_sizes_correctly ><a href="#setting_column_and_row_sizes_correctly" class=header-anchor >Setting column and row sizes correctly</a></h2> <p>There are four different types of sizes you can give rows and columns.</p> <h3 id=fixed ><a href="#fixed" class=header-anchor >Fixed</a></h3> <p><code>Fixed&#40;scene_units&#41;</code> is used to set a column or row to an absolute size, independent of its content. This only really makes sense if there is variable width content in the column or row, that can shrink or expand to meet this size. You will probably not need <code>Fixed</code> sizes very often.</p> <pre><code class=language-julia >using CairoMakie
+
+f &#61; Figure&#40;&#41;
+
+Axis&#40;f&#91;1, 1&#93;, title &#61; &quot;My column has size Fixed&#40;400&#41;&quot;&#41;
+Axis&#40;f&#91;1, 2&#93;, title &#61; &quot;My column has size Auto&#40;&#41;&quot;&#41;
+
+colsize&#33;&#40;f.layout, 1, Fixed&#40;400&#41;&#41;
+# colsize&#33;&#40;f.layout, 1, 400&#41; would also work
+
+f</code></pre></p> <p> <a id=example_5222526469543594363 > <img src="/previews/PR1212/assets/examples/layoutables/gridlayout/code/output/example_5222526469543594363.png" alt=""> </a> <h3 id=relative ><a href="#relative" class=header-anchor >Relative</a></h3> <p><code>Relative&#40;fraction&#41;</code> is used to set a column or row to a size that is a certain fraction of the available width or height. This is useful, e.g., if you want a column to span 50&#37; of the available width, no matter what other content is there. In this case, you would use <code>Relative&#40;1/2&#41;</code>. The available width is the width of the GridLayout minus the space taken by row or column gaps including protrusions.</p> <pre><code class=language-julia >using CairoMakie
+
+f &#61; Figure&#40;&#41;
+
+Axis&#40;f&#91;1, 1&#93;, title &#61; &quot;My column has size Relative&#40;2/3&#41;&quot;&#41;
+Axis&#40;f&#91;1, 2&#93;, title &#61; &quot;My column has size Auto&#40;&#41;&quot;&#41;
+Colorbar&#40;f&#91;1, 3&#93;&#41;
+
+colsize&#33;&#40;f.layout, 1, Relative&#40;2/3&#41;&#41;
+
+f</code></pre></p> <p> <a id=example_17124422269675321167 > <img src="/previews/PR1212/assets/examples/layoutables/gridlayout/code/output/example_17124422269675321167.png" alt=""> </a> <h3 id=auto ><a href="#auto" class=header-anchor >Auto</a></h3> <p>The <code>Auto</code> size is a bit more complex to understand. It has two parameters, the Boolean <code>trydetermine</code> and the number <code>ratio</code>. The default is <code>Auto&#40;&#41; &#61;&#61; Auto&#40;true, 1&#41;</code>. This is also the default row height and column width.</p> <p>A column or row that is sized <code>Auto&#40;true&#41;</code> tries to fit its own size to its content.</p> <p>When a <code>GridLayout</code> is solved, it looks at the content in each row or column and checks if it reports a fixed size. Many objects can report their own width or height because their content has a specific size, such as <code>Label</code>. Other objects are often used with a user-set width or height, for example <code>Colorbar&#40;scene, width &#61; 30&#41;</code>. In this case, the <code>GridLayout</code> can also see that the colorbar has a width of 30 units and fit the column width to that value. Objects like <code>Axis</code> on the other hand are usually not set to a specific size.</p> <p>Only objects that span a <em>single</em> row or column report their width or height, respectively. If <em>multiple</em> rows or columns are spanned, it&#39;s not well defined how the space that the object needs should be distributed.</p> <p>If there is more than one object with a fixed width or height in an <code>Auto&#40;true&#41;</code> sized column, the maximum size is used.</p> <p>If a column or row is sized <code>Auto&#40;false&#41;</code>, fixed-size objects are ignored. It can also happen of course, that there is no fixed-size object in a row or column with <code>Auto&#40;true&#41;</code> size. In both these cases, columns or rows determine their size by what remains after all <code>Fixed</code>, <code>Relative</code>, <code>Aspect</code> and size-inferred <code>Auto&#40;true&#41;</code> columns or rows have been calculated. Each undetermined <code>Auto</code> column gets a share of the remaining space that is proportional to its <code>ratio</code> parameter.</p> <p>For example, let&#39;s say there are two columns left with undetermined <code>Auto</code> size when 300 units space remain. Column 1 has ratio <code>1</code> while column 2 has ratio <code>2</code>. The first column will get <code>1 / &#40;1 &#43; 2&#41; * 300 &#61;&#61; 100</code> units, while the second column gets <code>2 / &#40;1 &#43; 2&#41; * 300 &#61;&#61; 200</code> units.</p> <pre><code class=language-julia >using CairoMakie
+
+f &#61; Figure&#40;&#41;
+
+Axis&#40;f&#91;1, 1&#93;, title &#61; &quot;My column infers my width\nof 200 units&quot;&#41;
+Axis&#40;f&#91;1, 2&#93;, title &#61; &quot;My column gets 1/3rd\nof the remaining space&quot;&#41;
+Axis&#40;f&#91;1, 3&#93;, title &#61; &quot;My column gets 2/3rds\nof the remaining space&quot;&#41;
+
+colsize&#33;&#40;f.layout, 2, Auto&#40;1&#41;&#41; # equivalent to Auto&#40;true, 1&#41;
+colsize&#33;&#40;f.layout, 3, Auto&#40;2&#41;&#41; # equivalent to Auto&#40;true, 2&#41;
+
+f</code></pre></p> <p> <a id=example_10038204996247234343 > <img src="/previews/PR1212/assets/examples/layoutables/gridlayout/code/output/example_10038204996247234343.png" alt=""> </a> <h3 id=aspect ><a href="#aspect" class=header-anchor >Aspect</a></h3> <p>This size is also a little bit trickier to understand. The syntax is <code>Aspect&#40;reference, ratio&#41;</code>. A column with a width of <code>Aspect&#40;1, 2.0&#41;</code> is set to 2.0 times the height of row 1, no matter what that height is. Therefore, the grid cell at &#91;1, 1&#93; will always have an aspect ratio of 2 to 1. The opposite pattern applies to rows with <code>Aspect</code> size.</p> <p>Aspect sized columns or rows are very useful when you want to constrain the aspect ratio of a grid cell. For example, a plot that is always supposed to be square. Enforcing the aspect <em>on the layout level is better</em> than setting <code>axis.aspect &#61; AxisAspect&#40;1&#41;</code> in most cases, because it ensures an <em>intact layout</em> where all grid cell borders are aligned visually. An <code>Axis</code> with <code>aspect &#61; AxisAspect&#40;1&#41;</code> on the other hand simply shrinks so it remains square, but this will break alignment with other grid content.</p> <pre><code class=language-julia >using CairoMakie
+
+f &#61; Figure&#40;&#41;
+
+Axis&#40;f&#91;1, 1&#93;, title &#61; &quot;I&#39;m square and aligned&quot;&#41;
+Box&#40;f&#91;1, 2&#93;, color &#61; &#40;:blue, 0.1&#41;, strokecolor &#61; :transparent&#41;
+Axis&#40;f&#91;1, 2&#93;, aspect &#61; AxisAspect&#40;1&#41;,
+    title &#61; &quot;I&#39;m square but break the layout.\nMy actual cell is the blue rect.&quot;&#41;
+Axis&#40;f&#91;2, 1&#93;&#41;
+Axis&#40;f&#91;2, 2&#93;&#41;
+
+rowsize&#33;&#40;f.layout, 2, Relative&#40;2/3&#41;&#41;
+colsize&#33;&#40;f.layout, 1, Aspect&#40;1, 1&#41;&#41;
+
+f</code></pre></p> <p> <a id=example_17530907837569725910 > <img src="/previews/PR1212/assets/examples/layoutables/gridlayout/code/output/example_17530907837569725910.png" alt=""> </a> <div class="admonition note"><p class=admonition-title >Note</p><p>Keep in mind that if you set too many constraints on row and column sizes, a GridLayout can easily be too big or too small. It&#39;s good to have variable-width elements to fill the remaining space if you use an element with fixed size or fixed aspect ratio.</p> </div> <h2 id=nesting ><a href="#nesting" class=header-anchor >Nesting</a></h2> <p>Grids can be nested inside other grids, and so on, to arbitrary depths. The top grid&#39;s parent should be the scene in which the layout is placed. When you place a grid inside another grid, that grid is automatically made its parent. Grids also are by default set to alignmode Inside which means that the content edges are aligned to the grid&#39;s bounding box, excluding the outer protrusions. This way, plots in nested grids are nicely aligned along their spines.</p> <pre><code class=language-julia >using CairoMakie
+
+f &#61; Figure&#40;&#41;
+
+subgl_left &#61; GridLayout&#40;&#41;
+subgl_left&#91;1:2, 1:2&#93; &#61; &#91;Axis&#40;f&#41; for i in 1:2, j in 1:2&#93;
+
+subgl_right &#61; GridLayout&#40;&#41;
+subgl_right&#91;1:3, 1&#93; &#61; &#91;Axis&#40;f&#41; for i in 1:3&#93;
+
+f.layout&#91;1, 1&#93; &#61; subgl_left
+f.layout&#91;1, 2&#93; &#61; subgl_right
+
+f</code></pre></p> <p> <a id=example_2813727490192073800 > <img src="/previews/PR1212/assets/examples/layoutables/gridlayout/code/output/example_2813727490192073800.png" alt=""> </a> <h2 id=alignment ><a href="#alignment" class=header-anchor >Alignment</a></h2> <p>Here you can see the difference between the align modes Outside with and without margins and the Inside alignmode. Only the standard Inside mode aligns the axis spines of the contained axes nicely. The Outside mode is mostly useful for the main GridLayout so that there some space between the window edges and the plots. You can see that the normal axis looks the same as the one placed inside the grid with Inside alignment, and they are both effectively aligned exactly the same.</p> <pre><code class=language-julia >using CairoMakie
+
+f &#61; Figure&#40;resolution &#61; &#40;800, 800&#41;&#41;
+
+Axis&#40;f&#91;1, 1&#93;, title &#61; &quot;No grid layout&quot;&#41;
+Axis&#40;f&#91;2, 1&#93;, title &#61; &quot;No grid layout&quot;&#41;
+Axis&#40;f&#91;3, 1&#93;, title &#61; &quot;No grid layout&quot;&#41;
+
+Axis&#40;f&#91;1, 2&#93;, title &#61; &quot;Inside&quot;, alignmode &#61; Inside&#40;&#41;&#41;
+Axis&#40;f&#91;2, 2&#93;, title &#61; &quot;Outside&quot;, alignmode &#61; Outside&#40;&#41;&#41;
+Axis&#40;f&#91;3, 2&#93;, title &#61; &quot;Outside&#40;50&#41;&quot;, alignmode &#61; Outside&#40;50&#41;&#41;
+
+&#91;Box&#40;f&#91;i, 2&#93;, color &#61; :transparent, strokecolor &#61; :red&#41; for i in 1:3&#93;
+
+f</code></pre></p> <p> <a id=example_14920892378540243727 > <img src="/previews/PR1212/assets/examples/layoutables/gridlayout/code/output/example_14920892378540243727.png" alt=""> </a> <h2 id=spanned_placement ><a href="#spanned_placement" class=header-anchor >Spanned Placement</a></h2> <p>Elements in a grid layout can span multiple rows and columns. You can specify them with the range syntax and colons for the full width or height. You can also use end to specify the last row or column.</p> <pre><code class=language-julia >using CairoMakie
+
+f &#61; Figure&#40;&#41;
+
+Axis&#40;f&#91;1, 1:2&#93;, title &#61; &quot;&#91;1, 1:2&#93;&quot;&#41;
+Axis&#40;f&#91;2:4, 1:2&#93;, title &#61; &quot;&#91;2:4, 1:2&#93;&quot;&#41;
+Axis&#40;f&#91;:, 3&#93;, title &#61; &quot;&#91;:, 3&#93;&quot;&#41;
+Axis&#40;f&#91;1:3, 4&#93;, title &#61; &quot;&#91;1:3, 4&#93;&quot;&#41;
+Axis&#40;f&#91;end, end&#93;, title &#61; &quot;&#91;end, end&#93;&quot;&#41;
+
+f</code></pre></p> <p> <a id=example_5420049533503203765 > <img src="/previews/PR1212/assets/examples/layoutables/gridlayout/code/output/example_5420049533503203765.png" alt=""> </a> <h2 id=adding_rows_and_columns_by_indexing ><a href="#adding_rows_and_columns_by_indexing" class=header-anchor >Adding rows and columns by indexing</a></h2> <p>If you index outside of the current range of a grid layout, you do not get an error. Instead, the layout automatically resizes to contain the new indices. This is very useful if you want to iteratively build a layout, or add super or side titles.</p> <pre><code class=language-julia >using CairoMakie
+
+f &#61; Figure&#40;resolution &#61; &#40;800, 800&#41;&#41;
+
+Axis&#40;f&#91;1, 1&#93;&#41;
+for i in 1:3
+    Axis&#40;f&#91;:, end&#43;1&#93;&#41;
+    Axis&#40;f&#91;end&#43;1, :&#93;&#41;
+end
+
+Label&#40;f&#91;0, :&#93;, text &#61; &quot;Super Title&quot;, textsize &#61; 50&#41;
+Label&#40;f&#91;end&#43;1, :&#93;, text &#61; &quot;Sub Title&quot;, textsize &#61; 50&#41;
+Label&#40;f&#91;2:end-1, 0&#93;, text &#61; &quot;Left Text&quot;, textsize &#61; 50,
+    rotation &#61; pi/2&#41;
+Label&#40;f&#91;2:end-1, end&#43;1&#93;, text &#61; &quot;Right Text&quot;, textsize &#61; 50,
+    rotation &#61; -pi/2&#41;
+
+f</code></pre></p> <p> <a id=example_12920405013739196705 > <img src="/previews/PR1212/assets/examples/layoutables/gridlayout/code/output/example_12920405013739196705.png" alt=""> </a> <h2 id=trimming_empty_rows_and_columns ><a href="#trimming_empty_rows_and_columns" class=header-anchor >Trimming empty rows and columns</a></h2> <p>If you change a layout interactively and end up with unused rows or columns, <code>trim&#33;</code> will remove those for you.</p> <p>Here we start with two axes:</p> <pre><code class=language-julia >using CairoMakie
+
+f &#61; Figure&#40;&#41;
+
+ax1 &#61; Axis&#40;f&#91;1, 1&#93;, title &#61; &quot;Axis 1&quot;&#41;
+ax2 &#61; Axis&#40;f&#91;1, 2&#93;, title &#61; &quot;Axis 2&quot;&#41;
+
+f</code></pre></p> <p> <a id=example_13155675561127572497 > <img src="/previews/PR1212/assets/examples/layoutables/gridlayout/code/output/example_13155675561127572497.png" alt=""> </a> <p>Now we decide we&#39;d like the second axis better if it was below the first one. We move it two the new cell, and the old unused column is left blank.</p> <pre><code class=language-julia >f&#91;2, 1&#93; &#61; ax2
+
+f</code></pre></p> <p> <a id=example_9762787239640071586 > <img src="/previews/PR1212/assets/examples/layoutables/gridlayout/code/output/example_9762787239640071586.png" alt=""> </a> <p>We can get rid of the unused space with <code>trim&#33;</code>:</p> <pre><code class=language-julia >trim&#33;&#40;f.layout&#41;
+
+f</code></pre></p> <p> <a id=example_10905903078526271472 > <img src="/previews/PR1212/assets/examples/layoutables/gridlayout/code/output/example_10905903078526271472.png" alt=""> </a> <h2 id=tweaking_space_between_rows_and_columns ><a href="#tweaking_space_between_rows_and_columns" class=header-anchor >Tweaking space between rows and columns</a></h2> <p>You can use <code>rowgap&#33;</code> and <code>colgap&#33;</code> to change the spacing between rows or columns respectively.</p> <pre><code class=language-julia >using CairoMakie
+
+fig &#61; Figure&#40;&#41;
+
+axs &#61; &#91;Axis&#40;fig&#91;i, j&#93;&#41; for i in 1:3, j in 1:3&#93;
+axs&#91;1, 1&#93;.title &#61; &quot;Group A&quot;
+axs&#91;1, 2&#93;.title &#61; &quot;Group B.1&quot;
+axs&#91;1, 3&#93;.title &#61; &quot;Group B.2&quot;
+
+hidedecorations&#33;.&#40;axs, grid&#61;false&#41;
+
+colgap&#33;&#40;fig.layout, 1, Relative&#40;0.15&#41;&#41;
+
+fig</code></pre></p> <p> <a id=example_701624613800466984 > <img src="/previews/PR1212/assets/examples/layoutables/gridlayout/code/output/example_701624613800466984.png" alt=""> </a> <p>All spaces can be changed at once by omitting the index of the gap to resize.</p> <pre><code class=language-julia >rowgap&#33;&#40;fig.layout, 50&#41;
+
+fig</code></pre></p> <p> <a id=example_8430063235735896023 > <img src="/previews/PR1212/assets/examples/layoutables/gridlayout/code/output/example_8430063235735896023.png" alt=""> </a> <div class=page-foot > <div class=copyright > &copy; Makie.jl. Last modified: August 10, 2021. Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>. <p>These docs were autogenerated using Makie: v0.15.0, GLMakie: v0.4.4, CairoMakie: v0.6.3, WGLMakie: v0.4.4</p> </div> </div> </div> </div> </div> <div class=page__footer > <footer> <div class=page__footer-follow > <ul class=social-icons > <li><a href="https://twitter.com/MakiePlots" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden=true ></i> Twitter</a> <li><a href="https://github.com/JuliaPlots/Makie.jl" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden=true ></i> GitHub</a> </ul> </div> <div class=page__footer-copyright >&copy; Makie.jl. Powered by <a href="https://github.com/tlienart/Franklin.jl">Franklin</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel=nofollow >Minimal Mistakes</a>.</div> </footer> </div> <script src="/previews/PR1212/libs/minimal-mistakes/main.min.js"></script> <script defer src="https://use.fontawesome.com/releases/v5.8.2/js/all.js" integrity="sha384-DJ25uNYET2XCl5ZF++U8eNxPWqcKohUUBUpKGlNLMchM7q4Wjg2CUpjHLaL8yYPH" crossorigin=anonymous ></script> <script src="/previews/PR1212/libs/highlight/highlight.pack.js"></script> <script>hljs.initHighlightingOnLoad();hljs.configure({tabReplace: ' '});</script>

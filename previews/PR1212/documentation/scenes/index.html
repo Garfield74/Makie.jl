@@ -1,0 +1,108 @@
+<!doctype html> <!-- Minimal Mistakes Jekyll Theme 4.16.4 by Michael Rose Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes Free for personal and commercial use under the MIT license https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE --> <html lang=en > <meta charset=UTF-8 > <meta name=viewport  content="width=device-width, initial-scale=1"> <link rel=stylesheet  href="/previews/PR1212/css/franklin.css"> <link rel=stylesheet  href="/previews/PR1212/css/minimal-mistakes.css"> <link rel=stylesheet  href="/previews/PR1212/css/makie.css"> <link rel=icon  href="/previews/PR1212/assets/icon_transparent.png"> <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/fontawesome.min.css" rel=stylesheet  type="text/css"/> <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/solid.min.css" rel=stylesheet  type="text/css"/> <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/brands.min.css" rel=stylesheet  type="text/css"/> <!--[if IE ]> <style> /* old IE unsupported flexbox fixes */ .greedy-nav .site-title { padding-right: 3em; } .greedy-nav button { position: absolute; top: 0; right: 0; height: 100%; } </style> <![endif]--> <title>Scenes</title> <body class=layout--single > <div class=masthead > <div class=masthead__inner-wrap > <div class=masthead__menu > <nav id=site-nav  class=greedy-nav > <a class=title-icon  href="/previews/PR1212/"><img src="/previews/PR1212/assets/makie_logo_transparent.svg"/></a> <ul class=visible-links > <li class=masthead__menu-item > <a href="https://github.com/JuliaPlots/Makie.jl"><img src="/previews/PR1212/assets/GitHub-Mark-64px.png" class=masthead-icon  /></a> <li class=masthead__menu-item ><a href="/previews/PR1212/examples/">Examples</a> <li class=masthead__menu-item ><a href="/previews/PR1212/tutorials/">Tutorials</a> <li class=masthead__menu-item ><a href="/previews/PR1212/documentation/">Documentation</a> </ul> <button class="greedy-nav__toggle hidden" type=button > <span class=visually-hidden >Toggle menu</span> <div class=navicon ></div> </button> <ul class="hidden-links hidden"></ul> </nav> </div> </div> </div> <div class=initial-content > <div id=main  role=main > <div class=franklin-content ><h1 id=scenes ><a href="#scenes" class=header-anchor >Scenes</a></h1> <h2 id=what_is_a_scene ><a href="#what_is_a_scene" class=header-anchor >What is a <code>Scene</code>?</a></h2> <p><code>Scene</code>s are fundamental building blocks of Makie figures. A Scene is like a container for <code>Plot</code>s and other <code>Scene</code>s. <code>Scenes</code> have <code>Plot</code>s &#40;including an <code>Axis</code> if <code>show_axis &#61; true</code>&#41; and <code>Subscenes</code> associated with them. Every Scene also has a transformation, made up of <em>scale</em>, <em>translation</em>, and <em>rotation</em>.</p> <div class="admonition note"><p class=admonition-title >Note</p><p>Before the introduction of the <code>Figure</code> workflow, <code>Scene</code>s used to be the main container object which was returned from all plotting functions. Now, scenes are mostly an implementation detail for many users, unless they want to build custom solutions that go beyond what the default system offers.</p> </div> <p>A Scene&#39;s plots can be accessed via <code>scene.plots</code>.</p> <p>A Scene&#39;s subscenes &#40;also called children&#41; can be accessed through <code>scene.children</code>. This will return an Array of the <code>Scene</code>&#39;s child scenes. A child scene can be created by <code>childscene &#61; Scene&#40;parentscene&#41;</code>.</p> <p>Any <code>Scene</code> with an axis also has a <code>camera</code> associated with it; this can be accessed through <code>scene.camera</code>, and its controls through <code>scene.camera.cameracontrols</code>. More documentation about these is in the <a href="/previews/PR1212/documentation/cameras/index.html#cameras">Cameras</a> section.</p> <p><code>Scene</code>&#39;s also have configurable size/resolution. You can set the size in pixels by doing <code>Scene&#40;resolution &#61; &#40;500, 500&#41;&#41;</code>.</p> <p>Any keyword argument given to the <code>Scene</code> will be propagated to its plots; therefore, you can set the palette or the colormap in the Scene itself.</p> <h2 id=subscenes ><a href="#subscenes" class=header-anchor >Subscenes</a></h2> <p>A subscene is no different than a normal Scene, except that it is linked to a &quot;parent&quot; Scene. It inherits the transformations of the parent Scene, but can then be transformed independently of it.</p> <h2 id=modifying_a_scene ><a href="#modifying_a_scene" class=header-anchor >Modifying A Scene</a></h2> <p>Makie offers mutation functions to scale, translate and rotate your Scenes on the fly.</p> <p> <div class=docstring > <h2 class=doc-header  id="translate!"> <a href="#translate!">translate!</a> <div class=doc-type ></div> </h2> <div class=doc-content ><pre><code class=language-julia >translate&#33;&#40;scene::Transformable, xyz::VecTypes&#41;
+translate&#33;&#40;scene::Transformable, xyz...&#41;</code></pre> <p>Apply an absolute translation to the Scene, translating it to <code>x, y, z</code>.</p> <pre><code class=language-julia >translate&#33;&#40;Accum, scene::Transformable, xyz...&#41;</code></pre>
+<p>Translate the scene relative to its current position.</p>
+</div>
+  </div>
+   <div class=docstring >
+      <h2 class=doc-header  id="rotate!">
+        <a href="#rotate!">rotate!</a>
+        <div class=doc-type ></div>
+      </h2>
+      <div class=doc-content ><pre><code class=language-julia >rotate&#33;&#40;Accum, scene::Transformable, axis_rot...&#41;</code></pre>
+<p>Apply a relative rotation to the Scene, by multiplying by the current rotation.</p>
+<pre><code class=language-julia >rotate&#33;&#40;scene::Transformable, axis_rot::Quaternion&#41;
+rotate&#33;&#40;scene::Transformable, axis_rot::AbstractFloat&#41;
+rotate&#33;&#40;scene::Transformable, axis_rot...&#41;</code></pre>
+<p>Apply an absolute rotation to the Scene. Rotations are all internally converted to <code>Quaternion</code>s.</p>
+</div>
+  </div>
+   <div class=docstring >
+      <h2 class=doc-header  id="scale!">
+        <a href="#scale!">scale!</a>
+        <div class=doc-type ></div>
+      </h2>
+      <div class=doc-content ><pre><code class=language-julia >scale&#33;&#40;t::Transformable, x, y&#41;
+scale&#33;&#40;t::Transformable, x, y, z&#41;
+scale&#33;&#40;t::Transformable, xyz&#41;
+scale&#33;&#40;t::Transformable, xyz...&#41;</code></pre>
+<p>Scale the given <code>Transformable</code> &#40;a Scene or Plot&#41; to the given arguments. Can take <code>x, y</code> or <code>x, y, z</code>. This is an absolute scaling, and there is no option to perform relative scaling.</p>
+</div>
+  </div>
+</p>
+<h2 id=updating_the_scene ><a href="#updating_the_scene" class=header-anchor >Updating the Scene</a></h2>
+<p>When the Scene is changed, you may need to update several aspects of it.   Makie provides three main updating functions:</p>
+<p>  <div class=docstring >
+      <h2 class=doc-header  id="update!">
+        <a href="#update!">update!</a>
+        <div class=doc-type ></div>
+      </h2>
+      <div class=doc-content ><pre><code class=language-julia >&#96;update&#33;&#40;p::Scene&#41;&#96;</code></pre>
+<p>Updates a <code>Scene</code> and all its children. Update will perform the following operations for every scene:</p>
+<pre><code class=language-julia >if &#33;scene.raw&#91;&#93;
+    scene.update_limits&#91;&#93; &amp;&amp; update_limits&#33;&#40;scene&#41;
+    scene.center&#91;&#93; &amp;&amp; center&#33;&#40;scene&#41;
+end</code></pre>
+</div>
+  </div>
+   <div class=docstring >
+      <h2 class=doc-header  id="update_limits!">
+        <a href="#update_limits!">update_limits!</a>
+        <div class=doc-type ></div>
+      </h2>
+      <div class=doc-content ><pre><code class=language-julia >update_limits&#33;&#40;scene::Scene, limits::Union&#123;Automatic, Rect&#125; &#61; scene.limits&#91;&#93;, padding &#61; scene.padding&#91;&#93;&#41;</code></pre>
+<p>This function updates the limits of the <code>Scene</code> passed to it based on its data. If an actual limit is set by the theme or its attributes &#40;scene.limits &#33;&#61;&#61; automatic&#41;, it will not update the limits. Call update_limits&#33;&#40;scene, automatic&#41; for that.</p>
+<pre><code class=language-julia >update_limits&#33;&#40;scene::Scene, new_limits::Rect, padding &#61; Vec3f0&#40;0&#41;&#41;</code></pre>
+<p>This function updates the limits of the given <code>Scene</code> according to the given Rect.</p>
+<p>A <code>Rect</code> is a generalization of a rectangle to n dimensions.  It contains two vectors. The first vector defines the origin; the second defines the displacement of the vertices from the origin. This second vector can be thought of in two dimensions as a vector of width &#40;x-axis&#41; and height &#40;y-axis&#41;, and in three dimensions as a vector of the width &#40;x-axis&#41;, breadth &#40;y-axis&#41;, and height &#40;z-axis&#41;.</p>
+<p>Such a <code>Rect</code> can be constructed using the <code>FRect</code> or <code>FRect3D</code> functions that are exported by <code>Makie.jl</code>.  See their documentation for more information.</p>
+</div>
+  </div>
+   <div class=docstring >
+      <h2 class=doc-header  id="update_cam!">
+        <a href="#update_cam!">update_cam!</a>
+        <div class=doc-type ></div>
+      </h2>
+      <div class=doc-content ><pre><code class=language-julia >update_cam&#33;&#40;scene::SceneLike, area&#41;</code></pre>
+<p>Updates the camera for the given <code>scene</code> to cover the given <code>area</code> in 2d.</p>
+<pre><code class=language-julia >update_cam&#33;&#40;scene::SceneLike&#41;</code></pre>
+<p>Updates the camera for the given <code>scene</code> to cover the limits of the <code>Scene</code>. Useful when using the <code>Node</code> pipeline.</p>
+<pre><code class=language-julia >update_cam&#33;&#40;scene::Scene, eyeposition, lookat, up &#61; Vec3f0&#40;0, 0, 1&#41;&#41;</code></pre>
+<p>Updates the camera&#39;s controls to point to the specified location.</p>
+</div>
+  </div>
+</p>
+<p>In general, <code>update&#33;</code> is to be used to keep data in sync, and <code>update_cam&#33;</code> and <code>update_limits&#33;</code> update the camera and limits respectively &#40;to show all the data&#41;.</p>
+<h2 id=events ><a href="#events" class=header-anchor >Events</a></h2>
+<p>Scenes have several pre-created event &quot;hooks&quot; &#40;through Observables&#41; that you can handle.  These can be accessed through <code>scene.events</code>, which returns an <a href="@ref"><code>Events</code></a> struct.</p>
+<div class=page-foot >
+  <div class=copyright >
+    &copy; Makie.jl. Last modified: August 10, 2021. Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
+      <p>These docs were autogenerated using Makie: v0.15.0, GLMakie: v0.4.4, CairoMakie: v0.6.3, WGLMakie: v0.4.4</p>
+  </div>
+</div>
+</div>
+
+      </div> 
+    </div>   
+
+    <div class=page__footer >
+      <footer>
+        
+        
+        <div class=page__footer-follow >
+          <ul class=social-icons >
+            <li><a href="https://twitter.com/MakiePlots" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden=true ></i> Twitter</a>
+            <li><a href="https://github.com/JuliaPlots/Makie.jl" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden=true ></i> GitHub</a>
+          </ul>
+        </div>
+        <div class=page__footer-copyright >&copy; Makie.jl. Powered by <a href="https://github.com/tlienart/Franklin.jl">Franklin</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel=nofollow >Minimal Mistakes</a>.</div>
+      </footer>
+    </div>
+
+    <script src="/previews/PR1212/libs/minimal-mistakes/main.min.js"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.8.2/js/all.js" integrity="sha384-DJ25uNYET2XCl5ZF++U8eNxPWqcKohUUBUpKGlNLMchM7q4Wjg2CUpjHLaL8yYPH" crossorigin=anonymous ></script>
+
+    
+    
+        <script src="/previews/PR1212/libs/highlight/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();hljs.configure({tabReplace: '    '});</script>

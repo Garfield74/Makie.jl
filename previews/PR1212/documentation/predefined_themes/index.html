@@ -1,0 +1,123 @@
+<!doctype html> <!-- Minimal Mistakes Jekyll Theme 4.16.4 by Michael Rose Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes Free for personal and commercial use under the MIT license https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE --> <html lang=en > <meta charset=UTF-8 > <meta name=viewport  content="width=device-width, initial-scale=1"> <link rel=stylesheet  href="/previews/PR1212/libs/highlight/github.min.css"> <link rel=stylesheet  href="/previews/PR1212/css/franklin.css"> <link rel=stylesheet  href="/previews/PR1212/css/minimal-mistakes.css"> <link rel=stylesheet  href="/previews/PR1212/css/makie.css"> <link rel=icon  href="/previews/PR1212/assets/icon_transparent.png"> <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/fontawesome.min.css" rel=stylesheet  type="text/css"/> <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/solid.min.css" rel=stylesheet  type="text/css"/> <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/brands.min.css" rel=stylesheet  type="text/css"/> <!--[if IE ]> <style> /* old IE unsupported flexbox fixes */ .greedy-nav .site-title { padding-right: 3em; } .greedy-nav button { position: absolute; top: 0; right: 0; height: 100%; } </style> <![endif]--> <title>Predefined themes</title> <body class=layout--single > <div class=masthead > <div class=masthead__inner-wrap > <div class=masthead__menu > <nav id=site-nav  class=greedy-nav > <a class=title-icon  href="/previews/PR1212/"><img src="/previews/PR1212/assets/makie_logo_transparent.svg"/></a> <ul class=visible-links > <li class=masthead__menu-item > <a href="https://github.com/JuliaPlots/Makie.jl"><img src="/previews/PR1212/assets/GitHub-Mark-64px.png" class=masthead-icon  /></a> <li class=masthead__menu-item ><a href="/previews/PR1212/examples/">Examples</a> <li class=masthead__menu-item ><a href="/previews/PR1212/tutorials/">Tutorials</a> <li class=masthead__menu-item ><a href="/previews/PR1212/documentation/">Documentation</a> </ul> <button class="greedy-nav__toggle hidden" type=button > <span class=visually-hidden >Toggle menu</span> <div class=navicon ></div> </button> <ul class="hidden-links hidden"></ul> </nav> </div> </div> </div> <div class=initial-content > <div id=main  role=main > <div class=franklin-content ><h1 id=predefined_themes ><a href="#predefined_themes" class=header-anchor >Predefined themes</a></h1> <p>Makie has a few predefined themes. Here you can see the same example figure with these different themes applied.</p> <h2 id=default_theme ><a href="#default_theme" class=header-anchor >Default theme</a></h2> <pre><code class=language-julia >using CairoMakie
+using Random
+
+
+function demofigure&#40;&#41;
+    Random.seed&#33;&#40;2&#41;
+
+    f &#61; Figure&#40;&#41;
+    ax &#61; Axis&#40;f&#91;1, 1&#93;,
+        title &#61; &quot;measurements&quot;,
+        xlabel &#61; &quot;time &#40;s&#41;&quot;,
+        ylabel &#61; &quot;amplitude&quot;&#41;
+
+    labels &#61; &#91;&quot;alpha&quot;, &quot;beta&quot;, &quot;gamma&quot;, &quot;delta&quot;, &quot;epsilon&quot;, &quot;zeta&quot;&#93;
+    for i in 1:6
+        y &#61; cumsum&#40;randn&#40;10&#41;&#41; .* &#40;isodd&#40;i&#41; ? 1 : -1&#41;
+        lines&#33;&#40;y, label &#61; labels&#91;i&#93;&#41;
+        scatter&#33;&#40;y, label &#61; labels&#91;i&#93;&#41;
+    end
+
+    Legend&#40;f&#91;1, 2&#93;, ax, &quot;legend&quot;, merge &#61; true&#41;
+
+    Axis3&#40;f&#91;1, 3&#93;,
+        viewmode &#61; :stretch,
+        zlabeloffset &#61; 40,
+        title &#61; &quot;sinusoid&quot;&#41;
+
+    s &#61; surface&#33;&#40;0:0.5:10, 0:0.5:10, &#40;x, y&#41; -&gt; sqrt&#40;x * y&#41; &#43; sin&#40;1.5x&#41;&#41;
+
+    Colorbar&#40;f&#91;1, 4&#93;, s, label &#61; &quot;intensity&quot;&#41;
+
+    ax &#61; Axis&#40;f&#91;2, 1:2&#93;,
+        title &#61; &quot;different species&quot;,
+        xlabel &#61; &quot;height &#40;m&#41;&quot;,
+        ylabel &#61; &quot;density&quot;,&#41;
+    for i in 1:6
+        y &#61; randn&#40;200&#41; .&#43; 2i
+        density&#33;&#40;y&#41;
+    end
+    tightlimits&#33;&#40;ax, Bottom&#40;&#41;&#41;
+    xlims&#33;&#40;ax, -1, 15&#41;
+
+    Axis&#40;f&#91;2, 3:4&#93;,
+        title &#61; &quot;stock performance&quot;,
+        xticks &#61; &#40;1:6, labels&#41;,
+        xlabel &#61; &quot;company&quot;,
+        ylabel &#61; &quot;gain &#40;\&#36;&#41;&quot;,
+        xticklabelrotation &#61; pi/6&#41;
+    for i in 1:6
+        data &#61; randn&#40;1&#41;
+        barplot&#33;&#40;&#91;i&#93;, data&#41;
+        rangebars&#33;&#40;&#91;i&#93;, data .- 0.2, data .&#43; 0.2&#41;
+    end
+
+    f
+end
+
+demofigure&#40;&#41;</code></pre></p> <p> <a id=example_4477568125506792733 > <img src="/previews/PR1212/assets/documentation/predefined_themes/code/output/example_4477568125506792733.png" alt=""> </a> <h2 id=theme_ggplot2 ><a href="#theme_ggplot2" class=header-anchor >theme_ggplot2</a></h2> <pre><code class=language-julia >with_theme&#40;demofigure, theme_ggplot2&#40;&#41;&#41;</code></pre></p>
+<p>
+  <a id=example_7098160150565430097 >
+   <img src="/previews/PR1212/assets/documentation/predefined_themes/code/output/example_7098160150565430097.png" alt=""> 
+  </a>
+  
+<h2 id=theme_minimal ><a href="#theme_minimal" class=header-anchor >theme_minimal</a></h2>
+<pre><code class=language-julia >with_theme&#40;demofigure, theme_minimal&#40;&#41;&#41;</code></pre></p>
+<p>
+  <a id=example_17497024542549689444 >
+   <img src="/previews/PR1212/assets/documentation/predefined_themes/code/output/example_17497024542549689444.png" alt=""> 
+  </a>
+  
+<h2 id=theme_black ><a href="#theme_black" class=header-anchor >theme_black</a></h2>
+<pre><code class=language-julia >with_theme&#40;demofigure, theme_black&#40;&#41;&#41;</code></pre></p>
+<p>
+  <a id=example_9927379177693682604 >
+   <img src="/previews/PR1212/assets/documentation/predefined_themes/code/output/example_9927379177693682604.png" alt=""> 
+  </a>
+  
+<h2 id=theme_light ><a href="#theme_light" class=header-anchor >theme_light</a></h2>
+<pre><code class=language-julia >with_theme&#40;demofigure, theme_light&#40;&#41;&#41;</code></pre></p>
+<p>
+  <a id=example_679238586252941432 >
+   <img src="/previews/PR1212/assets/documentation/predefined_themes/code/output/example_679238586252941432.png" alt=""> 
+  </a>
+  
+<h2 id=theme_dark ><a href="#theme_dark" class=header-anchor >theme_dark</a></h2>
+<pre><code class=language-julia >with_theme&#40;demofigure, theme_dark&#40;&#41;&#41;</code></pre></p>
+<p>
+  <a id=example_15314383635287086528 >
+   <img src="/previews/PR1212/assets/documentation/predefined_themes/code/output/example_15314383635287086528.png" alt=""> 
+  </a>
+  
+<div class=page-foot >
+  <div class=copyright >
+    &copy; Makie.jl. Last modified: August 10, 2021. Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
+      <p>These docs were autogenerated using Makie: v0.15.0, GLMakie: v0.4.4, CairoMakie: v0.6.3, WGLMakie: v0.4.4</p>
+  </div>
+</div>
+</div>
+
+      </div> 
+    </div>   
+
+    <div class=page__footer >
+      <footer>
+        
+        
+        <div class=page__footer-follow >
+          <ul class=social-icons >
+            <li><a href="https://twitter.com/MakiePlots" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden=true ></i> Twitter</a>
+            <li><a href="https://github.com/JuliaPlots/Makie.jl" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden=true ></i> GitHub</a>
+          </ul>
+        </div>
+        <div class=page__footer-copyright >&copy; Makie.jl. Powered by <a href="https://github.com/tlienart/Franklin.jl">Franklin</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel=nofollow >Minimal Mistakes</a>.</div>
+      </footer>
+    </div>
+
+    <script src="/previews/PR1212/libs/minimal-mistakes/main.min.js"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.8.2/js/all.js" integrity="sha384-DJ25uNYET2XCl5ZF++U8eNxPWqcKohUUBUpKGlNLMchM7q4Wjg2CUpjHLaL8yYPH" crossorigin=anonymous ></script>
+
+    
+    
+        <script src="/previews/PR1212/libs/highlight/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();hljs.configure({tabReplace: '    '});</script>

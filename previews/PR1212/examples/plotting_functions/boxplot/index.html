@@ -1,0 +1,110 @@
+<!doctype html> <!-- Minimal Mistakes Jekyll Theme 4.16.4 by Michael Rose Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes Free for personal and commercial use under the MIT license https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE --> <html lang=en > <meta charset=UTF-8 > <meta name=viewport  content="width=device-width, initial-scale=1"> <link rel=stylesheet  href="/previews/PR1212/libs/highlight/github.min.css"> <link rel=stylesheet  href="/previews/PR1212/css/franklin.css"> <link rel=stylesheet  href="/previews/PR1212/css/minimal-mistakes.css"> <link rel=stylesheet  href="/previews/PR1212/css/makie.css"> <link rel=icon  href="/previews/PR1212/assets/icon_transparent.png"> <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/fontawesome.min.css" rel=stylesheet  type="text/css"/> <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/solid.min.css" rel=stylesheet  type="text/css"/> <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/brands.min.css" rel=stylesheet  type="text/css"/> <!--[if IE ]> <style> /* old IE unsupported flexbox fixes */ .greedy-nav .site-title { padding-right: 3em; } .greedy-nav button { position: absolute; top: 0; right: 0; height: 100%; } </style> <![endif]--> <title>boxplot</title> <body class=layout--single > <div class=masthead > <div class=masthead__inner-wrap > <div class=masthead__menu > <nav id=site-nav  class=greedy-nav > <a class=title-icon  href="/previews/PR1212/"><img src="/previews/PR1212/assets/makie_logo_transparent.svg"/></a> <ul class=visible-links > <li class=masthead__menu-item > <a href="https://github.com/JuliaPlots/Makie.jl"><img src="/previews/PR1212/assets/GitHub-Mark-64px.png" class=masthead-icon  /></a> <li class=masthead__menu-item ><a href="/previews/PR1212/examples/">Examples</a> <li class=masthead__menu-item ><a href="/previews/PR1212/tutorials/">Tutorials</a> <li class=masthead__menu-item ><a href="/previews/PR1212/documentation/">Documentation</a> </ul> <button class="greedy-nav__toggle hidden" type=button > <span class=visually-hidden >Toggle menu</span> <div class=navicon ></div> </button> <ul class="hidden-links hidden"></ul> </nav> </div> </div> </div> <div class=initial-content > <div id=main  role=main > <div class=franklin-content ><h1 id=boxplot ><a href="#boxplot" class=header-anchor >boxplot</a></h1> <div class=docstring > <h2 class=doc-header  id=boxplot > <a href="#boxplot">boxplot</a> <div class=doc-type ></div> </h2> <div class=doc-content ><pre><code class=language-julia >boxplot&#40;x, y; kwargs...&#41;</code></pre>
+<p>Draw a Tukey style boxplot. The boxplot has 3 components:</p>
+<ul>
+<li><p>a <code>crossbar</code> spanning the interquartile &#40;IQR&#41; range with a midline marking the   median</p>
+
+<li><p>an <code>errorbar</code> whose whiskers span <code>range * iqr</code></p>
+
+<li><p>points marking outliers, that is, data outside the whiskers</p>
+
+</ul>
+<h1 id=arguments ><a href="#arguments" class=header-anchor >Arguments</a></h1>
+<ul>
+<li><p><code>x</code>: positions of the categories</p>
+
+<li><p><code>y</code>: variables within the boxes</p>
+
+</ul>
+<h1 id=keywords ><a href="#keywords" class=header-anchor >Keywords</a></h1>
+<ul>
+<li><p><code>orientation&#61;:vertical</code>: orientation of box &#40;<code>:vertical</code> or <code>:horizontal</code>&#41;</p>
+
+<li><p><code>width&#61;0.8</code>: width of the box</p>
+
+<li><p><code>show_notch&#61;false</code>: draw the notch</p>
+
+<li><p><code>notchwidth&#61;0.5</code>: multiplier of <code>width</code> for narrowest width of notch</p>
+
+<li><p><code>show_median&#61;true</code>: show median as midline</p>
+
+<li><p><code>range</code>: multiple of IQR controlling whisker length</p>
+
+<li><p><code>whiskerwidth</code>: multiplier of <code>width</code> for width of T&#39;s on whiskers, or <code>:match</code> to match <code>width</code></p>
+
+<li><p><code>show_outliers</code>: show outliers as points</p>
+
+</ul>
+</div>
+  </div>
+
+<h3 id=examples ><a href="#examples" class=header-anchor >Examples</a></h3>
+<pre><code class=language-julia >using CairoMakie
+
+xs &#61; rand&#40;1:3, 1000&#41;
+ys &#61; randn&#40;1000&#41;
+
+boxplot&#40;xs, ys&#41;</code></pre></p>
+<p>
+  <a id=example_3547509019798163871 >
+   <img src="/previews/PR1212/assets/examples/plotting_functions/boxplot/code/output/example_3547509019798163871.png" alt=""> 
+  </a>
+  
+<pre><code class=language-julia >using CairoMakie
+
+xs &#61; rand&#40;1:3, 1000&#41;
+ys &#61; randn&#40;1000&#41;
+dodge &#61; rand&#40;1:2, 1000&#41;
+
+boxplot&#40;xs, ys, dodge &#61; dodge, show_notch &#61; true, color &#61; dodge&#41;</code></pre></p>
+<p>
+  <a id=example_10077403260677768722 >
+   <img src="/previews/PR1212/assets/examples/plotting_functions/boxplot/code/output/example_10077403260677768722.png" alt=""> 
+  </a>
+  
+<p>Colors are customizable. The <code>color</code> attribute refers to the color of the boxes, whereas <code>outliercolor</code> refers to the color of the outliers. If not scalars &#40;e.g. <code>:red</code>&#41;, these attributes must have the length of the data. If <code>outliercolor</code> is not provided, outliers will have the same color as their box, as shown above.</p>
+<div class="admonition note"><p class=admonition-title >Note</p><p>For all indices corresponding to points within the same box, <code>color</code> &#40;but not <code>outliercolor</code>&#41; must have the same value.</p>
+</div>
+<pre><code class=language-julia >using CairoMakie
+
+xs &#61; rand&#40;1:3, 1000&#41;
+ys &#61; randn&#40;1000&#41;
+dodge &#61; rand&#40;1:2, 1000&#41;
+
+boxplot&#40;xs, ys, dodge &#61; dodge, show_notch &#61; true, color &#61; map&#40;d-&gt;d&#61;&#61;1 ? :blue : :red, dodge&#41; , outliercolor &#61; rand&#40;&#91;:red, :green, :blue, :black, :yellow&#93;, 1000&#41;&#41;</code></pre></p>
+<p>
+  <a id=example_5751636191102347416 >
+   <img src="/previews/PR1212/assets/examples/plotting_functions/boxplot/code/output/example_5751636191102347416.png" alt=""> 
+  </a>
+  
+<div class=page-foot >
+  <div class=copyright >
+    &copy; Makie.jl. Last modified: August 10, 2021. Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
+      <p>These docs were autogenerated using Makie: v0.15.0, GLMakie: v0.4.4, CairoMakie: v0.6.3, WGLMakie: v0.4.4</p>
+  </div>
+</div>
+</div>
+
+      </div> 
+    </div>   
+
+    <div class=page__footer >
+      <footer>
+        
+        
+        <div class=page__footer-follow >
+          <ul class=social-icons >
+            <li><a href="https://twitter.com/MakiePlots" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden=true ></i> Twitter</a>
+            <li><a href="https://github.com/JuliaPlots/Makie.jl" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden=true ></i> GitHub</a>
+          </ul>
+        </div>
+        <div class=page__footer-copyright >&copy; Makie.jl. Powered by <a href="https://github.com/tlienart/Franklin.jl">Franklin</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel=nofollow >Minimal Mistakes</a>.</div>
+      </footer>
+    </div>
+
+    <script src="/previews/PR1212/libs/minimal-mistakes/main.min.js"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.8.2/js/all.js" integrity="sha384-DJ25uNYET2XCl5ZF++U8eNxPWqcKohUUBUpKGlNLMchM7q4Wjg2CUpjHLaL8yYPH" crossorigin=anonymous ></script>
+
+    
+    
+        <script src="/previews/PR1212/libs/highlight/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();hljs.configure({tabReplace: '    '});</script>

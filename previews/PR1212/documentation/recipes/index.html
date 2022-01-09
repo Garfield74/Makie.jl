@@ -1,0 +1,233 @@
+<!doctype html> <!-- Minimal Mistakes Jekyll Theme 4.16.4 by Michael Rose Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes Free for personal and commercial use under the MIT license https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE --> <html lang=en > <meta charset=UTF-8 > <meta name=viewport  content="width=device-width, initial-scale=1"> <link rel=stylesheet  href="/previews/PR1212/libs/highlight/github.min.css"> <link rel=stylesheet  href="/previews/PR1212/css/franklin.css"> <link rel=stylesheet  href="/previews/PR1212/css/minimal-mistakes.css"> <link rel=stylesheet  href="/previews/PR1212/css/makie.css"> <link rel=icon  href="/previews/PR1212/assets/icon_transparent.png"> <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/fontawesome.min.css" rel=stylesheet  type="text/css"/> <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/solid.min.css" rel=stylesheet  type="text/css"/> <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/brands.min.css" rel=stylesheet  type="text/css"/> <!--[if IE ]> <style> /* old IE unsupported flexbox fixes */ .greedy-nav .site-title { padding-right: 3em; } .greedy-nav button { position: absolute; top: 0; right: 0; height: 100%; } </style> <![endif]--> <title>Plot Recipes</title> <body class=layout--single > <div class=masthead > <div class=masthead__inner-wrap > <div class=masthead__menu > <nav id=site-nav  class=greedy-nav > <a class=title-icon  href="/previews/PR1212/"><img src="/previews/PR1212/assets/makie_logo_transparent.svg"/></a> <ul class=visible-links > <li class=masthead__menu-item > <a href="https://github.com/JuliaPlots/Makie.jl"><img src="/previews/PR1212/assets/GitHub-Mark-64px.png" class=masthead-icon  /></a> <li class=masthead__menu-item ><a href="/previews/PR1212/examples/">Examples</a> <li class=masthead__menu-item ><a href="/previews/PR1212/tutorials/">Tutorials</a> <li class=masthead__menu-item ><a href="/previews/PR1212/documentation/">Documentation</a> </ul> <button class="greedy-nav__toggle hidden" type=button > <span class=visually-hidden >Toggle menu</span> <div class=navicon ></div> </button> <ul class="hidden-links hidden"></ul> </nav> </div> </div> </div> <div class=initial-content > <div id=main  role=main > <div class=franklin-content ><h1 id=plot_recipes ><a href="#plot_recipes" class=header-anchor >Plot Recipes</a></h1> <p>Recipes allow you to extend <code>Makie</code> with your own custom types and plotting commands.</p> <p>There are two types of recipes:</p> <ul> <li><p><em>Type recipes</em> define a simple mapping from a user defined type to an existing plot type</p> <li><p><em>Full recipes</em> define new custom plotting functions.</p> </ul> <h2 id=type_recipes ><a href="#type_recipes" class=header-anchor >Type recipes</a></h2> <p>Type recipes are mostly just conversions from one type or set of input argument types, yet unknown to Makie, to another which Makie can handle already.</p> <p>This is the sequential logic by which conversions in Makie are attempted:</p> <ul> <li><p>Dispatch on <code>convert_arguments&#40;::PlotType, args...&#41;</code></p> <li><p>If no matching method is found, determine a conversion trait via <code>conversion_trait&#40;::PlotType&#41;</code></p> <li><p>Dispatch on <code>convert_arguments&#40;::ConversionTrait, args...&#41;</code></p> <li><p>If no matching method is found, try to convert each single argument recursively with <code>convert_single_argument</code> until each type doesn&#39;t change anymore</p> <li><p>Dispatch on <code>convert_arguments&#40;::PlotType, converted_args...&#41;</code></p> <li><p>Fail if no method was found</p> </ul> <h3 id=multiple_argument_conversion_with_convert_arguments ><a href="#multiple_argument_conversion_with_convert_arguments" class=header-anchor >Multiple Argument Conversion with <code>convert_arguments</code></a></h3> <p>Plotting of a <code>Circle</code> for example can be defined via a conversion into a vector of points:</p> <pre><code class=language-julia >Makie.convert_arguments&#40;x::Circle&#41; &#61; &#40;decompose&#40;Point2f, x&#41;,&#41;</code></pre>
+<div class="admonition warning"><p class=admonition-title >Warning</p><p><code>convert_arguments</code> must always return a Tuple.</p>
+</div>
+<p>You can restrict conversion to a subset of plot types, like only for scatter plots:</p>
+<pre><code class=language-julia >Makie.convert_arguments&#40;P::Type&#123;&lt;:Scatter&#125;, x::MyType&#41; &#61; convert_arguments&#40;P, rand&#40;10, 10&#41;&#41;</code></pre>
+<p>Conversion traits make it easier to define behavior for a group of plot types that share the same trait. <code>PointBased</code> for example applies to <code>Scatter</code>, <code>Lines</code>, etc. Predefined are <code>NoConversion</code>, <code>PointBased</code>, <code>SurfaceLike</code> and <code>VolumeLike</code>.</p>
+<pre><code class=language-julia >Makie.convert_arguments&#40;P::PointBased, x::MyType&#41; &#61; ...</code></pre>
+<p>Lastly, it is also possible to convert multiple arguments together.</p>
+<pre><code class=language-julia >Makie.convert_arguments&#40;P::Type&#123;&lt;:Scatter&#125;, x::MyType, y::MyOtherType&#41; &#61; ...</code></pre>
+<p>Optionally you may define the default plot type so that <code>plot&#40;x::MyType&#41;</code> will use it directly:</p>
+<pre><code class=language-julia >plottype&#40;::MyType&#41; &#61; Surface</code></pre>
+<h3 id=single_argument_conversion_with_convert_single_argument ><a href="#single_argument_conversion_with_convert_single_argument" class=header-anchor >Single Argument Conversion with <code>convert_single_argument</code></a></h3>
+<p>Some types which are unknown to Makie can be converted to other types, for which <code>convert_arguments</code> methods are available. This is done with <code>convert_single_argument</code>.</p>
+<p>For example, <code>AbstractArrays</code> with <code>Real</code>s and <code>missing</code>s can usually be safely converted to <code>Float32</code> arrays with <code>NaN</code>s instead of <code>missing</code>s.</p>
+<p>The difference between <code>convert_single_argument</code> and <code>convert_arguments</code> with a single argument is that the former can be applied to any argument of any signature, while the latter only matches one-argument signatures.</p>
+<h2 id=full_recipes_with_the_recipe_macro ><a href="#full_recipes_with_the_recipe_macro" class=header-anchor >Full recipes with the <code>@recipe</code> macro</a></h2>
+<p>A full recipe comes in two parts. First is the plot type name, for example <code>MyPlot</code>, and then arguments and theme definition which are defined using the <code>@recipe</code> macro.</p>
+<p>Second is at least one custom <code>plot&#33;</code> method for <code>MyPlot</code> which creates an actual visualization using other existing plotting functions.</p>
+<p>We use an example to show how this works:</p>
+<pre><code class=language-julia >@recipe&#40;MyPlot, x, y, z&#41; do scene
+    Theme&#40;
+        plot_color &#61;&gt; :red
+    &#41;
+end</code></pre>
+<p>This macro expands to several things. Firstly a type definition:</p>
+<pre><code class=language-julia >const MyPlot&#123;ArgTypes&#125; &#61; Combined&#123;myplot, ArgTypes&#125;</code></pre>
+<p>The type parameter of <code>Combined</code> contains the function <code>myplot</code> instead of e.g. a symbol <code>MyPlot</code>. This way the mapping from <code>MyPlot</code> to <code>myplot</code> is safer and simpler. The following signatures are automatically defined to make <code>MyPlot</code> nice to use:</p>
+<pre><code class=language-julia >myplot&#40;args...; kw_args...&#41; &#61; ...
+myplot&#33;&#40;args...; kw_args...&#41; &#61; ...</code></pre>
+<p>A specialization of <code>argument_names</code> is emitted if you have an argument list <code>&#40;x,y,z&#41;</code> provided to the recipe macro:</p>
+<p>&#96;argument_names&#40;::Type&#123;&lt;: MyPlot&#125;&#41; &#61; &#40;:x, :y, :z&#41;&#96;</p>
+<p>This is optional but it will allow the use of <code>plot_object&#91;:x&#93;</code> to fetch the first argument from the call <code>plot_object &#61; myplot&#40;rand&#40;10&#41;, rand&#40;10&#41;, rand&#40;10&#41;&#41;</code>, for example.</p>
+<p>Alternatively you can always fetch the <code>i</code>th argument using <code>plot_object&#91;i&#93;</code>, and if you leave out the <code>&#40;x,y,z&#41;</code>, the default version of <code>argument_names</code> will provide <code>plot_object&#91;:arg1&#93;</code> etc.</p>
+<p>The theme given in the body of the <code>@recipe</code> invocation is inserted into a specialization of <code>default_theme</code> which inserts the theme into any scene that plots <code>Myplot</code>:</p>
+<pre><code class=language-julia >function default_theme&#40;scene, ::Myplot&#41;
+    Theme&#40;
+        plot_color &#61;&gt; :red
+    &#41;
+end</code></pre>
+<p>As the second part of defining <code>MyPlot</code>, you should implement the actual plotting of the <code>MyPlot</code> object by specializing <code>plot&#33;</code>:</p>
+<pre><code class=language-julia >function plot&#33;&#40;myplot::MyPlot&#41;
+    # normal plotting code, building on any previously defined recipes
+    # or atomic plotting operations, and adding to the combined &#96;myplot&#96;:
+    lines&#33;&#40;myplot, rand&#40;10&#41;, color &#61; myplot&#91;:plot_color&#93;&#41;
+    plot&#33;&#40;myplot, myplot&#91;:x&#93;, myplot&#91;:y&#93;&#41;
+    myplot
+end</code></pre>
+<p>It&#39;s possible to add specializations here, depending on the argument <em>types</em> supplied to <code>myplot</code>. For example, to specialize the behavior of <code>myplot&#40;a&#41;</code> when <code>a</code> is a 3D array of floating point numbers:</p>
+<pre><code class=language-julia >const MyVolume &#61; MyPlot&#123;Tuple&#123;&lt;:AbstractArray&#123;&lt;: AbstractFloat, 3&#125;&#125;&#125;
+argument_names&#40;::Type&#123;&lt;: MyVolume&#125;&#41; &#61; &#40;:volume,&#41; # again, optional
+function plot&#33;&#40;plot::MyVolume&#41;
+    # plot a volume with a colormap going from fully transparent to plot_color
+    volume&#33;&#40;plot, plot&#91;:volume&#93;, colormap &#61; :transparent &#61;&gt; plot&#91;:plot_color&#93;&#41;
+    plot
+end</code></pre>
+<h2 id=example_stock_chart ><a href="#example_stock_chart" class=header-anchor >Example: Stock Chart</a></h2>
+<p>Let&#39;s say we want to visualize stock values with the classic open / close and low / high combinations. In this example, we will create a special type to hold this information, and a recipe that can plot this type.</p>
+<p>First, we make a struct to hold the stock&#39;s values for a given day:</p>
+<pre><code class=language-julia >using CairoMakie
+
+struct StockValue&#123;T&lt;:Real&#125;
+    open::T
+    close::T
+    high::T
+    low::T
+end</code></pre>
+<p>Now we create a new plot type called <code>StockChart</code>. The <code>do scene</code> closure is just a function that returns our default attributes, in this case they color stocks going down red, and stocks going up green.</p>
+<pre><code class=language-julia >@recipe&#40;StockChart&#41; do scene
+    Attributes&#40;
+        downcolor &#61; :red,
+        upcolor &#61; :green,
+    &#41;
+end</code></pre>
+<p>Then we get to the meat of the recipe, which is actually creating a plot method. We need to overload a specific method of <code>Makie.plot&#33;</code> which as its argument has a subtype of our new <code>StockChart</code> plot type. The type parameter of that type is a Tuple describing the argument types for which this method should work.</p>
+<p>Note that the input arguments we receive inside the <code>plot&#33;</code> method, which we can extract by indexing into the <code>StockChart</code>, are automatically converted to Observables by Makie.</p>
+<p>This means that we must construct our plotting function in a dynamic way so that it will update itself whenever the input observables change. This can be a bit trickier than recipes you might know from other plotting packages which produce mostly static plots.</p>
+<pre><code class=language-julia >function Makie.plot&#33;&#40;
+        sc::StockChart&#123;&lt;:Tuple&#123;AbstractVector&#123;&lt;:Real&#125;, AbstractVector&#123;&lt;:StockValue&#125;&#125;&#125;&#41;
+
+    # our first argument is an observable of parametric type AbstractVector&#123;&lt;:Real&#125;
+    times &#61; sc&#91;1&#93;
+    # our second argument is an observable of parametric type AbstractVector&#123;&lt;:StockValue&#125;&#125;
+    stockvalues &#61; sc&#91;2&#93;
+
+    # we predefine a couple of observables for the linesegments
+    # and barplots we need to draw
+    # this is necessary because in Makie we want every recipe to be interactively updateable
+    # and therefore need to connect the observable machinery to do so
+    linesegs &#61; Node&#40;Point2f0&#91;&#93;&#41;
+    bar_froms &#61; Node&#40;Float32&#91;&#93;&#41;
+    bar_tos &#61; Node&#40;Float32&#91;&#93;&#41;
+    colors &#61; Node&#40;Bool&#91;&#93;&#41;
+
+    # this helper function will update our observables
+    # whenever &#96;times&#96; or &#96;stockvalues&#96; change
+    function update_plot&#40;times, stockvalues&#41;
+        colors&#91;&#93;
+
+        # clear the vectors inside the observables
+        empty&#33;&#40;linesegs&#91;&#93;&#41;
+        empty&#33;&#40;bar_froms&#91;&#93;&#41;
+        empty&#33;&#40;bar_tos&#91;&#93;&#41;
+        empty&#33;&#40;colors&#91;&#93;&#41;
+
+        # then refill them with our updated values
+        for &#40;t, s&#41; in zip&#40;times, stockvalues&#41;
+            push&#33;&#40;linesegs&#91;&#93;, Point2f0&#40;t, s.low&#41;&#41;
+            push&#33;&#40;linesegs&#91;&#93;, Point2f0&#40;t, s.high&#41;&#41;
+            push&#33;&#40;bar_froms&#91;&#93;, s.open&#41;
+            push&#33;&#40;bar_tos&#91;&#93;, s.close&#41;
+        end
+        append&#33;&#40;colors&#91;&#93;, &#91;x.close &gt; x.open for x in stockvalues&#93;&#41;
+        colors&#91;&#93; &#61; colors&#91;&#93;
+    end
+
+    # connect &#96;update_plot&#96; so that it is called whenever &#96;times&#96;
+    # or &#96;stockvalues&#96; change
+    Makie.Observables.onany&#40;update_plot, times, stockvalues&#41;
+
+    # then call it once manually with the first &#96;times&#96; and &#96;stockvalues&#96;
+    # contents so we prepopulate all observables with correct values
+    update_plot&#40;times&#91;&#93;, stockvalues&#91;&#93;&#41;
+
+    # for the colors we just use a vector of booleans or 0s and 1s, which are
+    # colored according to a 2-element colormap
+    # we build this colormap out of our &#96;downcolor&#96; and &#96;upcolor&#96;
+    # we give the observable element type &#96;Any&#96; so it will not error when we change
+    # a color from a symbol like :red to a different type like RGBf0&#40;1, 0, 1&#41;
+    colormap &#61; lift&#40;Any, sc.downcolor, sc.upcolor&#41; do dc, uc
+        &#91;dc, uc&#93;
+    end
+
+    # in the last step we plot into our &#96;sc&#96; StockChart object, which means
+    # that our new plot is just made out of two simpler recipes layered on
+    # top of each other
+    linesegments&#33;&#40;sc, linesegs, color &#61; colors, colormap &#61; colormap&#41;
+    barplot&#33;&#40;sc, times, bar_froms, fillto &#61; bar_tos, color &#61; colors, strokewidth &#61; 0, colormap &#61; colormap&#41;
+
+    # lastly we return the new StockChart
+    sc
+end</code></pre>
+<p>Finally, let&#39;s try it out and plot some stocks:</p>
+<pre><code class=language-julia >timestamps &#61; 1:100
+
+# we create some fake stock values in a way that looks pleasing later
+startvalue &#61; StockValue&#40;0.0, 0.0, 0.0, 0.0&#41;
+stockvalues &#61; foldl&#40;timestamps&#91;2:end&#93;, init &#61; &#91;startvalue&#93;&#41; do values, t
+    open &#61; last&#40;values&#41;.close &#43; 0.3 * randn&#40;&#41;
+    close &#61; open &#43; randn&#40;&#41;
+    high &#61; max&#40;open, close&#41; &#43; rand&#40;&#41;
+    low &#61; min&#40;open, close&#41; - rand&#40;&#41;
+    push&#33;&#40;values, StockValue&#40;
+        open, close, high, low
+    &#41;&#41;
+end
+
+# now we can use our new recipe
+f &#61; Figure&#40;&#41;
+
+stockchart&#40;f&#91;1, 1&#93;, timestamps, stockvalues&#41;
+
+# and let&#39;s try one where we change our default attributes
+stockchart&#40;f&#91;2, 1&#93;, timestamps, stockvalues,
+    downcolor &#61; :purple, upcolor &#61; :orange&#41;
+f</code></pre></p>
+<p>
+  <a id=example_1366018641080456634 >
+   <img src="/previews/PR1212/assets/documentation/recipes/code/output/example_1366018641080456634.png" alt=""> 
+  </a>
+  
+<p>As a last example, lets pretend our stock data is coming in dynamically, and we want to create an animation out of it. This is easy if we use observables as input arguments which we then update frame by frame:</p>
+<pre><code class=language-julia >timestamps &#61; Node&#40;collect&#40;1:100&#41;&#41;
+stocknode &#61; Node&#40;stockvalues&#41;
+
+fig, ax, sc &#61; stockchart&#40;timestamps, stocknode&#41;
+
+record&#40;fig, joinpath&#40;@OUTPUT, &quot;stockchart_animation.mp4&quot;&#41;, 101:200,
+        framerate &#61; 30&#41; do t
+    # push a new timestamp without triggering the observable
+    push&#33;&#40;timestamps&#91;&#93;, t&#41;
+
+    # push a new StockValue without triggering the observable
+    old &#61; last&#40;stocknode&#91;&#93;&#41;
+    open &#61; old.close &#43; 0.3 * randn&#40;&#41;
+    close &#61; open &#43; randn&#40;&#41;
+    high &#61; max&#40;open, close&#41; &#43; rand&#40;&#41;
+    low &#61; min&#40;open, close&#41; - rand&#40;&#41;
+    new &#61; StockValue&#40;open, close, high, low&#41;
+    push&#33;&#40;stocknode&#91;&#93;, new&#41;
+
+    # now both timestamps and stocknode are synchronized
+    # again and we can trigger one of them by assigning it to itself
+    # to update the whole stockcharts plot for the new frame
+    stocknode&#91;&#93; &#61; stocknode&#91;&#93;
+    # let&#39;s also update the axis limits because the plot will grow
+    # to the right
+    autolimits&#33;&#40;ax&#41;
+end</code></pre>
+
+<video src="/previews/PR1212/assets/documentation/recipes/code/output/stockchart_animation.mp4" controls=true  loop=true ></video>
+
+<div class=page-foot >
+  <div class=copyright >
+    &copy; Makie.jl. Last modified: August 10, 2021. Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
+      <p>These docs were autogenerated using Makie: v0.15.0, GLMakie: v0.4.4, CairoMakie: v0.6.3, WGLMakie: v0.4.4</p>
+  </div>
+</div>
+</div>
+
+      </div> 
+    </div>   
+
+    <div class=page__footer >
+      <footer>
+        
+        
+        <div class=page__footer-follow >
+          <ul class=social-icons >
+            <li><a href="https://twitter.com/MakiePlots" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden=true ></i> Twitter</a>
+            <li><a href="https://github.com/JuliaPlots/Makie.jl" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden=true ></i> GitHub</a>
+          </ul>
+        </div>
+        <div class=page__footer-copyright >&copy; Makie.jl. Powered by <a href="https://github.com/tlienart/Franklin.jl">Franklin</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel=nofollow >Minimal Mistakes</a>.</div>
+      </footer>
+    </div>
+
+    <script src="/previews/PR1212/libs/minimal-mistakes/main.min.js"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.8.2/js/all.js" integrity="sha384-DJ25uNYET2XCl5ZF++U8eNxPWqcKohUUBUpKGlNLMchM7q4Wjg2CUpjHLaL8yYPH" crossorigin=anonymous ></script>
+
+    
+    
+        <script src="/previews/PR1212/libs/highlight/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();hljs.configure({tabReplace: '    '});</script>

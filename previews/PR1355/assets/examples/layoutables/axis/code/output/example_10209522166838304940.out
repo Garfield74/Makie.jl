@@ -1,0 +1,3 @@
+MethodError: Cannot `convert` an object of type Makie.Symlog10 to an object of type Function
+Closest candidates are:
+  convert(::Type{T}, !Matched::T) where T at essentials.jl:205

@@ -1,0 +1,138 @@
+<!DOCTYPE html><HTML lang="en"><head><meta charset="UTF-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/><link href="../../../libs/highlight/github.min.css" rel="stylesheet"/><link href="../../../css/franklin.css" rel="stylesheet"/><link href="../../../css/minimal-mistakes.css" rel="stylesheet"/><link href="../../../css/makie.css" rel="stylesheet"/><link href="../../../assets/icon_transparent.png" rel="icon"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/brands.min.css" rel="stylesheet" type="text/css"/><title>scatter</title></head><body class="layout--single"><div class="site-container"><div class="masthead"><div class="masthead__inner-wrap"><div class="masthead__menu"><nav class="greedy-nav" id="site-nav"><a class="title-icon" href="../../.."><img src="../../../assets/makie_logo_transparent.svg"/></a><ul class="visible-links"><li class="masthead__menu-item"><a href="https://github.com/JuliaPlots/Makie.jl"><img class="masthead-icon" src="../../../assets/GitHub-Mark-64px.png"/></a></li><li class="masthead__menu-item"><a href="../..">Examples</a></li><li class="masthead__menu-item"><a href="../../../tutorials/">Tutorials</a></li><li class="masthead__menu-item"><a href="../../../documentation/">Documentation</a></li></ul><button class="greedy-nav__toggle" type="button"><span class="visually-hidden">Toggle menu</span><div class="navicon"></div></button><ul class="hidden-links hidden"></ul></nav></div></div></div><div id="main" role="main"><div id="overlay"></div><div id="navbar-container"><div id="navbar"><form action="../../../search/index.html" id="lunrSearchForm" name="lunrSearchForm"><input class="search-input" name="q" placeholder="Search docs" type="text"/></form><h1>Navigation</h1><ul><li><div class="tocitem-container"><a href="../../..">Home</a></div></li><li><input checked="" class="collapse-toggle" id="menuitem-2" type="checkbox"/><div class="tocitem-container"><label class="tocexpander" for="menuitem-2"><i class="docs-chevron"></i></label><a href="../..">Examples</a></div><ul><li><input class="collapse-toggle" id="menuitem-2-1" type="checkbox"/><div class="tocitem-container"><label class="tocexpander" for="menuitem-2-1"><i class="docs-chevron"></i></label><a href="../../layoutables">Layoutables &amp; Widgets</a></div><ul><li><div class="tocitem-container"><a href="../../layoutables/axis">Axis</a></div></li><li><div class="tocitem-container"><a href="../../layoutables/axis3">Axis3</a></div></li><li><div class="tocitem-container"><a href="../../layoutables/box">Box</a></div></li><li><div class="tocitem-container"><a href="../../layoutables/button">Button</a></div></li><li><div class="tocitem-container"><a href="../../layoutables/colorbar">Colorbar</a></div></li><li><div class="tocitem-container"><a href="../../layoutables/gridlayout">GridLayout</a></div></li><li><div class="tocitem-container"><a href="../../layoutables/intervalslider">IntervalSlider</a></div></li><li><div class="tocitem-container"><a href="../../layoutables/label">Label</a></div></li><li><div class="tocitem-container"><a href="../../layoutables/legend">Legend</a></div></li><li><div class="tocitem-container"><a href="../../layoutables/lscene">LScene</a></div></li><li><div class="tocitem-container"><a href="../../layoutables/menu">Menu</a></div></li><li><div class="tocitem-container"><a href="../../layoutables/slider">Slider</a></div></li><li><div class="tocitem-container"><a href="../../layoutables/textbox">Textbox</a></div></li><li><div class="tocitem-container"><a href="../../layoutables/toggle">Toggle</a></div></li></ul></li><li><input checked="" class="collapse-toggle" id="menuitem-2-2" type="checkbox"/><div class="tocitem-container"><label class="tocexpander" for="menuitem-2-2"><i class="docs-chevron"></i></label><a href="..">Plotting functions</a></div><ul><li><div class="tocitem-container"><a href="../abline">abline!</a></div></li><li><div class="tocitem-container"><a href="../arrows">arrows</a></div></li><li><div class="tocitem-container"><a href="../band">band</a></div></li><li><div class="tocitem-container"><a href="../barplot">barplot</a></div></li><li><div class="tocitem-container"><a href="../boxplot">boxplot</a></div></li><li><div class="tocitem-container"><a href="../contour">contour</a></div></li><li><div class="tocitem-container"><a href="../contourf">contourf</a></div></li><li><div class="tocitem-container"><a href="../crossbar">crossbar</a></div></li><li><div class="tocitem-container"><a href="../density">density</a></div></li><li><div class="tocitem-container"><a href="../ecdf">ecdfplot</a></div></li><li><div class="tocitem-container"><a href="../errorbars">errorbars</a></div></li><li><div class="tocitem-container"><a href="../heatmap">heatmap</a></div></li><li><div class="tocitem-container"><a href="../hist">hist</a></div></li><li><div class="tocitem-container"><a href="../hvlines">hlines! and vlines!</a></div></li><li><div class="tocitem-container"><a href="../hvspan">hspan! and vspan!</a></div></li><li><div class="tocitem-container"><a href="../image">image</a></div></li><li><div class="tocitem-container"><a href="../lines">lines</a></div></li><li><div class="tocitem-container"><a href="../linesegments">linesegments</a></div></li><li><div class="tocitem-container"><a href="../mesh">mesh</a></div></li><li><div class="tocitem-container"><a href="../meshscatter">meshscatter</a></div></li><li><div class="tocitem-container"><a href="../poly">poly</a></div></li><li><div class="tocitem-container"><a href="../rangebars">rangebars</a></div></li><li><div class="tocitem-container"><a class="active" href="">scatter</a></div><ul class="page-content"><li><a href="#scatter">scatter</a></li><li><ul><li><a href="#examples">Examples</a></li><li><ul><li><a href="#using_x_and_y_vectors">Using x and y vectors</a></li><li><a href="#using_points">Using points</a></li><li><a href="#available_markers">Available markers</a></li><li><a href="#bezier_path_markers">Bezier path markers</a></li><li><a href="#marker_rotation">Marker rotation</a></li><li><a href="#vec_markersize">Vec markersize</a></li><li><a href="#marker_space">Marker space</a></li><li><a href="#airport_locations_example">Airport locations example</a></li></ul></li></ul></li></ul></li><li><div class="tocitem-container"><a href="../scatterlines">scatterlines</a></div></li><li><div class="tocitem-container"><a href="../series">series</a></div></li><li><div class="tocitem-container"><a href="../stairs">stairs</a></div></li><li><div class="tocitem-container"><a href="../stem">stem</a></div></li><li><div class="tocitem-container"><a href="../streamplot">streamplot</a></div></li><li><div class="tocitem-container"><a href="../surface">surface</a></div></li><li><div class="tocitem-container"><a href="../text">text</a></div></li><li><div class="tocitem-container"><a href="../violin">violin</a></div></li><li><div class="tocitem-container"><a href="../volume">volume</a></div></li><li><div class="tocitem-container"><a href="../volumeslices">volumeslices</a></div></li><li><div class="tocitem-container"><a href="../wireframe">wireframe</a></div></li></ul></li></ul></li><li><input class="collapse-toggle" id="menuitem-3" type="checkbox"/><div class="tocitem-container"><label class="tocexpander" for="menuitem-3"><i class="docs-chevron"></i></label><a href="../../../tutorials">Tutorials</a></div><ul><li><div class="tocitem-container"><a href="../../../tutorials/aspect-tutorial">Aspect ratio and size control tutorial</a></div></li><li><div class="tocitem-container"><a href="../../../tutorials/basic-tutorial">Basic Tutorial</a></div></li><li><div class="tocitem-container"><a href="../../../tutorials/layout-tutorial">Layout Tutorial</a></div></li><li><div class="tocitem-container"><a href="../../../tutorials/scenes">Scene tutorial</a></div></li></ul></li><li><input class="collapse-toggle" id="menuitem-4" type="checkbox"/><div class="tocitem-container"><label class="tocexpander" for="menuitem-4"><i class="docs-chevron"></i></label><a href="../../../documentation">Documentation</a></div><ul><li><div class="tocitem-container"><a href="../../../documentation/api_reference">API reference</a></div></li><li><div class="tocitem-container"><a href="../../../documentation/animation">Animations</a></div></li><li><input class="collapse-toggle" id="menuitem-4-3" type="checkbox"/><div class="tocitem-container"><label class="tocexpander" for="menuitem-4-3"><i class="docs-chevron"></i></label><a href="../../../documentation/backends_and_output">Backends &amp; Output</a></div><ul><li><div class="tocitem-container"><a href="../../../documentation/backends_and_output/figure_size">Exporting a Figure with physical dimensions</a></div></li><li><div class="tocitem-container"><a href="../../../documentation/backends_and_output/rprmakie">RadeonProRender Backend</a></div></li><li><div class="tocitem-container"><a href="../../../documentation/backends_and_output/wglmakie">JSServe and WGLMakie</a></div></li></ul></li><li><div class="tocitem-container"><a href="../../../documentation/cameras">Cameras</a></div></li><li><div class="tocitem-container"><a href="../../../documentation/colors">Colors</a></div></li><li><div class="tocitem-container"><a href="../../../documentation/events">Events</a></div></li><li><div class="tocitem-container"><a href="../../../documentation/faq">Frequently Asked Questions</a></div></li><li><div class="tocitem-container"><a href="../../../documentation/figure">Figures</a></div></li><li><div class="tocitem-container"><a href="../../../documentation/inspector">Inspecting Data</a></div></li><li><div class="tocitem-container"><a href="../../../documentation/latex">LaTeX</a></div></li><li><div class="tocitem-container"><a href="../../../documentation/layoutables">Layoutables</a></div></li><li><div class="tocitem-container"><a href="../../../documentation/layouting">How layouts work</a></div></li><li><div class="tocitem-container"><a href="../../../documentation/lighting">Lighting</a></div></li><li><div class="tocitem-container"><a href="../../../documentation/news">News</a></div></li><li><div class="tocitem-container"><a href="../../../documentation/nodes">Observables &amp; Interaction</a></div></li><li><div class="tocitem-container"><a href="../../../documentation/plot_method_signatures">Plot Method Signatures</a></div></li><li><div class="tocitem-container"><a href="../../../documentation/recipes">Plot Recipes</a></div></li><li><div class="tocitem-container"><a href="../../../documentation/remote">Remote servers</a></div></li><li><div class="tocitem-container"><a href="../../../documentation/scenes">Scenes</a></div></li><li><input class="collapse-toggle" id="menuitem-4-20" type="checkbox"/><div class="tocitem-container"><label class="tocexpander" for="menuitem-4-20"><i class="docs-chevron"></i></label><a href="../../../documentation/theming">Theming</a></div><ul><li><div class="tocitem-container"><a href="../../../documentation/theming/predefined_themes">Predefined themes</a></div></li></ul></li><li><div class="tocitem-container"><a href="../../../documentation/transparency">Basic transparency</a></div></li></ul></li></ul></div></div><div class="franklin-content"><h1 id="scatter"><a class="header-anchor" href="#scatter">scatter</a></h1><div class="docstring"><div class="doc-header" id="scatter"><a href="#scatter">scatter</a></div><div class="doc-content"><pre><code>scatter(positions)
+scatter(x, y)
+scatter(x, y, z)</code></pre><p>Plots a marker for each element in <code>(x, y, z)</code>, <code>(x, y)</code>, or <code>positions</code>.</p></div></div><h2 id="examples"><a class="header-anchor" href="#examples">Examples</a></h2><h3 id="using_x_and_y_vectors"><a class="header-anchor" href="#using_x_and_y_vectors">Using x and y vectors</a></h3><p>Scatters can be constructed by passing a list of x and y coordinates.</p><pre><code class="language-julia">using CairoMakie
+
+xs = range(0, 10, length = 30)
+ys = 0.5 .* sin.(xs)
+
+scatter(xs, ys)</code></pre><p></p><p><a id="basic_scatter"><img alt="" src="../../../assets/examples/plotting_functions/scatter/code/output/basic_scatter.svg"/></a></p><h3 id="using_points"><a class="header-anchor" href="#using_points">Using points</a></h3><p>It is also possible to pass coordinates as a vector of points, which is preferred if the coordinates should be updated later, to avoid different lengths of x and y.</p><p>Attributes like <code>color</code> and <code>markersize</code> can be set in scalar or vector form. If you pass a vector of numbers for <code>color</code>, the attribute <code>colorrange</code> which is by default automatically equal to the extrema of the color values, decides how colors are looked up in the <code>colormap</code>.</p><pre><code class="language-julia">using CairoMakie
+
+xs = range(0, 10, length = 30)
+ys = 0.5 .* sin.(xs)
+points = Point2f.(xs, ys)
+
+scatter(points, color = 1:30, markersize = range(5, 30, length = 30),
+    colormap = :thermal)</code></pre><p></p><p><a id="example_2506038004580833128"><img alt="" src="../../../assets/examples/plotting_functions/scatter/code/output/example_2506038004580833128.svg"/></a></p><h3 id="available_markers"><a class="header-anchor" href="#available_markers">Available markers</a></h3><p>As markers, you can use almost any unicode character. Currently, such glyphs are picked from the <code>Dejavu Sans</code> font, because it offers a wide range of symbols. There is also a number of markers that can be referred to as a symbol, so that it's not necessary to find out the respective unicode character.</p><p>The backslash character examples have to be tab-completed in the REPL or editor so they are converted into unicode.</p><div class="admonition note"><p class="admonition-title">Note</p><p>The scatter markers have the same sizes that the glyphs in Dejavu Sans have. This means that they are not matched in size or area. Currently, Makie does not have the option to use area matched markers, and sometimes manual adjustment might be necessary to achieve a good visual result.</p></div><pre><code class="language-julia">using CairoMakie
+
+markers_labels = [
+    (:rect, ":rect"),
+    (:star5, ":star5"),
+    (:diamond, ":diamond"),
+    (:hexagon, ":hexagon"),
+    (:cross, ":cross"),
+    (:xcross, ":xcross"),
+    (:utriangle, ":utriangle"),
+    (:dtriangle, ":dtriangle"),
+    (:ltriangle, ":ltriangle"),
+    (:rtriangle, ":rtriangle"),
+    (:pentagon, ":pentagon"),
+    (:star4, ":star4"),
+    (:star8, ":star8"),
+    (:vline, ":vline"),
+    (:hline, ":hline"),
+    (:x, ":x"),
+    (:+, ":+"),
+    (:circle, ":circle"),
+    ('a', "'a'"),
+    ('B', "'B'"),
+    ('↑', "'\\uparrow'"),
+    ('😄', "'\\:smile:'"),
+    ('✈', "'\\:airplane:'"),
+]
+
+f = Figure()
+ax = Axis(f[1, 1], yreversed = true,
+    xautolimitmargin = (0.15, 0.15),
+    yautolimitmargin = (0.15, 0.15)
+)
+
+for (i, (marker, label)) in enumerate(markers_labels)
+    p = Point2f(fldmod1(i, 6)...)
+
+    scatter!(p, marker = marker, markersize = 20, color = :black)
+    text!(label, position = p, color = :gray70, offset = (0, 20),
+        align = (:center, :bottom))
+end
+
+f</code></pre><p></p><p><a id="example_1702166626916382478"><img alt="" src="../../../assets/examples/plotting_functions/scatter/code/output/example_1702166626916382478.svg"/></a></p><h3 id="bezier_path_markers"><a class="header-anchor" href="#bezier_path_markers">Bezier path markers</a></h3><p>You can also use bezier paths as markers. A bezier path marker should fit into the square from -1 to 1 in x and y to be comparable in size to other default markers and to be correctly rendered by GLMakie, because here the path has to be rendered to a bitmap first . In CairoMakie, paths are drawn as they are without an intermediate bitmap, so every size is possible.</p><p>A <code>BezierPath</code> contains a vector of path commands, these are <code>MoveTo</code>, <code>LineTo</code>, <code>CurveTo</code>, <code>EllipticalArc</code> and <code>ClosePath</code>.</p><p>Here is an example with a simple arrow that is centered on its tip, built from path elements.</p><pre><code class="language-julia">using CairoMakie
+
+arrow_path = BezierPath([
+    MoveTo(Point(0, 0)),
+    LineTo(Point(0.3, -0.3)),
+    LineTo(Point(0.15, -0.3)),
+    LineTo(Point(0.3, -1)),
+    LineTo(Point(0, -0.9)),
+    LineTo(Point(-0.3, -1)),
+    LineTo(Point(-0.15, -0.3)),
+    LineTo(Point(-0.3, -0.3)),
+    ClosePath()
+])
+
+scatter(1:5,
+    marker = arrow_path,
+    markersize = range(20, 50, length = 5),
+    rotations = range(0, 2pi, length = 6)[1:end-1],
+)</code></pre><p></p><p><a id="example_18436868169262477412"><img alt="" src="../../../assets/examples/plotting_functions/scatter/code/output/example_18436868169262477412.svg"/></a></p><p>Paths can have holes, just start a new subpath with <code>MoveTo</code> that is inside the main path. The holes have to be in clockwise direction if the outside is in anti-clockwise direction, or vice versa. For example, a circle with a square cut out can be made by one <code>EllipticalArc</code> that goes anticlockwise, and a square inside that goes clockwise:</p><pre><code class="language-julia">using CairoMakie
+
+circle_with_hole = BezierPath([
+    MoveTo(Point(1, 0)),
+    EllipticalArc(Point(0, 0), 1, 1, 0, 0, 2pi),
+    MoveTo(Point(0.5, 0.5)),
+    LineTo(Point(0.5, -0.5)),
+    LineTo(Point(-0.5, -0.5)),
+    LineTo(Point(-0.5, 0.5)),
+    ClosePath(),
+])
+
+scatter(1:5,
+    marker = circle_with_hole,
+    markersize = 30,
+)</code></pre><p></p><p><a id="example_11624845946150668719"><img alt="" src="../../../assets/examples/plotting_functions/scatter/code/output/example_11624845946150668719.svg"/></a></p><p>You can also create a bezier path from an <a href="https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/d#path_commands">svg path specification string</a>. You can automatically resize the path to the -1 to 1 square and flip the y-axis with the keywords <code>fit</code> and <code>yflip</code>. Here's an example with an svg string that contains the bat symbol:</p><pre><code class="language-julia">using CairoMakie
+
+batsymbol_string = "M96.84 141.998c-4.947-23.457-20.359-32.211-25.862-13.887-11.822-22.963-37.961-16.135-22.041 6.289-3.005-1.295-5.872-2.682-8.538-4.191-8.646-5.318-15.259-11.314-19.774-17.586-3.237-5.07-4.994-10.541-4.994-16.229 0-19.774 21.115-36.758 50.861-43.694.446-.078.909-.154 1.372-.231-22.657 30.039 9.386 50.985 15.258 24.645l2.528-24.367 5.086 6.52H103.205l5.07-6.52 2.543 24.367c5.842 26.278 37.746 5.502 15.414-24.429 29.777 6.951 50.891 23.936 50.891 43.709 0 15.136-12.406 28.651-31.609 37.267 14.842-21.822-10.867-28.266-22.549-5.549-5.502-18.325-21.147-9.341-26.125 13.886z"
+
+batsymbol = BezierPath(batsymbol_string, fit = true, flipy = true)
+
+scatter(1:10, marker = batsymbol, markersize = 50, color = :black)</code></pre><p></p><p><a id="example_2240499024690781195"><img alt="" src="../../../assets/examples/plotting_functions/scatter/code/output/example_2240499024690781195.svg"/></a></p><h3 id="marker_rotation"><a class="header-anchor" href="#marker_rotation">Marker rotation</a></h3><p>Markers can be rotated using the <code>rotations</code> attribute, which also allows to pass a vector.</p><pre><code class="language-julia">using CairoMakie
+
+points = [Point2f(x, y) for y in 1:10 for x in 1:10]
+rotations = range(0, 2pi, length = length(points))
+
+scatter(points, rotations = rotations, markersize = 20, marker = '↑')</code></pre><p></p><p><a id="example_2723575103336814095"><img alt="" src="../../../assets/examples/plotting_functions/scatter/code/output/example_2723575103336814095.svg"/></a></p><h3 id="vec_markersize"><a class="header-anchor" href="#vec_markersize">Vec markersize</a></h3><p>You can scale x and y dimension of markers separately by passing a <code>Vec</code>.</p><pre><code class="language-julia">using CairoMakie
+
+f = Figure()
+ax = Axis(f[1, 1])
+
+scales = range(0.5, 1.5, length = 10)
+
+for (i, sx) in enumerate(scales)
+    for (j, sy) in enumerate(scales)
+        scatter!(ax, Point2f(i, j),
+            marker = '✈',
+            markersize = 30 .* Vec2f(sx, sy),
+            color = :black)
+    end
+end
+
+f</code></pre><p></p><p><a id="example_8749733684815104077"><img alt="" src="../../../assets/examples/plotting_functions/scatter/code/output/example_8749733684815104077.svg"/></a></p><h3 id="marker_space"><a class="header-anchor" href="#marker_space">Marker space</a></h3><p>By default, marker sizes do not scale relative to the data limits. You can enable this by setting <code>markerspace = SceneSpace()</code>.</p><pre><code class="language-julia">using CairoMakie
+
+f = Figure()
+ax = Axis(f[1, 1])
+limits!(ax, -10, 10, -10, 10)
+
+scatter!(ax, Point2f(0, 0), markersize = 20, markerspace = SceneSpace(),
+    marker = '✈', label = "markerspace = SceneSpace()")
+scatter!(ax, Point2f(0, 0), markersize = 20, markerspace = Pixel,
+    marker = '✈', label = "markerspace = Pixel")
+
+axislegend(ax)
+
+f</code></pre><p></p><p><a id="example_6372282169418502138"><img alt="" src="../../../assets/examples/plotting_functions/scatter/code/output/example_6372282169418502138.svg"/></a></p><h3 id="airport_locations_example"><a class="header-anchor" href="#airport_locations_example">Airport locations example</a></h3><pre><code class="language-julia">using CairoMakie
+using DelimitedFiles
+
+a = readdlm(assetpath("airportlocations.csv"))
+
+scatter(a[1:50:end, :], marker = '✈',
+    markersize = 20, color = :black)</code></pre><p></p><p><a id="example_6362940715127020779"><img alt="" src="../../../assets/examples/plotting_functions/scatter/code/output/example_6362940715127020779.png"/></a></p><div class="page-foot"><div class="copyright">
+    © Makie.jl. Last modified: December 15, 2021. Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
+      <p>These docs were autogenerated using Makie: v0.15.3, GLMakie: v0.4.7, CairoMakie: v0.6.6, WGLMakie: v0.4.7</p></div></div></div></div><div class="page__footer"><footer><div class="page__footer-follow"><ul class="social-icons"><li><a href="https://twitter.com/MakiePlots" rel="nofollow noopener noreferrer"><i aria-hidden="true" class="fab fa-fw fa-twitter-square"></i> Twitter</a></li><li><a href="https://github.com/JuliaPlots/Makie.jl" rel="nofollow noopener noreferrer"><i aria-hidden="true" class="fab fa-fw fa-github"></i> GitHub</a></li></ul></div><div class="page__footer-copyright">© Makie.jl. Powered by <a href="https://github.com/tlienart/Franklin.jl">Franklin</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div></footer></div></div><script src="../../../libs/navbar.js"></script><script src="../../../libs/lunr/lunr.min.js"></script><script src="../../../libs/lunr/lunr_index.js"></script><script src="../../../libs/lunr/lunrclient.min.js"></script><script crossorigin="anonymous" defer="" integrity="sha384-DJ25uNYET2XCl5ZF++U8eNxPWqcKohUUBUpKGlNLMchM7q4Wjg2CUpjHLaL8yYPH" src="https://use.fontawesome.com/releases/v5.8.2/js/all.js"></script><script src="../../../libs/highlight/highlight.pack.js"></script><script>hljs.initHighlightingOnLoad();hljs.configure({tabReplace: '    '});</script></body></HTML>

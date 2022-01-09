@@ -1,0 +1,307 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.16.4 by Michael Rose
+  Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+   <link rel="stylesheet" href="/v0.15.1/libs/highlight/github.min.css">
+   
+  <link rel="stylesheet" href="/v0.15.1/css/franklin.css">
+<link rel="stylesheet" href="/v0.15.1/css/minimal-mistakes.css">
+<link rel="stylesheet" href="/v0.15.1/css/makie.css">
+<link rel="icon" href="/v0.15.1/assets/icon_transparent.png">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/fontawesome.min.css" rel="stylesheet" type="text/css"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/solid.min.css" rel="stylesheet" type="text/css"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/brands.min.css" rel="stylesheet" type="text/css"/>
+<!--[if IE ]>
+<style>
+  /* old IE unsupported flexbox fixes */
+  .greedy-nav .site-title {
+    padding-right: 3em;
+  }
+  .greedy-nav button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+  }
+</style>
+<![endif]-->
+
+   <title>Plot Method Signatures</title>  
+  <!-- end custom head snippets -->
+</head>
+<body class="layout--single">
+  <div class="masthead">
+    <div class="masthead__inner-wrap">
+        <div class="masthead__menu">
+            <nav id="site-nav" class="greedy-nav">
+                <a class="title-icon" href="/v0.15.1/"><img src="/v0.15.1/assets/makie_logo_transparent.svg"/></a>
+                <!-- github link -->
+                
+
+                <ul class="visible-links">
+                    <li class="masthead__menu-item">
+                        <a href="https://github.com/JuliaPlots/Makie.jl"><img src="/v0.15.1/assets/GitHub-Mark-64px.png" class="masthead-icon" /></a>
+                    </li>
+                    <li class="masthead__menu-item"><a href="/v0.15.1/examples/">Examples</a></li>
+                    <li class="masthead__menu-item"><a href="/v0.15.1/tutorials/">Tutorials</a></li>
+                    <li class="masthead__menu-item"><a href="/v0.15.1/documentation/">Documentation</a></li>
+                </ul>
+                <button class="greedy-nav__toggle" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+                <ul class="hidden-links hidden"></ul>
+            </nav>
+        </div>
+    </div>
+</div>
+  <div class="initial-content">
+    <div id="main" role="main">
+      <div id="overlay"></div>
+      <div id="navbar-container">
+        <div id="navbar">
+          <form id="lunrSearchForm" name="lunrSearchForm" action="/v0.15.1/search/index.html">
+            <input class="search-input" name="q" placeholder="Search docs" type="text">
+          </form>
+          <h1>Navigation</h1>
+          <ul><li><div class="tocitem-container"><a  href="/v0.15.1/">Home</a></div></li>
+<li><input class="collapse-toggle" id="menuitem-2" type="checkbox" ><div class="tocitem-container"><label class="tocexpander" for="menuitem-2"><i class="docs-chevron"></i></label><a  href="/v0.15.1/examples">Examples</a></div><ul><li><input class="collapse-toggle" id="menuitem-2-1" type="checkbox" ><div class="tocitem-container"><label class="tocexpander" for="menuitem-2-1"><i class="docs-chevron"></i></label><a  href="/v0.15.1/examples/layoutables">Layoutables &amp; Widgets</a></div><ul><li><div class="tocitem-container"><a  href="/v0.15.1/examples/layoutables/axis">Axis</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/layoutables/axis3">Axis3</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/layoutables/box">Box</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/layoutables/button">Button</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/layoutables/colorbar">Colorbar</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/layoutables/gridlayout">GridLayout</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/layoutables/intervalslider">IntervalSlider</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/layoutables/label">Label</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/layoutables/legend">Legend</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/layoutables/lscene">LScene</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/layoutables/menu">Menu</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/layoutables/slider">Slider</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/layoutables/toggle">Toggle</a></div></li>
+</ul></li>
+<li><input class="collapse-toggle" id="menuitem-2-2" type="checkbox" ><div class="tocitem-container"><label class="tocexpander" for="menuitem-2-2"><i class="docs-chevron"></i></label><a  href="/v0.15.1/examples/plotting_functions">Plotting functions</a></div><ul><li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/arrows">arrows</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/band">band</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/barplot">barplot</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/boxplot">boxplot</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/contour">contour</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/contourf">contourf</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/crossbar">crossbar</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/density">density</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/errorbars">errorbars</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/heatmap">heatmap</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/hist">hist</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/image">image</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/lines">lines</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/linesegments">linesegments</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/mesh">mesh</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/meshscatter">meshscatter</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/poly">poly</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/rangebars">rangebars</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/scatter">scatter</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/scatterlines">scatterlines</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/series">series</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/stairs">stairs</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/stem">stem</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/streamplot">streamplot</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/surface">surface</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/text">text</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/violin">violin</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/volume">volume</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/volumeslices">volumeslices</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/wireframe">wireframe</a></div></li>
+</ul></li>
+</ul></li>
+<li><input class="collapse-toggle" id="menuitem-3" type="checkbox" ><div class="tocitem-container"><label class="tocexpander" for="menuitem-3"><i class="docs-chevron"></i></label><a  href="/v0.15.1/tutorials">Tutorials</a></div><ul><li><div class="tocitem-container"><a  href="/v0.15.1/tutorials/basic-tutorial">Basic Tutorial</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/tutorials/layout-tutorial">Layout Tutorial</a></div></li>
+</ul></li>
+<li><input class="collapse-toggle" id="menuitem-4" type="checkbox" checked><div class="tocitem-container"><label class="tocexpander" for="menuitem-4"><i class="docs-chevron"></i></label><a  href="/v0.15.1/documentation">Documentation</a></div><ul><li><div class="tocitem-container"><a  href="/v0.15.1/documentation/animation">Animations</a></div></li>
+<li><input class="collapse-toggle" id="menuitem-4-2" type="checkbox" ><div class="tocitem-container"><label class="tocexpander" for="menuitem-4-2"><i class="docs-chevron"></i></label><a  href="/v0.15.1/documentation/backends_and_output">Backends &amp; Output</a></div><ul><li><div class="tocitem-container"><a  href="/v0.15.1/documentation/backends_and_output/figure_size">Exporting a Figure with physical dimensions</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/documentation/backends_and_output/wglmakie">JSServe and WGLMakie</a></div></li>
+</ul></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/documentation/cameras">Cameras</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/documentation/colors">Colors</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/documentation/events">Events</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/documentation/faq">Frequently Asked Questions</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/documentation/figure">Figures</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/documentation/inspector">Inspecting Data</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/documentation/latex">LaTeX</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/documentation/layoutables">Layoutables</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/documentation/layouting">How layouts work</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/documentation/lighting">Lighting</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/documentation/nodes">Observables &amp; Interaction</a></div></li>
+<li><div class="tocitem-container"><a class = active href="/v0.15.1/documentation/plot_method_signatures">Plot Method Signatures</a></div><ul class="page-content">
+<li><a href="#plot_method_signatures">Plot Method Signatures</a></li>
+<li><ul>
+<li><a href="#non-mutating">Non-Mutating</a></li>
+<li><ul>
+<li><a href="#special_keyword_arguments">Special Keyword Arguments</a></li>
+</ul></li>
+<li><a href="#mutating">Mutating</a></li>
+<li><a href="#gridpositions">GridPositions</a></li>
+<li><ul>
+<li><a href="#with_non-mutating_plotting_functions">With Non-Mutating Plotting Functions</a></li>
+<li><a href="#with_mutating_plotting_functions">With Mutating Plotting Functions</a></li>
+</ul>
+</ul>
+</ul>
+</li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/documentation/recipes">Plot Recipes</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/documentation/remote">Remote servers</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/documentation/scenes">Scenes</a></div></li>
+<li><input class="collapse-toggle" id="menuitem-4-18" type="checkbox" ><div class="tocitem-container"><label class="tocexpander" for="menuitem-4-18"><i class="docs-chevron"></i></label><a  href="/v0.15.1/documentation/theming">Theming</a></div><ul><li><div class="tocitem-container"><a  href="/v0.15.1/documentation/theming/predefined_themes">Predefined themes</a></div></li>
+</ul></li>
+</ul></li>
+</ul>
+        </div>
+      </div>
+
+<!-- Content appended here -->
+<div class="franklin-content"><h1 id="plot_method_signatures"><a href="#plot_method_signatures" class="header-anchor">Plot Method Signatures</a></h1>
+<p>Makie offers a simple but powerful set of methods for each plotting function, which allow you to easily create and manipulate the most common aspects of a figure.</p>
+<p>Each plot object like <code>Scatter</code> has two plotting functions associated to it, a non-mutating version &#40;<code>scatter</code>&#41; and a mutating version &#40;<code>scatter&#33;</code>&#41;. These functions have different methods that behave slightly differently depending on the first argument.</p>
+<p>Here&#39;s a short list before we show each version in more detail. We use <code>Scatter</code> as our example, but the principles apply to every plot type.</p>
+<h2 id="non-mutating"><a href="#non-mutating" class="header-anchor">Non-Mutating</a></h2>
+<p>The non-mutating methods create and return something in addition to the plot object, either a figure with an axis in default position, or an axis at a given GridPosition or GridSubposition.</p>
+<pre><code class="language-julia">scatter&#40;args...; kwargs...&#41; -&gt; ::FigureAxisPlot
+scatter&#40;gridposition, args...; kwargs...&#41; -&gt; ::AxisPlot</code></pre>
+<p><code>FigureAxisPlot</code> is just a collection of the new figure, axis and plot. For convenience it has the same display overload as <code>Figure</code>, so that <code>scatter&#40;args...&#41;</code> displays a plot without further work. It can be destructured at assignment like <code>fig, ax, plotobj &#61; scatter&#40;args...&#41;</code>.</p>
+<p><code>AxisPlot</code> is a collection of a new axis and plot. It has no special display overload but can also be destructured like <code>ax, plotobj &#61; scatter&#40;gridposition, args...&#41;</code>.</p>
+<h3 id="special_keyword_arguments"><a href="#special_keyword_arguments" class="header-anchor">Special Keyword Arguments</a></h3>
+<p>Methods that create an <code>AxisPlot</code> accept a special-cased <code>axis</code> keyword, where you can pass a dict-like object containing keyword arguments that should be passed to the created axis. Methods that create a <code>FigureAxisPlot</code> additionally accept a special cased <code>figure</code> keyword, where you can pass a dict-like object containing keyword arguments that should be passed to the created figure.</p>
+<p>All other keyword arguments are passed as attributes to the plotting function.</p>
+<p>Here are two examples with the scatter function &#40;take care to create single-argument NamedTuples correctly, for example with a trailing comma&#41;:</p>
+<pre><code class="language-julia">using GLMakie
+# FigureAxisPlot takes figure and axis keywords
+fig, ax, p &#61; lines&#40;cumsum&#40;randn&#40;1000&#41;&#41;,
+    figure &#61; &#40;resolution &#61; &#40;1000, 600&#41;,&#41;,
+    axis &#61; &#40;ylabel &#61; &quot;Temperature&quot;,&#41;,
+    color &#61; :red&#41;
+
+# AxisPlot takes axis keyword
+lines&#40;fig&#91;2, 1&#93;, cumsum&#40;randn&#40;1000&#41;&#41;,
+    axis &#61; &#40;xlabel &#61; &quot;Time &#40;sec&#41;&quot;, ylabel &#61; &quot;Stock Value&quot;&#41;,
+    color &#61; :blue&#41;
+
+fig</code></pre></p>
+<p>
+  <a id="example_15985286866026406005">
+   <img src="/v0.15.1/assets/documentation/plot_method_signatures/code/output/example_15985286866026406005.png" alt=""> 
+  </a>
+  
+<h2 id="mutating"><a href="#mutating" class="header-anchor">Mutating</a></h2>
+<p>The mutating methods always just return a plot object. If no figure is passed, the <code>current_figure&#40;&#41;</code> is used, if no axis or scene is given, the <code>current_axis&#40;&#41;</code> is used.</p>
+<pre><code class="language-julia">scatter&#33;&#40;args...; kwargs...&#41; -&gt; ::Scatter
+scatter&#33;&#40;figure, args...; kwargs...&#41; -&gt; ::Scatter
+scatter&#33;&#40;gridposition, args...; kwargs...&#41; -&gt; ::Scatter
+scatter&#33;&#40;axis, args...; kwargs...&#41; -&gt; ::Scatter
+scatter&#33;&#40;scene, args...; kwargs...&#41; -&gt; ::Scatter</code></pre>
+<h2 id="gridpositions"><a href="#gridpositions" class="header-anchor">GridPositions</a></h2>
+<p>In the background, each <code>Figure</code> has a <code>GridLayout</code> from <a href="https://github.com/jkrumbiegel/GridLayoutBase.jl">GridLayoutBase.jl</a>, which takes care of layouting plot elements nicely. For convenience, you can index into a figure multiple times to refer to nested grid positions, which makes it easy to quickly assemble complex layouts.</p>
+<p>For example, <code>fig&#91;1, 2&#93;</code> creates a <code>GridPosition</code> referring to row 1 and column 2, while <code>fig&#91;1, 2&#93;&#91;3, 1:2&#93;</code> creates a <code>GridSubposition</code> that refers to row 3 and columns 1 to 2 in a nested GridLayout which is located at row 1 and column 2. The link to the Figure is in the parent field of the top layout.</p>
+<h3 id="with_non-mutating_plotting_functions"><a href="#with_non-mutating_plotting_functions" class="header-anchor">With Non-Mutating Plotting Functions</a></h3>
+<p>Using the non-mutating plotting functions with GridPositions creates new axes at the given locations. If a GridLayout along the nesting levels doesn&#39;t exist, yet, it is created automatically for convenience.</p>
+<pre><code class="language-julia">using GLMakie
+fig &#61; Figure&#40;&#41;
+
+# first row, first column
+scatter&#40;fig&#91;1, 1&#93;, 1.0..10, sin&#41;
+
+# first row, second column
+lines&#40;fig&#91;1, 2&#93;, 1.0..10, sin&#41;
+
+# first row, third column, then nested first row, first column
+lines&#40;fig&#91;1, 3&#93;&#91;1, 1&#93;, cumsum&#40;randn&#40;1000&#41;&#41;, color &#61; :blue&#41;
+
+# first row, third column, then nested second row, first column
+lines&#40;fig&#91;1, 3&#93;&#91;2, 1&#93;, cumsum&#40;randn&#40;1000&#41;&#41;, color &#61; :red&#41;
+
+# second row, first to third column
+ax, hm &#61; heatmap&#40;fig&#91;2, 1:3&#93;, randn&#40;30, 10&#41;&#41;
+
+# across all rows, new column after the last one
+fig&#91;:, end&#43;1&#93; &#61; Colorbar&#40;fig, hm&#41;
+
+fig</code></pre></p>
+<p>
+  <a id="example_15693051328882652607">
+   <img src="/v0.15.1/assets/documentation/plot_method_signatures/code/output/example_15693051328882652607.png" alt=""> 
+  </a>
+  
+<h3 id="with_mutating_plotting_functions"><a href="#with_mutating_plotting_functions" class="header-anchor">With Mutating Plotting Functions</a></h3>
+<p>Mutating plotting functions work a bit differently with GridPositions. First, it is checked if one - and only one - axis exists already at the given position. If that&#39;s the case, that axis is plotted into. If it&#39;s not the case, the function will error.</p>
+<pre><code class="language-julia">using GLMakie
+fig &#61; Figure&#40;&#41;
+
+lines&#40;fig&#91;1, 1&#93;, 1.0..10, sin, color &#61; :blue&#41;
+# this works because the previous command created an axis at fig&#91;1, 1&#93;
+lines&#33;&#40;fig&#91;1, 1&#93;, 1.0..10, cos, color &#61; :red&#41;
+
+# the following line wouldn&#39;t work yet because no axis exists at fig&#91;1, 2&#93;
+# lines&#33;&#40;fig&#91;1, 2&#93;, 1.0..10, sin, color &#61; :green&#41;
+
+fig&#91;1, 2&#93; &#61; Axis&#40;fig&#41;
+# now it works
+lines&#33;&#40;fig&#91;1, 2&#93;, 1.0..10, sin, color &#61; :green&#41;
+
+# also works with nested grids
+fig&#91;2, 1:2&#93;&#91;1, 3&#93; &#61; Axis&#40;fig&#41;
+lines&#33;&#40;fig&#91;2, 1:2&#93;&#91;1, 3&#93;, 1.0..10, cos, color &#61; :orange&#41;
+
+# but often it&#39;s more convenient to save an axis to reuse it
+ax, _ &#61; lines&#40;fig&#91;2, 1:2&#93;&#91;1, 1:2&#93;, 1.0..10, sin, color &#61; :black&#41;
+lines&#33;&#40;ax, 1.0..10, cos, color &#61; :yellow&#41;
+
+fig</code></pre></p>
+<p>
+  <a id="example_13388949910912180038">
+   <img src="/v0.15.1/assets/documentation/plot_method_signatures/code/output/example_13388949910912180038.png" alt=""> 
+  </a>
+  
+<div class="page-foot">
+  <div class="copyright">
+    &copy; Makie.jl. Last modified: August 21, 2021. Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
+      <p>These docs were autogenerated using Makie: v0.15.1, GLMakie: v0.4.5, CairoMakie: v0.6.4, WGLMakie: v0.4.5</p>
+  </div>
+</div>
+</div><!-- CONTENT ENDS HERE -->
+
+      </div> <!-- closure of main -->
+    </div>   <!-- closure of class initial--content -->
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+        <!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+          <ul class="social-icons">
+            <li><a href="https://twitter.com/MakiePlots" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+            <li><a href="https://github.com/JuliaPlots/Makie.jl" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+          </ul>
+        </div>
+        <div class="page__footer-copyright">&copy; Makie.jl. Powered by <a href="https://github.com/tlienart/Franklin.jl">Franklin</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+      </footer>
+    </div>
+
+    <script src="/v0.15.1/libs/navbar.js"></script>
+    <script src="/v0.15.1/libs/lunr/lunr.min.js"></script>
+    <script src="/v0.15.1/libs/lunr/lunr_index.js"></script>
+    <script src="/v0.15.1/libs/lunr/lunrclient.min.js"></script>
+    <!-- <script src="/v0.15.1/libs/minimal-mistakes/main.min.js"></script> -->
+    <script defer src="https://use.fontawesome.com/releases/v5.8.2/js/all.js" integrity="sha384-DJ25uNYET2XCl5ZF++U8eNxPWqcKohUUBUpKGlNLMchM7q4Wjg2CUpjHLaL8yYPH" crossorigin="anonymous"></script>
+
+    
+    
+        <script src="/v0.15.1/libs/highlight/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();hljs.configure({tabReplace: '    '});</script>
+
+    
+  </body>
+</html>

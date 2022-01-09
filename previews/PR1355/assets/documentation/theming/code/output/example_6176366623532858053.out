@@ -1,0 +1,3 @@
+MethodError: no method matching initialize_layoutable!(::Makie.MakieLayout.Axis; palette=(patchcolor = [:red, :green, :blue, :yellow, :orange, :pink],))
+Closest candidates are:
+  initialize_layoutable!(::Makie.MakieLayout.Axis) at /home/runner/work/Makie.jl/Makie.jl/src/makielayout/layoutables/axis.jl:8 got unsupported keyword argument "palette"

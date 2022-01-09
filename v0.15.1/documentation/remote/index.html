@@ -1,0 +1,234 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.16.4 by Michael Rose
+  Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+   <link rel="stylesheet" href="/v0.15.1/libs/highlight/github.min.css">
+   
+  <link rel="stylesheet" href="/v0.15.1/css/franklin.css">
+<link rel="stylesheet" href="/v0.15.1/css/minimal-mistakes.css">
+<link rel="stylesheet" href="/v0.15.1/css/makie.css">
+<link rel="icon" href="/v0.15.1/assets/icon_transparent.png">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/fontawesome.min.css" rel="stylesheet" type="text/css"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/solid.min.css" rel="stylesheet" type="text/css"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/brands.min.css" rel="stylesheet" type="text/css"/>
+<!--[if IE ]>
+<style>
+  /* old IE unsupported flexbox fixes */
+  .greedy-nav .site-title {
+    padding-right: 3em;
+  }
+  .greedy-nav button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+  }
+</style>
+<![endif]-->
+
+   <title>Remote servers</title>  
+  <!-- end custom head snippets -->
+</head>
+<body class="layout--single">
+  <div class="masthead">
+    <div class="masthead__inner-wrap">
+        <div class="masthead__menu">
+            <nav id="site-nav" class="greedy-nav">
+                <a class="title-icon" href="/v0.15.1/"><img src="/v0.15.1/assets/makie_logo_transparent.svg"/></a>
+                <!-- github link -->
+                
+
+                <ul class="visible-links">
+                    <li class="masthead__menu-item">
+                        <a href="https://github.com/JuliaPlots/Makie.jl"><img src="/v0.15.1/assets/GitHub-Mark-64px.png" class="masthead-icon" /></a>
+                    </li>
+                    <li class="masthead__menu-item"><a href="/v0.15.1/examples/">Examples</a></li>
+                    <li class="masthead__menu-item"><a href="/v0.15.1/tutorials/">Tutorials</a></li>
+                    <li class="masthead__menu-item"><a href="/v0.15.1/documentation/">Documentation</a></li>
+                </ul>
+                <button class="greedy-nav__toggle" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+                <ul class="hidden-links hidden"></ul>
+            </nav>
+        </div>
+    </div>
+</div>
+  <div class="initial-content">
+    <div id="main" role="main">
+      <div id="overlay"></div>
+      <div id="navbar-container">
+        <div id="navbar">
+          <form id="lunrSearchForm" name="lunrSearchForm" action="/v0.15.1/search/index.html">
+            <input class="search-input" name="q" placeholder="Search docs" type="text">
+          </form>
+          <h1>Navigation</h1>
+          <ul><li><div class="tocitem-container"><a  href="/v0.15.1/">Home</a></div></li>
+<li><input class="collapse-toggle" id="menuitem-2" type="checkbox" ><div class="tocitem-container"><label class="tocexpander" for="menuitem-2"><i class="docs-chevron"></i></label><a  href="/v0.15.1/examples">Examples</a></div><ul><li><input class="collapse-toggle" id="menuitem-2-1" type="checkbox" ><div class="tocitem-container"><label class="tocexpander" for="menuitem-2-1"><i class="docs-chevron"></i></label><a  href="/v0.15.1/examples/layoutables">Layoutables &amp; Widgets</a></div><ul><li><div class="tocitem-container"><a  href="/v0.15.1/examples/layoutables/axis">Axis</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/layoutables/axis3">Axis3</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/layoutables/box">Box</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/layoutables/button">Button</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/layoutables/colorbar">Colorbar</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/layoutables/gridlayout">GridLayout</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/layoutables/intervalslider">IntervalSlider</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/layoutables/label">Label</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/layoutables/legend">Legend</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/layoutables/lscene">LScene</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/layoutables/menu">Menu</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/layoutables/slider">Slider</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/layoutables/toggle">Toggle</a></div></li>
+</ul></li>
+<li><input class="collapse-toggle" id="menuitem-2-2" type="checkbox" ><div class="tocitem-container"><label class="tocexpander" for="menuitem-2-2"><i class="docs-chevron"></i></label><a  href="/v0.15.1/examples/plotting_functions">Plotting functions</a></div><ul><li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/arrows">arrows</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/band">band</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/barplot">barplot</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/boxplot">boxplot</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/contour">contour</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/contourf">contourf</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/crossbar">crossbar</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/density">density</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/errorbars">errorbars</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/heatmap">heatmap</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/hist">hist</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/image">image</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/lines">lines</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/linesegments">linesegments</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/mesh">mesh</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/meshscatter">meshscatter</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/poly">poly</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/rangebars">rangebars</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/scatter">scatter</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/scatterlines">scatterlines</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/series">series</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/stairs">stairs</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/stem">stem</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/streamplot">streamplot</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/surface">surface</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/text">text</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/violin">violin</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/volume">volume</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/volumeslices">volumeslices</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/wireframe">wireframe</a></div></li>
+</ul></li>
+</ul></li>
+<li><input class="collapse-toggle" id="menuitem-3" type="checkbox" ><div class="tocitem-container"><label class="tocexpander" for="menuitem-3"><i class="docs-chevron"></i></label><a  href="/v0.15.1/tutorials">Tutorials</a></div><ul><li><div class="tocitem-container"><a  href="/v0.15.1/tutorials/basic-tutorial">Basic Tutorial</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/tutorials/layout-tutorial">Layout Tutorial</a></div></li>
+</ul></li>
+<li><input class="collapse-toggle" id="menuitem-4" type="checkbox" checked><div class="tocitem-container"><label class="tocexpander" for="menuitem-4"><i class="docs-chevron"></i></label><a  href="/v0.15.1/documentation">Documentation</a></div><ul><li><div class="tocitem-container"><a  href="/v0.15.1/documentation/animation">Animations</a></div></li>
+<li><input class="collapse-toggle" id="menuitem-4-2" type="checkbox" ><div class="tocitem-container"><label class="tocexpander" for="menuitem-4-2"><i class="docs-chevron"></i></label><a  href="/v0.15.1/documentation/backends_and_output">Backends &amp; Output</a></div><ul><li><div class="tocitem-container"><a  href="/v0.15.1/documentation/backends_and_output/figure_size">Exporting a Figure with physical dimensions</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/documentation/backends_and_output/wglmakie">JSServe and WGLMakie</a></div></li>
+</ul></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/documentation/cameras">Cameras</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/documentation/colors">Colors</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/documentation/events">Events</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/documentation/faq">Frequently Asked Questions</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/documentation/figure">Figures</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/documentation/inspector">Inspecting Data</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/documentation/latex">LaTeX</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/documentation/layoutables">Layoutables</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/documentation/layouting">How layouts work</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/documentation/lighting">Lighting</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/documentation/nodes">Observables &amp; Interaction</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/documentation/plot_method_signatures">Plot Method Signatures</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/documentation/recipes">Plot Recipes</a></div></li>
+<li><div class="tocitem-container"><a class = active href="/v0.15.1/documentation/remote">Remote servers</a></div><ul class="page-content">
+<li><a href="#remote_servers">Remote servers</a></li>
+<li><ul>
+<li><a href="#glmakie">GLMakie</a></li>
+<li><ul>
+<li><a href="#glmakie_with_x11_forwarding">GLMakie with X11 forwarding</a></li>
+<li><a href="#glmakie_with_virtualgl">GLMakie with VirtualGL</a></li>
+<li><a href="#glmakie_in_ci">GLMakie in CI</a></li>
+</ul></li>
+<li><a href="#wglmakie">WGLMakie</a></li>
+<li><a href="#cairomakie">CairoMakie</a></li>
+</ul>
+</ul>
+</li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/documentation/scenes">Scenes</a></div></li>
+<li><input class="collapse-toggle" id="menuitem-4-18" type="checkbox" ><div class="tocitem-container"><label class="tocexpander" for="menuitem-4-18"><i class="docs-chevron"></i></label><a  href="/v0.15.1/documentation/theming">Theming</a></div><ul><li><div class="tocitem-container"><a  href="/v0.15.1/documentation/theming/predefined_themes">Predefined themes</a></div></li>
+</ul></li>
+</ul></li>
+</ul>
+        </div>
+      </div>
+
+<!-- Content appended here -->
+<div class="franklin-content"><h1 id="remote_servers"><a href="#remote_servers" class="header-anchor">Remote servers</a></h1>
+<p>Makie can be used remotely and it supports working headless systems &#40;such as CI servers&#41;.</p>
+<h2 id="glmakie"><a href="#glmakie" class="header-anchor">GLMakie</a></h2>
+<p>For <a href="https://github.com/JuliaPlots/GLMakie.jl">GLMakie</a> you can either use X11 forwarding to render on the local host or use <a href="https://www.virtualgl.org/">VirtualGL</a> to render on the remote server.</p>
+<h3 id="glmakie_with_x11_forwarding"><a href="#glmakie_with_x11_forwarding" class="header-anchor">GLMakie with X11 forwarding</a></h3>
+<p>In this scenario you need an X server on the remote and you will have to connect to the remote server with</p>
+<pre><code class="language-julia">ssh -X user@host</code></pre>
+<p>See <a href="https://unix.stackexchange.com/questions/12755/how-to-forward-x-over-ssh-to-run-graphics-applications-remotely">here</a> about more details about X11 forwarding.</p>
+<h3 id="glmakie_with_virtualgl"><a href="#glmakie_with_virtualgl" class="header-anchor">GLMakie with VirtualGL</a></h3>
+<p>The first step is to <a href="https://cdn.rawgit.com/VirtualGL/virtualgl/2.6.3/doc/index.html#hd005">install VirtualGL</a> on the remote server &#40;<a href="https://virtualgl.org/Documentation/OSSupport">Linux only</a>&#41; and on the local client. If you need to establish the connection to the server via a secondary intermediate server, VirtualGL also needs to be installed there. On the remote server you will need to <a href="https://cdn.rawgit.com/VirtualGL/virtualgl/2.6.5/doc/index.html#hd006">configure the VirtualGL server</a>. Be sure to <a href="https://cdn.rawgit.com/VirtualGL/virtualgl/2.6.5/doc/index.html#hd006002001">check that the configuration is ok</a>.</p>
+<p>After everything is set up, you can connect to the remote server via</p>
+<pre><code class="language-julia">/opt/VirtualGL/bin/vglconnect -s user@server</code></pre>
+<p>and then you will have to start julia via VirtualGL</p>
+<pre><code class="language-julia">/opt/VirtualGL/bin/vglrun julia</code></pre>
+<h3 id="glmakie_in_ci"><a href="#glmakie_in_ci" class="header-anchor">GLMakie in CI</a></h3>
+<p>You can also use GLMakie on CI or servers without a GPU by using <code>xvfb</code> for software rendering. This procedure is used in the <a href="https://github.com/JuliaPlots/GLMakie.jl/blob/8954fc34354a09ceb11159a8e8e35429c05a710f/.github/workflows/ci.yml#L41-L42">GLMakie tests</a>.</p>
+<h2 id="wglmakie"><a href="#wglmakie" class="header-anchor">WGLMakie</a></h2>
+<p>For WGLMakie, you can setup a server with JSServe and serve the content from a remote server. This also works for creating interactive plots with Documenter. Check out the <a href="http://juliaplots.org/WGLMakie.jl/stable/">docs</a> for more details about this.</p>
+<p>If you want to use WGLMakie in VS Code on a remote server, you will have to forward the port used by WGLMakie in order for the plot pane integration to work. If you don&#39;t need to change the port on which WGLMakie, you will just have to <a href="https://code.visualstudio.com/docs/remote/ssh#_forwarding-a-port-creating-ssh-tunnel">forward</a> the 9284 port.</p>
+<p>If you want to change the port on which WGLMakie runs on the remote, say <code>8081</code>, you will have to use the following</p>
+<pre><code class="language-julia">using JSServe
+
+JSServe.configure_server&#33;&#40;listen_port&#61;8081&#41;</code></pre>
+<p>before any plotting commands with WGLMakie.</p>
+<p>If you also need to use a different port than <code>8081</code> on the <em>local</em> machine, say <code>8081</code>, you will also need to set the <code>forwarded_port</code> like this:</p>
+<pre><code class="language-julia">using JSServe
+
+JSServe.configure_server&#33;&#40;listen_port&#61;8081, forwarded_port&#61;8080&#41;</code></pre>
+<h2 id="cairomakie"><a href="#cairomakie" class="header-anchor">CairoMakie</a></h2>
+<p>For CairoMakie there shouldn&#39;t be any difference in using it on a remote or locally.</p>
+<div class="page-foot">
+  <div class="copyright">
+    &copy; Makie.jl. Last modified: August 21, 2021. Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
+      <p>These docs were autogenerated using Makie: v0.15.1, GLMakie: v0.4.5, CairoMakie: v0.6.4, WGLMakie: v0.4.5</p>
+  </div>
+</div>
+</div><!-- CONTENT ENDS HERE -->
+
+      </div> <!-- closure of main -->
+    </div>   <!-- closure of class initial--content -->
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+        <!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+          <ul class="social-icons">
+            <li><a href="https://twitter.com/MakiePlots" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+            <li><a href="https://github.com/JuliaPlots/Makie.jl" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+          </ul>
+        </div>
+        <div class="page__footer-copyright">&copy; Makie.jl. Powered by <a href="https://github.com/tlienart/Franklin.jl">Franklin</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+      </footer>
+    </div>
+
+    <script src="/v0.15.1/libs/navbar.js"></script>
+    <script src="/v0.15.1/libs/lunr/lunr.min.js"></script>
+    <script src="/v0.15.1/libs/lunr/lunr_index.js"></script>
+    <script src="/v0.15.1/libs/lunr/lunrclient.min.js"></script>
+    <!-- <script src="/v0.15.1/libs/minimal-mistakes/main.min.js"></script> -->
+    <script defer src="https://use.fontawesome.com/releases/v5.8.2/js/all.js" integrity="sha384-DJ25uNYET2XCl5ZF++U8eNxPWqcKohUUBUpKGlNLMchM7q4Wjg2CUpjHLaL8yYPH" crossorigin="anonymous"></script>
+
+    
+    
+        <script src="/v0.15.1/libs/highlight/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();hljs.configure({tabReplace: '    '});</script>
+
+    
+  </body>
+</html>

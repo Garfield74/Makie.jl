@@ -1,0 +1,74 @@
+<!doctype html> <!-- Minimal Mistakes Jekyll Theme 4.16.4 by Michael Rose Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes Free for personal and commercial use under the MIT license https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE --> <html lang=en > <meta charset=UTF-8 > <meta name=viewport  content="width=device-width, initial-scale=1"> <link rel=stylesheet  href="/previews/PR1212/libs/highlight/github.min.css"> <link rel=stylesheet  href="/previews/PR1212/css/franklin.css"> <link rel=stylesheet  href="/previews/PR1212/css/minimal-mistakes.css"> <link rel=stylesheet  href="/previews/PR1212/css/makie.css"> <link rel=icon  href="/previews/PR1212/assets/icon_transparent.png"> <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/fontawesome.min.css" rel=stylesheet  type="text/css"/> <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/solid.min.css" rel=stylesheet  type="text/css"/> <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/brands.min.css" rel=stylesheet  type="text/css"/> <!--[if IE ]> <style> /* old IE unsupported flexbox fixes */ .greedy-nav .site-title { padding-right: 3em; } .greedy-nav button { position: absolute; top: 0; right: 0; height: 100%; } </style> <![endif]--> <title>Axis3</title> <body class=layout--single > <div class=masthead > <div class=masthead__inner-wrap > <div class=masthead__menu > <nav id=site-nav  class=greedy-nav > <a class=title-icon  href="/previews/PR1212/"><img src="/previews/PR1212/assets/makie_logo_transparent.svg"/></a> <ul class=visible-links > <li class=masthead__menu-item > <a href="https://github.com/JuliaPlots/Makie.jl"><img src="/previews/PR1212/assets/GitHub-Mark-64px.png" class=masthead-icon  /></a> <li class=masthead__menu-item ><a href="/previews/PR1212/examples/">Examples</a> <li class=masthead__menu-item ><a href="/previews/PR1212/tutorials/">Tutorials</a> <li class=masthead__menu-item ><a href="/previews/PR1212/documentation/">Documentation</a> </ul> <button class="greedy-nav__toggle hidden" type=button > <span class=visually-hidden >Toggle menu</span> <div class=navicon ></div> </button> <ul class="hidden-links hidden"></ul> </nav> </div> </div> </div> <div class=initial-content > <div id=main  role=main > <div class=franklin-content ><h1 id=axis3 ><a href="#axis3" class=header-anchor >Axis3</a></h1> <h2 id=viewing_angles ><a href="#viewing_angles" class=header-anchor >Viewing angles</a></h2> <p>The two attributes <code>azimuth</code> and <code>elevation</code> control the angles from which the plots are viewed.</p> <pre><code class=language-julia >using GLMakie
+using FileIO
+
+f &#61; Figure&#40;&#41;
+
+brain &#61; load&#40;assetpath&#40;&quot;brain.stl&quot;&#41;&#41;
+colors &#61; &#91;tri&#91;1&#93;&#91;2&#93; for tri in brain for i in 1:3&#93;
+
+azimuths &#61; &#91;0, 0.2pi, 0.4pi&#93;
+elevations &#61; &#91;-0.2pi, 0, 0.2pi&#93;
+
+for &#40;i, elevation&#41; in enumerate&#40;elevations&#41;
+    for &#40;j, azimuth&#41; in enumerate&#40;azimuths&#41;
+        ax &#61; Axis3&#40;f&#91;i, j&#93;, aspect &#61; :data,
+        title &#61; &quot;elevation &#61; &#36;&#40;round&#40;elevation/pi, digits &#61; 2&#41;&#41;π\nazimuth &#61; &#36;&#40;round&#40;azimuth/pi, digits &#61; 2&#41;&#41;π&quot;,
+        elevation &#61; elevation, azimuth &#61; azimuth,
+        protrusions &#61; &#40;0, 0, 0, 40&#41;&#41;
+
+        hidedecorations&#33;&#40;ax&#41;
+        mesh&#33;&#40;brain, color &#61; colors, colormap &#61; :thermal&#41;
+    end
+end
+
+f</code></pre></p> <p> <a id=example_4121561445710464503 > <img src="/previews/PR1212/assets/examples/layoutables/axis3/code/output/example_4121561445710464503.png" alt=""> </a> <h2 id=data_aspects_and_view_mode ><a href="#data_aspects_and_view_mode" class=header-anchor >Data aspects and view mode</a></h2> <p>The attributes <code>aspect</code> and <code>viewmode</code> both influence the apparent relative scaling of the three axes.</p> <h3 id=aspect ><a href="#aspect" class=header-anchor ><code>aspect</code></a></h3> <p>The <code>aspect</code> changes how long each axis is relative to the other two.</p> <p>If you set it to <code>:data</code>, the axes will be scaled according to their lengths in data space. The visual result is that objects with known real-world dimensions look correct and not squished.</p> <p>You can also set it to a three-tuple, where each number gives the relative length of that axis vs the others.</p> <pre><code class=language-julia >using GLMakie
+using FileIO
+
+f &#61; Figure&#40;&#41;
+
+brain &#61; load&#40;assetpath&#40;&quot;brain.stl&quot;&#41;&#41;
+
+aspects &#61; &#91;:data, &#40;1, 1, 1&#41;, &#40;1, 2, 3&#41;, &#40;3, 2, 1&#41;&#93;
+
+for &#40;i, aspect&#41; in enumerate&#40;aspects&#41;
+    ax &#61; Axis3&#40;f&#91;fldmod1&#40;i, 2&#41;...&#93;, aspect &#61; aspect, title &#61; &quot;&#36;aspect&quot;&#41;
+    mesh&#33;&#40;brain, color &#61; :bisque&#41;
+end
+
+f</code></pre></p> <p> <a id=example_6353585210338876424 > <img src="/previews/PR1212/assets/examples/layoutables/axis3/code/output/example_6353585210338876424.png" alt=""> </a> <h3 id=viewmode ><a href="#viewmode" class=header-anchor ><code>viewmode</code></a></h3> <p>The <code>viewmode</code> changes how the final projection is adjusted to fit the axis into its scene.</p> <p>The default is <code>:fitzoom</code>, which scales the final projection evenly, so that the farthest corner of the axis goes right up to the scene boundary. If you rotate an axis with this mode, the apparent size will shrink and grow depending on the viewing angles, but the plot objects will never look skewed relative to their <code>aspect</code>.</p> <p>The next option <code>:fit</code> is like <code>:fitzoom</code>, but without the zoom component. The axis is scaled so that no matter what the viewing angles are, the axis does not clip the scene boundary and its apparent size doesn&#39;t change, even though this makes less efficient use of the available space. You can imagine a sphere around the axis, which is zoomed right up until it touches the scene boundary.</p> <p>The last option is <code>:stretch</code>. In this mode, scaling in both x and y direction is applied to fit the axis right into its scene box. Be aware that this mode can skew the axis a lot and doesn&#39;t keep the <code>aspect</code> intact. On the other hand, it uses the available space most efficiently.</p> <pre><code class=language-julia >using GLMakie
+
+f &#61; Figure&#40;&#41;
+
+r &#61; LinRange&#40;-1, 1, 100&#41;
+cube &#61; &#91;&#40;x.^2 &#43; y.^2 &#43; z.^2&#41; for x &#61; r, y &#61; r, z &#61; r&#93;
+cube_with_holes &#61; cube .* &#40;cube .&gt; 1.4&#41;
+
+viewmodes &#61; &#91;:fitzoom, :fit, :stretch&#93;
+
+for &#40;j, viewmode&#41; in enumerate&#40;viewmodes&#41;
+    for &#40;i, azimuth&#41; in enumerate&#40;&#91;1.1, 1.275, 1.45&#93; .* pi&#41;
+        ax &#61; Axis3&#40;f&#91;i, j&#93;, aspect &#61; :data,
+            azimuth &#61; azimuth,
+            viewmode &#61; viewmode, title &#61; &quot;&#36;viewmode&quot;&#41;
+        hidedecorations&#33;&#40;ax&#41;
+        ax.protrusions &#61; &#40;0, 0, 0, 20&#41;
+        volume&#33;&#40;cube_with_holes, algorithm &#61; :iso, isorange &#61; 0.05, isovalue &#61; 1.7&#41;
+    end
+end
+
+f</code></pre></p> <p> <a id=example_17666044593949675711 > <img src="/previews/PR1212/assets/examples/layoutables/axis3/code/output/example_17666044593949675711.png" alt=""> </a> <h2 id=perspective_or_orthographic_look ><a href="#perspective_or_orthographic_look" class=header-anchor >Perspective or orthographic look</a></h2> <p>You can switch smoothly between an orthographic look and a perspective look using the <code>perspectiveness</code> attribute.</p> <p>A value of 0 looks like an orthographic projection &#40;it is only approximate to a real one&#41; while 1 gives a quite strong perspective look.</p> <pre><code class=language-julia >using GLMakie
+
+f &#61; Figure&#40;resolution &#61; &#40;1200, 800&#41;, fontsize &#61; 14&#41;
+
+xs &#61; LinRange&#40;0, 10, 100&#41;
+ys &#61; LinRange&#40;0, 10, 100&#41;
+zs &#61; &#91;cos&#40;x&#41; * sin&#40;y&#41; for x in xs, y in ys&#93;
+
+for &#40;i, perspectiveness&#41; in enumerate&#40;LinRange&#40;0, 1, 6&#41;&#41;
+    Axis3&#40;f&#91;fldmod1&#40;i, 3&#41;...&#93;, perspectiveness &#61; perspectiveness,
+        title &#61; &quot;&#36;perspectiveness&quot;&#41;
+
+    surface&#33;&#40;xs, ys, zs&#41;
+end
+
+f</code></pre></p> <p> <a id=example_11039715485053054699 > <img src="/previews/PR1212/assets/examples/layoutables/axis3/code/output/example_11039715485053054699.png" alt=""> </a> <div class=page-foot > <div class=copyright > &copy; Makie.jl. Last modified: August 10, 2021. Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>. <p>These docs were autogenerated using Makie: v0.15.0, GLMakie: v0.4.4, CairoMakie: v0.6.3, WGLMakie: v0.4.4</p> </div> </div> </div> </div> </div> <div class=page__footer > <footer> <div class=page__footer-follow > <ul class=social-icons > <li><a href="https://twitter.com/MakiePlots" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden=true ></i> Twitter</a> <li><a href="https://github.com/JuliaPlots/Makie.jl" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden=true ></i> GitHub</a> </ul> </div> <div class=page__footer-copyright >&copy; Makie.jl. Powered by <a href="https://github.com/tlienart/Franklin.jl">Franklin</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel=nofollow >Minimal Mistakes</a>.</div> </footer> </div> <script src="/previews/PR1212/libs/minimal-mistakes/main.min.js"></script> <script defer src="https://use.fontawesome.com/releases/v5.8.2/js/all.js" integrity="sha384-DJ25uNYET2XCl5ZF++U8eNxPWqcKohUUBUpKGlNLMchM7q4Wjg2CUpjHLaL8yYPH" crossorigin=anonymous ></script> <script src="/previews/PR1212/libs/highlight/highlight.pack.js"></script> <script>hljs.initHighlightingOnLoad();hljs.configure({tabReplace: ' '});</script>

@@ -1,0 +1,832 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.16.4 by Michael Rose
+  Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+   <link rel="stylesheet" href="/v0.15.1/libs/highlight/github.min.css">
+   
+  <link rel="stylesheet" href="/v0.15.1/css/franklin.css">
+<link rel="stylesheet" href="/v0.15.1/css/minimal-mistakes.css">
+<link rel="stylesheet" href="/v0.15.1/css/makie.css">
+<link rel="icon" href="/v0.15.1/assets/icon_transparent.png">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/fontawesome.min.css" rel="stylesheet" type="text/css"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/solid.min.css" rel="stylesheet" type="text/css"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/brands.min.css" rel="stylesheet" type="text/css"/>
+<!--[if IE ]>
+<style>
+  /* old IE unsupported flexbox fixes */
+  .greedy-nav .site-title {
+    padding-right: 3em;
+  }
+  .greedy-nav button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+  }
+</style>
+<![endif]-->
+
+   <title>Axis</title>  
+  <!-- end custom head snippets -->
+</head>
+<body class="layout--single">
+  <div class="masthead">
+    <div class="masthead__inner-wrap">
+        <div class="masthead__menu">
+            <nav id="site-nav" class="greedy-nav">
+                <a class="title-icon" href="/v0.15.1/"><img src="/v0.15.1/assets/makie_logo_transparent.svg"/></a>
+                <!-- github link -->
+                
+
+                <ul class="visible-links">
+                    <li class="masthead__menu-item">
+                        <a href="https://github.com/JuliaPlots/Makie.jl"><img src="/v0.15.1/assets/GitHub-Mark-64px.png" class="masthead-icon" /></a>
+                    </li>
+                    <li class="masthead__menu-item"><a href="/v0.15.1/examples/">Examples</a></li>
+                    <li class="masthead__menu-item"><a href="/v0.15.1/tutorials/">Tutorials</a></li>
+                    <li class="masthead__menu-item"><a href="/v0.15.1/documentation/">Documentation</a></li>
+                </ul>
+                <button class="greedy-nav__toggle" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+                <ul class="hidden-links hidden"></ul>
+            </nav>
+        </div>
+    </div>
+</div>
+  <div class="initial-content">
+    <div id="main" role="main">
+      <div id="overlay"></div>
+      <div id="navbar-container">
+        <div id="navbar">
+          <form id="lunrSearchForm" name="lunrSearchForm" action="/v0.15.1/search/index.html">
+            <input class="search-input" name="q" placeholder="Search docs" type="text">
+          </form>
+          <h1>Navigation</h1>
+          <ul><li><div class="tocitem-container"><a  href="/v0.15.1/">Home</a></div></li>
+<li><input class="collapse-toggle" id="menuitem-2" type="checkbox" checked><div class="tocitem-container"><label class="tocexpander" for="menuitem-2"><i class="docs-chevron"></i></label><a  href="/v0.15.1/examples">Examples</a></div><ul><li><input class="collapse-toggle" id="menuitem-2-1" type="checkbox" checked><div class="tocitem-container"><label class="tocexpander" for="menuitem-2-1"><i class="docs-chevron"></i></label><a  href="/v0.15.1/examples/layoutables">Layoutables &amp; Widgets</a></div><ul><li><div class="tocitem-container"><a class = active href="/v0.15.1/examples/layoutables/axis">Axis</a></div><ul class="page-content">
+<li><a href="#axis">Axis</a></li>
+<li><ul>
+<li><a href="#creating_an_axis">Creating an Axis</a></li>
+<li><a href="#plotting_into_an_axis">Plotting into an Axis</a></li>
+<li><a href="#deleting_plots">Deleting plots</a></li>
+<li><a href="#setting_axis_limits_and_reversing_axes">Setting Axis limits and reversing axes</a></li>
+<li><ul>
+<li><a href="#setting_half-automatic_limits">Setting half-automatic limits</a></li>
+<li><a href="#auto-reset_behavior">Auto-reset behavior</a></li>
+</ul></li>
+<li><a href="#modifying_ticks">Modifying ticks</a></li>
+<li><ul>
+<li><a href="#predefined_ticks">Predefined ticks</a></li>
+</ul></li>
+<li><a href="#minor_ticks_and_grids">Minor ticks and grids</a></li>
+<li><a href="#hiding_axis_spines_and_decorations">Hiding Axis spines and decorations</a></li>
+<li><a href="#log_scales_and_other_axis_scales">Log scales and other axis scales</a></li>
+<li><ul>
+<li><a href="#pseudolog_and_symlog_scales">Pseudolog and symlog scales</a></li>
+</ul></li>
+<li><a href="#controlling_axis_aspect_ratios">Controlling Axis aspect ratios</a></li>
+<li><a href="#controlling_data_aspect_ratios">Controlling data aspect ratios</a></li>
+<li><a href="#linking_axes">Linking axes</a></li>
+<li><a href="#changing_x_and_y_axis_position">Changing x and y axis position</a></li>
+<li><a href="#creating_a_twin_axis">Creating a twin axis</a></li>
+<li><a href="#axis_interaction">Axis interaction</a></li>
+<li><ul>
+<li><a href="#scroll_zoom">Scroll Zoom</a></li>
+<li><a href="#drag_pan">Drag Pan</a></li>
+<li><a href="#limit_reset">Limit Reset</a></li>
+<li><a href="#rectangle_selection_zoom">Rectangle Selection Zoom</a></li>
+<li><a href="#custom_interactions">Custom Interactions</a></li>
+<li><ul>
+<li><a href="#registering_and_deregistering_interactions">Registering and deregistering interactions</a></li>
+<li><a href="#activating_and_deactivating_interactions">Activating and deactivating interactions</a></li>
+<li><a href="#function_interaction"><code>Function</code> Interaction</a></li>
+<li><a href="#custom_object_interaction">Custom Object Interaction</a></li>
+<li><a href="#setup_and_cleanup">Setup and Cleanup</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#special_plots">Special Plots</a></li>
+<li><ul>
+<li><a href="#vertical_horizontal_lines">Vertical / Horizontal Lines</a></li>
+<li><a href="#abline">abline&#33;</a></li>
+</ul>
+</ul>
+</ul>
+</li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/layoutables/axis3">Axis3</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/layoutables/box">Box</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/layoutables/button">Button</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/layoutables/colorbar">Colorbar</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/layoutables/gridlayout">GridLayout</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/layoutables/intervalslider">IntervalSlider</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/layoutables/label">Label</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/layoutables/legend">Legend</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/layoutables/lscene">LScene</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/layoutables/menu">Menu</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/layoutables/slider">Slider</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/layoutables/toggle">Toggle</a></div></li>
+</ul></li>
+<li><input class="collapse-toggle" id="menuitem-2-2" type="checkbox" ><div class="tocitem-container"><label class="tocexpander" for="menuitem-2-2"><i class="docs-chevron"></i></label><a  href="/v0.15.1/examples/plotting_functions">Plotting functions</a></div><ul><li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/arrows">arrows</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/band">band</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/barplot">barplot</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/boxplot">boxplot</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/contour">contour</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/contourf">contourf</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/crossbar">crossbar</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/density">density</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/errorbars">errorbars</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/heatmap">heatmap</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/hist">hist</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/image">image</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/lines">lines</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/linesegments">linesegments</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/mesh">mesh</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/meshscatter">meshscatter</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/poly">poly</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/rangebars">rangebars</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/scatter">scatter</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/scatterlines">scatterlines</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/series">series</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/stairs">stairs</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/stem">stem</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/streamplot">streamplot</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/surface">surface</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/text">text</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/violin">violin</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/volume">volume</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/volumeslices">volumeslices</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/wireframe">wireframe</a></div></li>
+</ul></li>
+</ul></li>
+<li><input class="collapse-toggle" id="menuitem-3" type="checkbox" ><div class="tocitem-container"><label class="tocexpander" for="menuitem-3"><i class="docs-chevron"></i></label><a  href="/v0.15.1/tutorials">Tutorials</a></div><ul><li><div class="tocitem-container"><a  href="/v0.15.1/tutorials/basic-tutorial">Basic Tutorial</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/tutorials/layout-tutorial">Layout Tutorial</a></div></li>
+</ul></li>
+<li><input class="collapse-toggle" id="menuitem-4" type="checkbox" ><div class="tocitem-container"><label class="tocexpander" for="menuitem-4"><i class="docs-chevron"></i></label><a  href="/v0.15.1/documentation">Documentation</a></div><ul><li><div class="tocitem-container"><a  href="/v0.15.1/documentation/animation">Animations</a></div></li>
+<li><input class="collapse-toggle" id="menuitem-4-2" type="checkbox" ><div class="tocitem-container"><label class="tocexpander" for="menuitem-4-2"><i class="docs-chevron"></i></label><a  href="/v0.15.1/documentation/backends_and_output">Backends &amp; Output</a></div><ul><li><div class="tocitem-container"><a  href="/v0.15.1/documentation/backends_and_output/figure_size">Exporting a Figure with physical dimensions</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/documentation/backends_and_output/wglmakie">JSServe and WGLMakie</a></div></li>
+</ul></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/documentation/cameras">Cameras</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/documentation/colors">Colors</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/documentation/events">Events</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/documentation/faq">Frequently Asked Questions</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/documentation/figure">Figures</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/documentation/inspector">Inspecting Data</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/documentation/latex">LaTeX</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/documentation/layoutables">Layoutables</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/documentation/layouting">How layouts work</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/documentation/lighting">Lighting</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/documentation/nodes">Observables &amp; Interaction</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/documentation/plot_method_signatures">Plot Method Signatures</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/documentation/recipes">Plot Recipes</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/documentation/remote">Remote servers</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/documentation/scenes">Scenes</a></div></li>
+<li><input class="collapse-toggle" id="menuitem-4-18" type="checkbox" ><div class="tocitem-container"><label class="tocexpander" for="menuitem-4-18"><i class="docs-chevron"></i></label><a  href="/v0.15.1/documentation/theming">Theming</a></div><ul><li><div class="tocitem-container"><a  href="/v0.15.1/documentation/theming/predefined_themes">Predefined themes</a></div></li>
+</ul></li>
+</ul></li>
+</ul>
+        </div>
+      </div>
+
+<!-- Content appended here -->
+<div class="franklin-content"><h1 id="axis"><a href="#axis" class="header-anchor">Axis</a></h1>
+<h2 id="creating_an_axis"><a href="#creating_an_axis" class="header-anchor">Creating an Axis</a></h2>
+<p>The <code>Axis</code> is a 2D axis that works well with automatic layouts. Here&#39;s how you create one</p>
+<pre><code class="language-julia">using CairoMakie
+
+f &#61; Figure&#40;&#41;
+
+ax &#61; Axis&#40;f&#91;1, 1&#93;, xlabel &#61; &quot;x label&quot;, ylabel &#61; &quot;y label&quot;,
+    title &#61; &quot;Title&quot;&#41;
+
+f</code></pre></p>
+<p>
+  <a id="example_3360942468698197528">
+   <img src="/v0.15.1/assets/examples/layoutables/axis/code/output/example_3360942468698197528.png" alt=""> 
+  </a>
+  
+<h2 id="plotting_into_an_axis"><a href="#plotting_into_an_axis" class="header-anchor">Plotting into an Axis</a></h2>
+<p>You can use all the normal mutating 2D plotting functions with an <code>Axis</code>. These functions return the created plot object. Omitting the <code>ax</code> argument plots into the <code>current_axis&#40;&#41;</code>, which is usually the axis that was last created.</p>
+<pre><code class="language-julia">lineobject &#61; lines&#33;&#40;ax, 0..10, sin, color &#61; :red&#41;
+scatobject &#61; scatter&#33;&#40;0:0.5:10, cos, color &#61; :orange&#41;
+
+f</code></pre></p>
+<p>
+  <a id="example_2295400384729396002">
+   <img src="/v0.15.1/assets/examples/layoutables/axis/code/output/example_2295400384729396002.png" alt=""> 
+  </a>
+  
+<h2 id="deleting_plots"><a href="#deleting_plots" class="header-anchor">Deleting plots</a></h2>
+<p>You can delete a plot object directly via <code>delete&#33;&#40;ax, plotobj&#41;</code>. You can also remove all plots with <code>empty&#33;&#40;ax&#41;</code>.</p>
+<pre><code class="language-julia">using CairoMakie
+
+f &#61; Figure&#40;&#41;
+
+axs &#61; &#91;Axis&#40;f&#91;1, i&#93;&#41; for i in 1:3&#93;
+
+scatters &#61; map&#40;axs&#41; do ax
+    &#91;scatter&#33;&#40;ax, 0:0.1:10, x -&gt; sin&#40;x&#41; &#43; i&#41; for i in 1:3&#93;
+end
+
+delete&#33;&#40;axs&#91;2&#93;, scatters&#91;2&#93;&#91;2&#93;&#41;
+empty&#33;&#40;axs&#91;3&#93;&#41;
+
+f</code></pre></p>
+<p>
+  <a id="example_11619216609528783952">
+   <img src="/v0.15.1/assets/examples/layoutables/axis/code/output/example_11619216609528783952.png" alt=""> 
+  </a>
+  
+<h2 id="setting_axis_limits_and_reversing_axes"><a href="#setting_axis_limits_and_reversing_axes" class="header-anchor">Setting Axis limits and reversing axes</a></h2>
+<p>You can set axis limits with the functions <code>xlims&#33;</code>, <code>ylims&#33;</code> or <code>limits&#33;</code>. The numbers are meant in the order left right for <code>xlims&#33;</code>, and bottom top for <code>ylims&#33;</code>. Therefore, if the second number is smaller than the first, the respective axis will reverse. You can manually reverse an axis by setting <code>ax.xreversed &#61; true</code> or <code>ax.yreversed &#61; true</code>.</p>
+<p>Note that if you enforce an aspect ratio between x-axis and y-axis using <code>autolimitaspect</code>, the values you set with these functions will probably not be exactly what you get, but they will be changed to fit the chosen ratio.</p>
+<pre><code class="language-julia">using CairoMakie
+
+f &#61; Figure&#40;&#41;
+
+axes &#61; &#91;Axis&#40;f&#91;i, j&#93;&#41; for j in 1:3, i in 1:2&#93;
+
+for &#40;i, ax&#41; in enumerate&#40;axes&#41;
+    ax.title &#61; &quot;Axis &#36;i&quot;
+    poly&#33;&#40;ax, Point2f0&#91;&#40;9, 9&#41;, &#40;3, 1&#41;, &#40;1, 3&#41;&#93;,
+        color &#61; cgrad&#40;:inferno, 6, categorical &#61; true&#41;&#91;i&#93;&#41;
+end
+
+xlims&#33;&#40;axes&#91;1&#93;, &#91;0, 10&#93;&#41; # as vector
+xlims&#33;&#40;axes&#91;2&#93;, 10, 0&#41; # separate, reversed
+ylims&#33;&#40;axes&#91;3&#93;, 0, 10&#41; # separate
+ylims&#33;&#40;axes&#91;4&#93;, &#40;10, 0&#41;&#41; # as tuple, reversed
+limits&#33;&#40;axes&#91;5&#93;, 0, 10, 0, 10&#41; # x1, x2, y1, y2
+limits&#33;&#40;axes&#91;6&#93;, BBox&#40;0, 10, 0, 10&#41;&#41; # as rectangle
+
+f</code></pre></p>
+<p>
+  <a id="example_14580039765171469777">
+   <img src="/v0.15.1/assets/examples/layoutables/axis/code/output/example_14580039765171469777.png" alt=""> 
+  </a>
+  
+<h3 id="setting_half-automatic_limits"><a href="#setting_half-automatic_limits" class="header-anchor">Setting half-automatic limits</a></h3>
+<p>You can set half limits by either giving one argument as <code>nothing</code> or by using the keyword syntax where only <code>low</code> or <code>high</code> is given.</p>
+<pre><code class="language-julia">using CairoMakie
+
+f &#61; Figure&#40;&#41;
+
+data &#61; rand&#40;100, 2&#41; .* 0.7 .&#43; 0.15
+
+Axis&#40;f&#91;1, 1&#93;, title &#61; &quot;xlims&#33;&#40;nothing, 1&#41;&quot;&#41;
+scatter&#33;&#40;data&#41;
+xlims&#33;&#40;nothing, 1&#41;
+
+Axis&#40;f&#91;1, 2&#93;, title &#61; &quot;xlims&#33;&#40;low &#61; 0&#41;&quot;&#41;
+scatter&#33;&#40;data&#41;
+xlims&#33;&#40;low &#61; 0&#41;
+
+Axis&#40;f&#91;2, 1&#93;, title &#61; &quot;ylims&#33;&#40;0, nothing&#41;&quot;&#41;
+scatter&#33;&#40;data&#41;
+ylims&#33;&#40;0, nothing&#41;
+
+Axis&#40;f&#91;2, 2&#93;, title &#61; &quot;ylims&#33;&#40;high &#61; 1&#41;&quot;&#41;
+scatter&#33;&#40;data&#41;
+ylims&#33;&#40;high &#61; 1&#41;
+
+f</code></pre></p>
+<p>
+  <a id="example_17889597297920463892">
+   <img src="/v0.15.1/assets/examples/layoutables/axis/code/output/example_17889597297920463892.png" alt=""> 
+  </a>
+  
+<p>This also works when specifying limits directly, such as <code>Axis&#40;..., limits &#61; &#40;nothing, 1, 2, nothing&#41;&#41;</code>.</p>
+<h3 id="auto-reset_behavior"><a href="#auto-reset_behavior" class="header-anchor">Auto-reset behavior</a></h3>
+<p>When you create a new plot in an axis, <code>reset_limits&#33;&#40;ax&#41;</code> is called, which adjusts the limits to the new bounds. If you have previously set limits with <code>limits&#33;</code>, <code>xlims&#33;</code> or <code>ylims&#33;</code>, these limits are not overridden by the new plot. If you want to override the manually set limits, call <code>autolimits&#33;&#40;ax&#41;</code> to compute completely new limits from the axis content.</p>
+<p>The user-defined limits are stored in <code>ax.limits</code>. This can either be a tuple with two entries, where each entry can be either <code>nothing</code> or a tuple with numbers <code>&#40;low, high&#41;</code>.It can also be a tuple with four numbers <code>&#40;xlow, xhigh, ylow, yhigh&#41;</code>. You can pass this directly when creating a new axis. The same observable <code>limits</code> is also set using <code>limits&#33;</code>, <code>xlims&#33;</code> and <code>ylims&#33;</code>, or reset to <code>&#40;nothing, nothing&#41;</code> using <code>autolimits&#33;</code>.</p>
+<pre><code class="language-julia">using CairoMakie
+
+f &#61; Figure&#40;&#41;
+
+lines&#40;f&#91;1, 1&#93;, 0..10, sin&#41;
+lines&#40;f&#91;1, 2&#93;, 0..10, sin, axis &#61; &#40;limits &#61; &#40;0, 10, -1, 1&#41;,&#41;&#41;
+
+f</code></pre></p>
+<p>
+  <a id="example_9051838447984116325">
+   <img src="/v0.15.1/assets/examples/layoutables/axis/code/output/example_9051838447984116325.png" alt=""> 
+  </a>
+  
+<h2 id="modifying_ticks"><a href="#modifying_ticks" class="header-anchor">Modifying ticks</a></h2>
+<p>To control ticks, you can set the axis attributes <code>xticks/yticks</code> and <code>xtickformat/ytickformat</code>.</p>
+<p>You can overload one or more of these three functions to implement custom ticks:</p>
+<pre><code class="language-julia">tickvalues, ticklabels &#61; MakieLayout.get_ticks&#40;ticks, scale, formatter, vmin, vmax&#41;
+tickvalues &#61; MakieLayout.get_tickvalues&#40;ticks, vmin, vmax&#41;
+ticklabels &#61; MakieLayout.get_ticklabels&#40;formatter, tickvalues&#41;</code></pre>
+<p>If you overload <code>get_ticks</code>, you have to compute both tickvalues and ticklabels directly as a vector of floats and strings, respectively. Otherwise the result of <code>get_tickvalues</code> is passed to <code>get_ticklabels</code> by default. The limits of the respective axis are passed as <code>vmin</code> and <code>vmax</code>.</p>
+<p>A couple of behaviors are implemented by default. You can specify static ticks by passing an iterable of numbers. You can also pass a tuple with tick values and tick labels directly, bypassing the formatting step.</p>
+<p>As a third option you can pass a function taking minimum and maximum axis value as arguments and returning either a vector of tickvalues which are then passed to the current formatter, or a tuple with tickvalues and ticklabels which are then used directly.</p>
+<p>For formatting, you can pass a function which takes a vector of numbers and outputs a vector of strings. You can also pass a format string which is passed to <code>Formatting.format</code> from <a href="https://github.com/JuliaIO/Formatting.jl">Formatting.jl</a>, where you can mix the formatted numbers with other text like in <code>&quot;&#123;:.2f&#125;ms&quot;</code>.</p>
+<h3 id="predefined_ticks"><a href="#predefined_ticks" class="header-anchor">Predefined ticks</a></h3>
+<p>The default tick type is <code>LinearTicks&#40;n&#41;</code>, where <code>n</code> is the target number of ticks which the algorithm tries to return.</p>
+<pre><code class="language-julia">using CairoMakie
+
+fig &#61; Figure&#40;&#41;
+for &#40;i, n&#41; in enumerate&#40;&#91;2, 5, 9&#93;&#41;
+    lines&#40;fig&#91;i, 1&#93;, 0..20, sin, axis &#61; &#40;xticks &#61; LinearTicks&#40;n&#41;,&#41;&#41;
+end
+fig</code></pre></p>
+<p>
+  <a id="example_2188070473603704267">
+   <img src="/v0.15.1/assets/examples/layoutables/axis/code/output/example_2188070473603704267.png" alt=""> 
+  </a>
+  
+<p>There&#39;s also <code>WilkinsonTicks</code> which uses the alternative Wilkinson algorithm.</p>
+<p><code>MultiplesTicks</code> can be used when an axis should be marked at multiples of a certain number. A common scenario is plotting a trigonometric function which should be marked at pi intervals.</p>
+<pre><code class="language-julia">using CairoMakie
+
+lines&#40;0..20, sin, axis &#61; &#40;xticks &#61; MultiplesTicks&#40;4, pi, &quot;π&quot;&#41;,&#41;&#41;</code></pre></p>
+<p>
+  <a id="example_11338119643795288532">
+   <img src="/v0.15.1/assets/examples/layoutables/axis/code/output/example_11338119643795288532.png" alt=""> 
+  </a>
+  
+<p>Here are a couple of examples that show off different settings for ticks and formats.</p>
+<pre><code class="language-julia">using CairoMakie
+
+f &#61; Figure&#40;&#41;
+
+axes &#61; &#91;Axis&#40;f&#91;i, j&#93;&#41; for i in 1:2, j in 1:2&#93;
+
+xs &#61; LinRange&#40;0, 2pi, 50&#41;
+for &#40;i, ax&#41; in enumerate&#40;axes&#41;
+    ax.title &#61; &quot;Axis &#36;i&quot;
+    lines&#33;&#40;ax, xs, sin.&#40;xs&#41;&#41;
+end
+
+axes&#91;1&#93;.xticks &#61; 0:6
+
+axes&#91;2&#93;.xticks &#61; 0:pi:2pi
+axes&#91;2&#93;.xtickformat &#61; xs -&gt; &#91;&quot;&#36;&#40;x/pi&#41;π&quot; for x in xs&#93;
+
+axes&#91;3&#93;.xticks &#61; &#40;0:pi:2pi, &#91;&quot;start&quot;, &quot;middle&quot;, &quot;end&quot;&#93;&#41;
+
+axes&#91;4&#93;.xticks &#61; 0:pi:2pi
+axes&#91;4&#93;.xtickformat &#61; &quot;&#123;:.2f&#125;ms&quot;
+axes&#91;4&#93;.xlabel &#61; &quot;Time&quot;
+
+f</code></pre></p>
+<p>
+  <a id="example_11589167853588196459">
+   <img src="/v0.15.1/assets/examples/layoutables/axis/code/output/example_11589167853588196459.png" alt=""> 
+  </a>
+  
+<h2 id="minor_ticks_and_grids"><a href="#minor_ticks_and_grids" class="header-anchor">Minor ticks and grids</a></h2>
+<p>You can show minor ticks and grids by setting <code>x/yminorticksvisible &#61; true</code> and <code>x/yminorgridvisible &#61; true</code> which are off by default. You can set size, color, width, align etc. like for the normal ticks, but there are no labels. The <code>x/yminorticks</code> attributes control how minor ticks are computed given major ticks and axis limits. For that purpose you can create your own minortick type and overload <code>MakieLayout.get_minor_tickvalues&#40;minorticks, tickvalues, vmin, vmax&#41;</code>.</p>
+<p>The default minor tick type is <code>IntervalsBetween&#40;n, mirror &#61; true&#41;</code> where <code>n</code> gives the number of intervals each gap between major ticks is divided into with minor ticks, and <code>mirror</code> decides if outside of the major ticks there are more minor ticks with the same intervals as the adjacent gaps.</p>
+<pre><code class="language-julia">using CairoMakie
+
+theme &#61; Attributes&#40;
+    Axis &#61; &#40;
+        xminorticksvisible &#61; true,
+        yminorticksvisible &#61; true,
+        xminorgridvisible &#61; true,
+        yminorgridvisible &#61; true,
+    &#41;
+&#41;
+
+fig &#61; with_theme&#40;theme&#41; do
+    fig &#61; Figure&#40;&#41;
+    axs &#61; &#91;Axis&#40;fig&#91;fldmod1&#40;n, 2&#41;...&#93;,
+        title &#61; &quot;IntervalsBetween&#40;&#36;&#40;n&#43;1&#41;&#41;&quot;,
+        xminorticks &#61; IntervalsBetween&#40;n&#43;1&#41;,
+        yminorticks &#61; IntervalsBetween&#40;n&#43;1&#41;&#41; for n in 1:4&#93;
+    fig
+end
+
+fig</code></pre></p>
+<p>
+  <a id="example_9080452699255241236">
+   <img src="/v0.15.1/assets/examples/layoutables/axis/code/output/example_9080452699255241236.png" alt=""> 
+  </a>
+  
+<h2 id="hiding_axis_spines_and_decorations"><a href="#hiding_axis_spines_and_decorations" class="header-anchor">Hiding Axis spines and decorations</a></h2>
+<p>You can hide all axis elements manually, by setting their specific visibility attributes to <code>false</code>, like <code>xticklabelsvisible</code>, but that can be tedious. There are a couple of convenience functions for this.</p>
+<p>To hide spines, you can use <code>hidespines&#33;</code>.</p>
+<pre><code class="language-julia">using CairoMakie
+
+f &#61; Figure&#40;&#41;
+
+ax1 &#61; Axis&#40;f&#91;1, 1&#93;, title &#61; &quot;Axis 1&quot;&#41;
+ax2 &#61; Axis&#40;f&#91;1, 2&#93;, title &#61; &quot;Axis 2&quot;&#41;
+
+hidespines&#33;&#40;ax1&#41;
+hidespines&#33;&#40;ax2, :t, :r&#41; # only top and right
+
+f</code></pre></p>
+<p>
+  <a id="example_5057962070469521878">
+   <img src="/v0.15.1/assets/examples/layoutables/axis/code/output/example_5057962070469521878.png" alt=""> 
+  </a>
+  
+<p>To hide decorations, you can use <code>hidedecorations&#33;</code>, or the specific <code>hidexdecorations&#33;</code> and <code>hideydecorations&#33;</code>. When hiding, you can set <code>label &#61; false</code>, <code>ticklabels &#61; false</code>, <code>ticks &#61; false</code>, <code>grid &#61; false</code>, <code>minorgrid &#61; false</code> or <code>minorticks &#61; false</code> as keyword arguments if you want to keep those elements. It&#39;s common, e.g., to hide everything but the grid lines in facet plots.</p>
+<pre><code class="language-julia">using CairoMakie
+
+f &#61; Figure&#40;&#41;
+
+ax1 &#61; Axis&#40;f&#91;1, 1&#93;, title &#61; &quot;Axis 1&quot;&#41;
+ax2 &#61; Axis&#40;f&#91;1, 2&#93;, title &#61; &quot;Axis 2&quot;&#41;
+ax3 &#61; Axis&#40;f&#91;1, 3&#93;, title &#61; &quot;Axis 3&quot;&#41;
+
+hidedecorations&#33;&#40;ax1&#41;
+hidexdecorations&#33;&#40;ax2, grid &#61; false&#41;
+hideydecorations&#33;&#40;ax3, ticks &#61; false&#41;
+
+f</code></pre></p>
+<p>
+  <a id="example_10489693896678002476">
+   <img src="/v0.15.1/assets/examples/layoutables/axis/code/output/example_10489693896678002476.png" alt=""> 
+  </a>
+  
+<h2 id="log_scales_and_other_axis_scales"><a href="#log_scales_and_other_axis_scales" class="header-anchor">Log scales and other axis scales</a></h2>
+<p>The two attributes <code>xscale</code> and <code>yscale</code>, which by default are set to <code>identity</code>, can be used to project the data in a nonlinear way, in addition to the linear zoom that the limits provide.</p>
+<p>Take care that the axis limits always stay inside the limits appropriate for the chosen scaling function, for example, <code>log</code> functions fail for values <code>x &lt;&#61; 0</code>, <code>sqrt</code> for <code>x &lt; 0</code>, etc.</p>
+<pre><code class="language-julia">using CairoMakie
+
+data &#61; LinRange&#40;0.01, 0.99, 200&#41;
+
+f &#61; Figure&#40;resolution &#61; &#40;800, 800&#41;&#41;
+
+for &#40;i, scale&#41; in enumerate&#40;&#91;identity, log10, log2, log, sqrt, Makie.logit&#93;&#41;
+
+    row, col &#61; fldmod1&#40;i, 2&#41;
+    Axis&#40;f&#91;row, col&#93;, yscale &#61; scale, title &#61; string&#40;scale&#41;,
+        yminorticksvisible &#61; true, yminorgridvisible &#61; true,
+        yminorticks &#61; IntervalsBetween&#40;8&#41;&#41;
+
+    lines&#33;&#40;data, color &#61; :blue&#41;
+end
+
+f</code></pre></p>
+<p>
+  <a id="example_5548253370067866882">
+   <img src="/v0.15.1/assets/examples/layoutables/axis/code/output/example_5548253370067866882.png" alt=""> 
+  </a>
+  
+<h3 id="pseudolog_and_symlog_scales"><a href="#pseudolog_and_symlog_scales" class="header-anchor">Pseudolog and symlog scales</a></h3>
+<p>Some plotting functions, like barplots or density plots, have offset parameters which are usually zero, which you have to set to some non-zero value explicitly so they work in <code>log</code> axes.</p>
+<pre><code class="language-julia">using CairoMakie
+
+processors &#61; &#91;&quot;VAX-11/780&quot;, &quot;Sun-4/260&quot;, &quot;PowerPC 604&quot;,
+    &quot;Alpha 21164&quot;, &quot;Intel Pentium III&quot;, &quot;Intel Xeon&quot;&#93;
+relative_speeds &#61; &#91;1, 9, 117, 280, 1779, 6505&#93;
+
+barplot&#40;relative_speeds, fillto &#61; 0.5,
+    axis &#61; &#40;yscale &#61; log10, ylabel &#61;&quot;relative speed&quot;,
+        xticks &#61; &#40;1:6, processors&#41;, xticklabelrotation &#61; pi/8&#41;&#41;
+
+ylims&#33;&#40;0.5, 10000&#41;
+current_figure&#40;&#41;</code></pre></p>
+<p>
+  <a id="example_14294748689859113481">
+   <img src="/v0.15.1/assets/examples/layoutables/axis/code/output/example_14294748689859113481.png" alt=""> 
+  </a>
+  
+<p>Another option are pseudolog and symlog scales. Pseudolog is similar to log, but modified in order to work for zero and for negative values. The <code>pseudolog10</code> function is defined as <code>sign&#40;x&#41; * log10&#40;abs&#40;x&#41; &#43; 1&#41;</code>.</p>
+<p>Another option for symmetric log scales including zero is the symmetric log scale <code>Symlog10</code>, which combines a normal log scale with a linear scale between two boundary values around zero.</p>
+<pre><code class="language-julia">using CairoMakie
+
+f &#61; Figure&#40;resolution &#61; &#40;800, 700&#41;&#41;
+
+lines&#40;f&#91;1, 1&#93;, -100:0.1:100, axis &#61; &#40;
+    yscale &#61; Makie.pseudolog10,
+    title &#61; &quot;Pseudolog scale&quot;,
+    yticks &#61; &#91;-100, -10, -1, 0, 1, 10, 100&#93;&#41;&#41;
+
+lines&#40;f&#91;2, 1&#93;, -100:0.1:100, axis &#61; &#40;
+    yscale &#61; Makie.Symlog10&#40;10.0&#41;,
+    title &#61; &quot;Symlog10 with linear scaling between -10 and 10&quot;,
+    yticks &#61; &#91;-100, -10, 0, 10, 100&#93;&#41;&#41;
+
+f</code></pre></p>
+<p>
+  <a id="example_10209522166838304940">
+   <img src="/v0.15.1/assets/examples/layoutables/axis/code/output/example_10209522166838304940.png" alt=""> 
+  </a>
+  
+<h2 id="controlling_axis_aspect_ratios"><a href="#controlling_axis_aspect_ratios" class="header-anchor">Controlling Axis aspect ratios</a></h2>
+<p>If you&#39;re plotting images, you might want to force a specific aspect ratio of an axis, so that the images are not stretched. The default is that an axis uses all of the available space in the layout. You can use <code>AxisAspect</code> and <code>DataAspect</code> to control the aspect ratio. For example, <code>AxisAspect&#40;1&#41;</code> forces a square axis and <code>AxisAspect&#40;2&#41;</code> results in a rectangle with a width of two times the height. <code>DataAspect</code> uses the currently chosen axis limits and brings the axes into the same aspect ratio. This is the easiest to use with images. A different aspect ratio can only reduce the axis space that is being used, also it necessarily has to break the layout a little bit.</p>
+<pre><code class="language-julia">using CairoMakie
+using FileIO
+
+f &#61; Figure&#40;&#41;
+
+axes &#61; &#91;Axis&#40;f&#91;i, j&#93;&#41; for i in 1:2, j in 1:3&#93;
+tightlimits&#33;.&#40;axes&#41;
+
+img &#61; rotr90&#40;load&#40;assetpath&#40;&quot;cow.png&quot;&#41;&#41;&#41;
+
+for ax in axes
+    image&#33;&#40;ax, img&#41;
+end
+
+axes&#91;1, 1&#93;.title &#61; &quot;Default&quot;
+
+axes&#91;1, 2&#93;.title &#61; &quot;DataAspect&quot;
+axes&#91;1, 2&#93;.aspect &#61; DataAspect&#40;&#41;
+
+axes&#91;1, 3&#93;.title &#61; &quot;AxisAspect&#40;418/348&#41;&quot;
+axes&#91;1, 3&#93;.aspect &#61; AxisAspect&#40;418/348&#41;
+
+axes&#91;2, 1&#93;.title &#61; &quot;AxisAspect&#40;1&#41;&quot;
+axes&#91;2, 1&#93;.aspect &#61; AxisAspect&#40;1&#41;
+
+axes&#91;2, 2&#93;.title &#61; &quot;AxisAspect&#40;2&#41;&quot;
+axes&#91;2, 2&#93;.aspect &#61; AxisAspect&#40;2&#41;
+
+axes&#91;2, 3&#93;.title &#61; &quot;AxisAspect&#40;2/3&#41;&quot;
+axes&#91;2, 3&#93;.aspect &#61; AxisAspect&#40;2/3&#41;
+
+f</code></pre></p>
+<p>
+  <a id="example_16163597923448181211">
+   <img src="/v0.15.1/assets/examples/layoutables/axis/code/output/example_16163597923448181211.png" alt=""> 
+  </a>
+  
+<h2 id="controlling_data_aspect_ratios"><a href="#controlling_data_aspect_ratios" class="header-anchor">Controlling data aspect ratios</a></h2>
+<p>If you want the content of an axis to adhere to a certain data aspect ratio, there is another way than forcing the aspect ratio of the whole axis to be the same, and possibly breaking the layout. This works via the axis attribute <code>autolimitaspect</code>. It can either be set to <code>nothing</code> which means the data limits can have any arbitrary aspect ratio. Or it can be set to a number, in which case the targeted limits of the axis &#40;that are computed by <code>autolimits&#33;</code>&#41; are enlarged to have the correct aspect ratio.</p>
+<p>You can see the different ways to get a plot with an unstretched circle, using different ways of setting aspect ratios, in the following example.</p>
+<pre><code class="language-julia">using CairoMakie
+using Animations
+
+
+
+# scene setup for animation
+###########################################################
+
+container_scene &#61; Scene&#40;camera &#61; campixel&#33;, resolution &#61; &#40;1200, 1200&#41;&#41;
+
+t &#61; Node&#40;0.0&#41;
+
+a_width &#61; Animation&#40;&#91;1, 7&#93;, &#91;1200.0, 800&#93;, sineio&#40;n&#61;2, yoyo&#61;true, postwait&#61;0.5&#41;&#41;
+a_height &#61; Animation&#40;&#91;2.5, 8.5&#93;, &#91;1200.0, 800&#93;, sineio&#40;n&#61;2, yoyo&#61;true, postwait&#61;0.5&#41;&#41;
+
+scene_area &#61; lift&#40;t&#41; do t
+    IRect&#40;0, 0, round&#40;Int, a_width&#40;t&#41;&#41;, round&#40;Int, a_height&#40;t&#41;&#41;&#41;
+end
+
+scene &#61; Scene&#40;container_scene, scene_area, camera &#61; campixel&#33;&#41;
+
+rect &#61; poly&#33;&#40;scene, scene_area,
+    raw&#61;true, color&#61;RGBf0&#40;0.97, 0.97, 0.97&#41;, strokecolor&#61;:transparent, strokewidth&#61;0&#41;
+
+outer_layout &#61; GridLayout&#40;scene, alignmode &#61; Outside&#40;30&#41;&#41;
+
+
+
+
+# example begins here
+###########################################################
+
+layout &#61; outer_layout&#91;1, 1&#93; &#61; GridLayout&#40;&#41;
+
+titles &#61; &#91;&quot;aspect enforced\nvia layout&quot;, &quot;axis aspect\nset directly&quot;, &quot;no aspect enforced&quot;, &quot;data aspect conforms\nto axis size&quot;&#93;
+axs &#61; layout&#91;1:2, 1:2&#93; &#61; &#91;Axis&#40;scene, title &#61; t&#41; for t in titles&#93;
+
+for a in axs
+    lines&#33;&#40;a, Circle&#40;Point2f0&#40;0, 0&#41;, 100f0&#41;&#41;
+end
+
+rowsize&#33;&#40;layout, 1, Fixed&#40;400&#41;&#41;
+# force the layout cell &#91;1, 1&#93; to be square
+colsize&#33;&#40;layout, 1, Aspect&#40;1, 1&#41;&#41;
+
+axs&#91;2&#93;.aspect &#61; 1
+axs&#91;4&#93;.autolimitaspect &#61; 1
+
+rects &#61; layout&#91;1:2, 1:2&#93; &#61; &#91;Box&#40;scene, color &#61; &#40;:black, 0.05&#41;,
+    strokecolor &#61; :transparent&#41; for _ in 1:4&#93;
+
+record&#40;container_scene, joinpath&#40;@OUTPUT, &quot;example_circle_aspect_ratios.mp4&quot;&#41;, 0:1/30:9; framerate&#61;30&#41; do ti
+    t&#91;&#93; &#61; ti
+end</code></pre>
+
+<video src="/v0.15.1/assets/examples/layoutables/axis/code/output/example_circle_aspect_ratios.mp4" controls="true" loop="true"></video>
+
+<h2 id="linking_axes"><a href="#linking_axes" class="header-anchor">Linking axes</a></h2>
+<p>You can link axes to each other. Every axis simply keeps track of a list of other axes which it updates when it is changed itself. You can link x and y dimensions separately.</p>
+<pre><code class="language-julia">using CairoMakie
+
+f &#61; Figure&#40;&#41;
+
+ax1 &#61; Axis&#40;f&#91;1, 1&#93;&#41;
+ax2 &#61; Axis&#40;f&#91;1, 2&#93;&#41;
+ax3 &#61; Axis&#40;f&#91;2, 2&#93;&#41;
+
+linkyaxes&#33;&#40;ax1, ax2&#41;
+linkxaxes&#33;&#40;ax2, ax3&#41;
+
+ax1.title &#61; &quot;y linked&quot;
+ax2.title &#61; &quot;x &amp; y linked&quot;
+ax3.title &#61; &quot;x linked&quot;
+
+for &#40;i, ax&#41; in enumerate&#40;&#91;ax1, ax2, ax3&#93;&#41;
+    lines&#33;&#40;ax, 1:10, 1:10, color &#61; &quot;green&quot;&#41;
+    if i &#33;&#61; 1
+        lines&#33;&#40;ax, 11:20, 1:10, color &#61; &quot;red&quot;&#41;
+    end
+    if i &#33;&#61; 3
+        lines&#33;&#40;ax, 1:10, 11:20, color &#61; &quot;blue&quot;&#41;
+    end
+end
+
+f</code></pre></p>
+<p>
+  <a id="example_15048921401751857813">
+   <img src="/v0.15.1/assets/examples/layoutables/axis/code/output/example_15048921401751857813.png" alt=""> 
+  </a>
+  
+<h2 id="changing_x_and_y_axis_position"><a href="#changing_x_and_y_axis_position" class="header-anchor">Changing x and y axis position</a></h2>
+<p>By default, the x axis is at the bottom, and the y axis at the left side. You can change this with the attributes <code>xaxisposition &#61; :top</code> and <code>yaxisposition &#61; :right</code>.</p>
+<pre><code class="language-julia">using CairoMakie
+
+f &#61; Figure&#40;&#41;
+
+for i in 1:2, j in 1:2
+    Axis&#40;
+        f&#91;i, j&#93;,
+        limits &#61; &#40;0, 5, 0, 5&#41;,
+        xaxisposition &#61; &#40;i &#61;&#61; 1 ? :top : :bottom&#41;,
+        yaxisposition &#61; &#40;j &#61;&#61; 1 ? :left : :right&#41;&#41;
+end
+
+f</code></pre></p>
+<p>
+  <a id="example_10289922321771100928">
+   <img src="/v0.15.1/assets/examples/layoutables/axis/code/output/example_10289922321771100928.png" alt=""> 
+  </a>
+  
+<h2 id="creating_a_twin_axis"><a href="#creating_a_twin_axis" class="header-anchor">Creating a twin axis</a></h2>
+<p>There is currently no dedicated function to do this, but you can simply add an Axis on top of another, then hide everything but the second axis.</p>
+<p>Here&#39;s an example how to do this with a second y axis on the right.</p>
+<pre><code class="language-julia">using CairoMakie
+
+f &#61; Figure&#40;&#41;
+
+ax1 &#61; Axis&#40;f&#91;1, 1&#93;, yticklabelcolor &#61; :blue&#41;
+ax2 &#61; Axis&#40;f&#91;1, 1&#93;, yticklabelcolor &#61; :red, yaxisposition &#61; :right&#41;
+hidespines&#33;&#40;ax2&#41;
+hidexdecorations&#33;&#40;ax2&#41;
+
+lines&#33;&#40;ax1, 0..10, sin, color &#61; :blue&#41;
+lines&#33;&#40;ax2, 0..10, x -&gt; 100 * cos&#40;x&#41;, color &#61; :red&#41;
+
+f</code></pre></p>
+<p>
+  <a id="example_2115761524578697646">
+   <img src="/v0.15.1/assets/examples/layoutables/axis/code/output/example_2115761524578697646.png" alt=""> 
+  </a>
+  
+<h2 id="axis_interaction"><a href="#axis_interaction" class="header-anchor">Axis interaction</a></h2>
+<p>An Axis has a couple of predefined interactions enabled.</p>
+<h3 id="scroll_zoom"><a href="#scroll_zoom" class="header-anchor">Scroll Zoom</a></h3>
+<p>You can zoom in an axis by scrolling in and out. If you press x or y while scrolling, the zoom movement is restricted to that dimension. These keys can be changed with the attributes <code>xzoomkey</code> and <code>yzoomkey</code>. You can also restrict the zoom dimensions all the time by setting the axis attributes <code>xzoomlock</code> or <code>yzoomlock</code> to <code>true</code>.</p>
+<h3 id="drag_pan"><a href="#drag_pan" class="header-anchor">Drag Pan</a></h3>
+<p>You can pan around the axis by right-clicking and dragging. If you press x or y while panning, the pan movement is restricted to that dimension. These keys can be changed with the attributes <code>xpankey</code> and <code>ypankey</code>. You can also restrict the pan dimensions all the time by setting the axis attributes <code>xpanlock</code> or <code>ypanlock</code> to <code>true</code>.</p>
+<h3 id="limit_reset"><a href="#limit_reset" class="header-anchor">Limit Reset</a></h3>
+<p>You can reset the limits with <code>ctrl &#43; leftclick</code>. This is the same as doing <code>reset_limits&#33;&#40;ax&#41;</code>. This sets the limits back to the values stored in <code>ax.limits</code>, and if they are <code>nothing</code>, computes them automatically. If you have previously called <code>limits&#33;</code>, <code>xlims&#33;</code> or <code>ylims&#33;</code>, these settings therefore stay intact when doing a limit reset.</p>
+<p>You can alternatively press <code>ctrl &#43; shift &#43; leftclick</code>, which is the same as calling <code>autolimits&#33;&#40;ax&#41;</code>. This function ignores previously set limits and computes them all anew given the axis content.</p>
+<h3 id="rectangle_selection_zoom"><a href="#rectangle_selection_zoom" class="header-anchor">Rectangle Selection Zoom</a></h3>
+<p>Left-click and drag zooms into the selected rectangular area. If you press x or y while panning, only the respective dimension is affected. You can also restrict the selection zoom dimensions all the time by setting the axis attributes <code>xrectzoom</code> or <code>yrectzoom</code> to <code>true</code>.</p>
+<h3 id="custom_interactions"><a href="#custom_interactions" class="header-anchor">Custom Interactions</a></h3>
+<p>The interaction system is an additional abstraction upon Makie&#39;s low-level event system to make it easier to quickly create your own interaction patterns.</p>
+<h4 id="registering_and_deregistering_interactions"><a href="#registering_and_deregistering_interactions" class="header-anchor">Registering and deregistering interactions</a></h4>
+<p>To register a new interaction, call <code>register_interaction&#33;&#40;ax, name::Symbol, interaction&#41;</code>. The <code>interaction</code> argument can be of any type.</p>
+<p>To remove an existing interaction completely, call <code>deregister_interaction&#33;&#40;ax, name::Symbol&#41;</code>. You can check which interactions are currently active by calling <code>interactions&#40;ax&#41;</code>.</p>
+<h4 id="activating_and_deactivating_interactions"><a href="#activating_and_deactivating_interactions" class="header-anchor">Activating and deactivating interactions</a></h4>
+<p>Often, you don&#39;t want to remove an interaction entirely but only disable it for a moment, then reenable it again. You can use the functions <code>activate_interaction&#33;&#40;ax, name::Symbol&#41;</code> and <code>deactivate_interaction&#33;&#40;ax, name::Symbol&#41;</code> for that.</p>
+<h4 id="function_interaction"><a href="#function_interaction" class="header-anchor"><code>Function</code> Interaction</a></h4>
+<p>If <code>interaction</code> is a <code>Function</code>, it should accept two arguments, which correspond to an event and the axis. This function will then be called whenever the axis generates an event.</p>
+<p>Here&#39;s an example of such a function. Note that we use the special dispatch signature for Functions that allows to use the <code>do</code>-syntax:</p>
+<pre><code class="language-julia">register_interaction&#33;&#40;ax, :my_interaction&#41; do event::MouseEvent, axis
+    if event.type &#61;&#61;&#61; MouseEventTypes.leftclick
+        println&#40;&quot;You clicked on the axis&#33;&quot;&#41;
+    end
+end</code></pre>
+<p>As you can see, it&#39;s possible to restrict the type parameter of the event argument. Choices are one of <code>MouseEvent</code>, <code>KeysEvent</code> or <code>ScrollEvent</code> if you only want to handle a specific class. Your function can also have multiple methods dealing with each type.</p>
+<h4 id="custom_object_interaction"><a href="#custom_object_interaction" class="header-anchor">Custom Object Interaction</a></h4>
+<p>The function option is most suitable for interactions that don&#39;t involve much state. A more verbose but flexible option is available. For this, you define a new type which typically holds all the state variables you&#39;re interested in.</p>
+<p>Whenever the axis generates an event, it calls <code>process_interaction&#40;interaction, event, axis&#41;</code> on all stored interactions. By defining <code>process_interaction</code> for specific types of interaction and event, you can create more complex interaction patterns.</p>
+<p>Here&#39;s an example with simple state handling where we allow left clicks while l is pressed, and right clicks while r is pressed:</p>
+<pre><code class="language-julia">mutable struct MyInteraction
+    allow_left_click::Bool
+    allow_right_click::Bool
+end
+
+function MakieLayout.process_interaction&#40;interaction::MyInteraction, event::MouseEvent, axis&#41;
+    if interaction.use_left_click &amp;&amp; event.type &#61;&#61;&#61; MouseEventTypes.leftclick
+        println&#40;&quot;Left click in correct mode&quot;&#41;
+    end
+    if interaction.allow_right_click &amp;&amp; event.type &#61;&#61;&#61; MouseEventTypes.rightclick
+        println&#40;&quot;Right click in correct mode&quot;&#41;
+    end
+end
+
+function MakieLayout.process_interaction&#40;interaction::MyInteraction, event::KeysEvent, axis&#41;
+    interaction.allow_left_click &#61; Keyboard.l in event.keys
+    interaction.allow_right_click &#61; Keyboard.r in event.keys
+end
+
+register_interaction&#33;&#40;ax, :left_and_right, MyInteraction&#40;false, false&#41;&#41;</code></pre>
+<h4 id="setup_and_cleanup"><a href="#setup_and_cleanup" class="header-anchor">Setup and Cleanup</a></h4>
+<p>Some interactions might have more complex state involving plot objects that need to be setup or removed. For those purposes, you can overload the methods <code>registration_setup&#33;&#40;parent, interaction&#41;</code> and <code>deregistration_cleanup&#33;&#40;parent, interaction&#41;</code> which are called during registration and deregistration, respectively.</p>
+<h2 id="special_plots"><a href="#special_plots" class="header-anchor">Special Plots</a></h2>
+<p>A few special plot functions currently only work specifically with the <code>Axis</code> type.</p>
+<h3 id="vertical_horizontal_lines"><a href="#vertical_horizontal_lines" class="header-anchor">Vertical / Horizontal Lines</a></h3>
+<p>Often, it&#39;s useful to mark horizontal or vertical locations in a plot with lines that span a certain percentage of the axis, not the data. There are two functions <code>hlines&#33;</code> and <code>vlines&#33;</code> which work with <code>Axis</code> instances.</p>
+<p>The positional argument gives one or many locations in data coordinates, while the keyword arguments <code>xmin</code> and <code>xmax</code> &#40;for hlines&#41; or <code>ymin</code> and <code>ymax</code> &#40;for vlines&#41; specify the extent along the axis. These values can also be a single number or an iterable.</p>
+<pre><code class="language-julia">using CairoMakie
+
+f &#61; Figure&#40;&#41;
+
+ax1 &#61; Axis&#40;f&#91;1, 1&#93;, title &#61; &quot;vlines&quot;&#41;
+
+lines&#33;&#40;ax1, 0..4pi, sin&#41;
+vlines&#33;&#40;ax1, &#91;pi, 2pi, 3pi&#93;, color &#61; :red&#41;
+
+ax2 &#61; Axis&#40;f&#91;1, 2&#93;, title &#61; &quot;hlines&quot;&#41;
+hlines&#33;&#40;ax2, &#91;1, 2, 3, 4&#93;, xmax &#61; &#91;0.25, 0.5, 0.75, 1&#93;, color &#61; :blue&#41;
+
+f</code></pre></p>
+<p>
+  <a id="example_3975327652532201445">
+   <img src="/v0.15.1/assets/examples/layoutables/axis/code/output/example_3975327652532201445.png" alt=""> 
+  </a>
+  
+<h3 id="abline"><a href="#abline" class="header-anchor">abline&#33;</a></h3>
+<p>abline works similar to v/hlines&#33;:</p>
+  <div class="docstring">
+      <h2 class="doc-header" id="abline!">
+        <a href="#abline!">abline!</a>
+        <div class="doc-type"></div>
+      </h2>
+      <div class="doc-content"><pre><code class="language-julia">abline&#33;&#40;axis::Axis, a::Number, b::Number; line_kw_args...&#41;</code></pre>
+<p>Adds a line defined by <code>f&#40;x&#41; &#61; x * b &#43; a</code> to the axis. kwargs are the same as for a <code>line</code> plot and are passed directly to the line attributess.</p>
+</div>
+  </div>
+
+<pre><code class="language-julia">using CairoMakie
+CairoMakie.activate&#33;&#40;&#41;
+
+fig, ax, pl &#61; scatter&#40;1:4&#41;
+abline&#33;&#40;ax, 0, 1&#41;
+abline&#33;&#40;ax, 0, 1.5, color &#61; :red, linestyle&#61;:dash, linewidth&#61;2&#41;
+fig</code></pre></p>
+<p>
+  <a id="example_3475336376333033657">
+   <img src="/v0.15.1/assets/examples/layoutables/axis/code/output/example_3475336376333033657.png" alt=""> 
+  </a>
+  
+<div class="page-foot">
+  <div class="copyright">
+    &copy; Makie.jl. Last modified: August 21, 2021. Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
+      <p>These docs were autogenerated using Makie: v0.15.1, GLMakie: v0.4.5, CairoMakie: v0.6.4, WGLMakie: v0.4.5</p>
+  </div>
+</div>
+</div><!-- CONTENT ENDS HERE -->
+
+      </div> <!-- closure of main -->
+    </div>   <!-- closure of class initial--content -->
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+        <!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+          <ul class="social-icons">
+            <li><a href="https://twitter.com/MakiePlots" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+            <li><a href="https://github.com/JuliaPlots/Makie.jl" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+          </ul>
+        </div>
+        <div class="page__footer-copyright">&copy; Makie.jl. Powered by <a href="https://github.com/tlienart/Franklin.jl">Franklin</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+      </footer>
+    </div>
+
+    <script src="/v0.15.1/libs/navbar.js"></script>
+    <script src="/v0.15.1/libs/lunr/lunr.min.js"></script>
+    <script src="/v0.15.1/libs/lunr/lunr_index.js"></script>
+    <script src="/v0.15.1/libs/lunr/lunrclient.min.js"></script>
+    <!-- <script src="/v0.15.1/libs/minimal-mistakes/main.min.js"></script> -->
+    <script defer src="https://use.fontawesome.com/releases/v5.8.2/js/all.js" integrity="sha384-DJ25uNYET2XCl5ZF++U8eNxPWqcKohUUBUpKGlNLMchM7q4Wjg2CUpjHLaL8yYPH" crossorigin="anonymous"></script>
+
+    
+    
+        <script src="/v0.15.1/libs/highlight/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();hljs.configure({tabReplace: '    '});</script>
+
+    
+  </body>
+</html>

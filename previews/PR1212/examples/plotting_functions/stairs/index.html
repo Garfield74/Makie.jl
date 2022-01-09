@@ -1,0 +1,85 @@
+<!doctype html> <!-- Minimal Mistakes Jekyll Theme 4.16.4 by Michael Rose Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes Free for personal and commercial use under the MIT license https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE --> <html lang=en > <meta charset=UTF-8 > <meta name=viewport  content="width=device-width, initial-scale=1"> <link rel=stylesheet  href="/previews/PR1212/libs/highlight/github.min.css"> <link rel=stylesheet  href="/previews/PR1212/css/franklin.css"> <link rel=stylesheet  href="/previews/PR1212/css/minimal-mistakes.css"> <link rel=stylesheet  href="/previews/PR1212/css/makie.css"> <link rel=icon  href="/previews/PR1212/assets/icon_transparent.png"> <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/fontawesome.min.css" rel=stylesheet  type="text/css"/> <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/solid.min.css" rel=stylesheet  type="text/css"/> <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/brands.min.css" rel=stylesheet  type="text/css"/> <!--[if IE ]> <style> /* old IE unsupported flexbox fixes */ .greedy-nav .site-title { padding-right: 3em; } .greedy-nav button { position: absolute; top: 0; right: 0; height: 100%; } </style> <![endif]--> <title>stairs</title> <body class=layout--single > <div class=masthead > <div class=masthead__inner-wrap > <div class=masthead__menu > <nav id=site-nav  class=greedy-nav > <a class=title-icon  href="/previews/PR1212/"><img src="/previews/PR1212/assets/makie_logo_transparent.svg"/></a> <ul class=visible-links > <li class=masthead__menu-item > <a href="https://github.com/JuliaPlots/Makie.jl"><img src="/previews/PR1212/assets/GitHub-Mark-64px.png" class=masthead-icon  /></a> <li class=masthead__menu-item ><a href="/previews/PR1212/examples/">Examples</a> <li class=masthead__menu-item ><a href="/previews/PR1212/tutorials/">Tutorials</a> <li class=masthead__menu-item ><a href="/previews/PR1212/documentation/">Documentation</a> </ul> <button class="greedy-nav__toggle hidden" type=button > <span class=visually-hidden >Toggle menu</span> <div class=navicon ></div> </button> <ul class="hidden-links hidden"></ul> </nav> </div> </div> </div> <div class=initial-content > <div id=main  role=main > <div class=franklin-content ><h1 id=stairs ><a href="#stairs" class=header-anchor >stairs</a></h1> <div class=docstring > <h2 class=doc-header  id=stairs > <a href="#stairs">stairs</a> <div class=doc-type ></div> </h2> <div class=doc-content ><pre><code class=language-julia >stairs&#40;xs, ys; kwargs...&#41;</code></pre>
+<p>Plot a stair function.</p>
+<p>The <code>step</code> parameter can take the following values:</p>
+<ul>
+<li><p><code>:pre</code>: horizontal part of step extends to the left of each value in <code>xs</code>.</p>
+
+<li><p><code>:post</code>: horizontal part of step extends to the right of each value in <code>xs</code>.</p>
+
+<li><p><code>:center</code>: horizontal part of step extends halfway between the two adjacent values of <code>xs</code>.</p>
+
+</ul>
+<p>The conversion trait of stem is <code>PointBased</code>.</p>
+<h2 id=attributes ><a href="#attributes" class=header-anchor >Attributes</a></h2>
+<p>Available attributes and their defaults for <code>MakieCore.Combined&#123;Makie.stairs, T&#125; where T</code> are: </p>
+<pre><code class=language-julia >ambient         Float32&#91;0.55, 0.55, 0.55&#93;
+  color           :black
+  colormap        :viridis
+  colorrange      MakieCore.Automatic&#40;&#41;
+  cycle           &#91;:color&#93;
+  diffuse         Float32&#91;0.4, 0.4, 0.4&#93;
+  inspectable     true
+  lightposition   :eyeposition
+  linestyle       &quot;nothing&quot;
+  linewidth       1.5
+  nan_color       RGBA&#123;Float32&#125;&#40;0.0f0,0.0f0,0.0f0,0.0f0&#41;
+  overdraw        false
+  shininess       32.0f0
+  specular        Float32&#91;0.2, 0.2, 0.2&#93;
+  ssao            false
+  step            :pre
+  transparency    false
+  visible         true</code></pre>
+</div>
+  </div>
+
+<h3 id=examples ><a href="#examples" class=header-anchor >Examples</a></h3>
+<pre><code class=language-julia >using CairoMakie
+
+f &#61; Figure&#40;&#41;
+
+xs &#61; LinRange&#40;0, 4pi, 21&#41;
+ys &#61; sin.&#40;xs&#41;
+
+stairs&#40;f&#91;1, 1&#93;, xs, ys&#41;
+stairs&#40;f&#91;2, 1&#93;, xs, ys; step&#61;:post, color&#61;:blue, linestyle&#61;:dash&#41;
+stairs&#40;f&#91;3, 1&#93;, xs, ys; step&#61;:center, color&#61;:red, linestyle&#61;:dot&#41;
+
+f</code></pre></p>
+<p>
+  <a id=example_2363051907127627253 >
+   <img src="/previews/PR1212/assets/examples/plotting_functions/stairs/code/output/example_2363051907127627253.png" alt=""> 
+  </a>
+  
+<div class=page-foot >
+  <div class=copyright >
+    &copy; Makie.jl. Last modified: August 10, 2021. Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
+      <p>These docs were autogenerated using Makie: v0.15.0, GLMakie: v0.4.4, CairoMakie: v0.6.3, WGLMakie: v0.4.4</p>
+  </div>
+</div>
+</div>
+
+      </div> 
+    </div>   
+
+    <div class=page__footer >
+      <footer>
+        
+        
+        <div class=page__footer-follow >
+          <ul class=social-icons >
+            <li><a href="https://twitter.com/MakiePlots" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden=true ></i> Twitter</a>
+            <li><a href="https://github.com/JuliaPlots/Makie.jl" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden=true ></i> GitHub</a>
+          </ul>
+        </div>
+        <div class=page__footer-copyright >&copy; Makie.jl. Powered by <a href="https://github.com/tlienart/Franklin.jl">Franklin</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel=nofollow >Minimal Mistakes</a>.</div>
+      </footer>
+    </div>
+
+    <script src="/previews/PR1212/libs/minimal-mistakes/main.min.js"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.8.2/js/all.js" integrity="sha384-DJ25uNYET2XCl5ZF++U8eNxPWqcKohUUBUpKGlNLMchM7q4Wjg2CUpjHLaL8yYPH" crossorigin=anonymous ></script>
+
+    
+    
+        <script src="/previews/PR1212/libs/highlight/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();hljs.configure({tabReplace: '    '});</script>

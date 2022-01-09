@@ -1,0 +1,237 @@
+<!doctype html> <!-- Minimal Mistakes Jekyll Theme 4.16.4 by Michael Rose Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes Free for personal and commercial use under the MIT license https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE --> <html lang=en > <meta charset=UTF-8 > <meta name=viewport  content="width=device-width, initial-scale=1"> <link rel=stylesheet  href="/previews/PR1212/libs/highlight/github.min.css"> <link rel=stylesheet  href="/previews/PR1212/css/franklin.css"> <link rel=stylesheet  href="/previews/PR1212/css/minimal-mistakes.css"> <link rel=stylesheet  href="/previews/PR1212/css/makie.css"> <link rel=icon  href="/previews/PR1212/assets/icon_transparent.png"> <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/fontawesome.min.css" rel=stylesheet  type="text/css"/> <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/solid.min.css" rel=stylesheet  type="text/css"/> <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/brands.min.css" rel=stylesheet  type="text/css"/> <!--[if IE ]> <style> /* old IE unsupported flexbox fixes */ .greedy-nav .site-title { padding-right: 3em; } .greedy-nav button { position: absolute; top: 0; right: 0; height: 100%; } </style> <![endif]--> <title>How to use JSServe &#43; WGLMakie</title> <body class=layout--single > <div class=masthead > <div class=masthead__inner-wrap > <div class=masthead__menu > <nav id=site-nav  class=greedy-nav > <a class=title-icon  href="/previews/PR1212/"><img src="/previews/PR1212/assets/makie_logo_transparent.svg"/></a> <ul class=visible-links > <li class=masthead__menu-item > <a href="https://github.com/JuliaPlots/Makie.jl"><img src="/previews/PR1212/assets/GitHub-Mark-64px.png" class=masthead-icon  /></a> <li class=masthead__menu-item ><a href="/previews/PR1212/examples/">Examples</a> <li class=masthead__menu-item ><a href="/previews/PR1212/tutorials/">Tutorials</a> <li class=masthead__menu-item ><a href="/previews/PR1212/documentation/">Documentation</a> </ul> <button class="greedy-nav__toggle hidden" type=button > <span class=visually-hidden >Toggle menu</span> <div class=navicon ></div> </button> <ul class="hidden-links hidden"></ul> </nav> </div> </div> </div> <div class=initial-content > <div id=main  role=main > <div class=franklin-content ><h1 id=how_to_use_jsserve_wglmakie ><a href="#how_to_use_jsserve_wglmakie" class=header-anchor >How to use JSServe &#43; WGLMakie</a></h1> <p>One can use JSServe and WGLMakie in Pluto, IJulia, Webpages - and Documenter&#33; It&#39;s possible to create interactive apps and dashboards, serve them on live webpages, or export them to static HTML.</p> <p>This tutorial will run through the different modes and what kind of limitations to expect.</p> <p>First, one should use the new Page mode for anything that displays multiple outputs, like Pluto/IJulia/Documenter. This creates a single entry point, to connect to the Julia process and load dependencies. For Documenter, the page needs to be set to <code>exportable&#61;true, offline&#61;true</code>. Exportable has the effect of inlining all data &amp; js dependencies, so that everything can be loaded in a single HTML object. <code>offline&#61;true</code> will make the Page not even try to connect to a running Julia process, which makes sense for the kind of static export we do in Documenter.</p> <pre><code class=language-julia >using JSServe
+Page&#40;exportable&#61;true, offline&#61;true&#41;</code></pre> <p>After the page got displayed by the frontend, we can start with creating plots and JSServe Apps:</p> <pre><code class=language-julia >using WGLMakie
+WGLMakie.activate&#33;&#40;&#41;
+# Set the default resolution to something that fits the Documenter theme
+set_theme&#33;&#40;resolution&#61;&#40;800, 400&#41;&#41;
+scatter&#40;1:4, color&#61;1:4&#41;</code></pre> <p>As you can see, the output is completely static, because we don&#39;t have a running Julia server, as it would be the case with e.g. Pluto. To make the plot interactive, we will need to write more parts of WGLMakie in JS, which is an ongoing effort. As you can see, the interactivity already keeps working for 3D:</p> <pre><code class=language-julia >N &#61; 60
+function xy_data&#40;x, y&#41;
+    r &#61; sqrt&#40;x^2 &#43; y^2&#41;
+    r &#61;&#61; 0.0 ? 1f0 : &#40;sin&#40;r&#41;/r&#41;
+end
+l &#61; range&#40;-10, stop &#61; 10, length &#61; N&#41;
+z &#61; Float32&#91;xy_data&#40;x, y&#41; for x in l, y in l&#93;
+surface&#40;
+    -1..1, -1..1, z,
+    colormap &#61; :Spectral
+&#41;</code></pre> <p>There are a couple of ways to keep interacting with Plots in a static export.</p> <h2 id=record_a_statemap ><a href="#record_a_statemap" class=header-anchor >Record a statemap</a></h2> <p>JSServe allows to record a statemap for all widgets, that satisfy the following interface:</p> <pre><code class=language-julia ># must be true to be found inside the DOM
+is_widget&#40;x&#41; &#61; true
+# Updating the widget isn&#39;t dependant on any other state &#40;only thing supported right now&#41;
+is_independant&#40;x&#41; &#61; true
+# The values a widget can iterate
+function value_range end
+# updating the widget with a certain value &#40;usually an observable&#41;
+function update_value&#33;&#40;x, value&#41; end</code></pre> <p>Currently, only sliders overload the interface:</p> <pre><code class=language-julia >using Observables
+
+App&#40;&#41; do session::Session
+    n &#61; 10
+    index_slider &#61; Slider&#40;1:n&#41;
+    volume &#61; rand&#40;n, n, n&#41;
+    slice &#61; map&#40;index_slider&#41; do idx
+        return volume&#91;:, :, idx&#93;
+    end
+    fig &#61; Figure&#40;&#41;
+    ax, cplot &#61; contour&#40;fig&#91;1, 1&#93;, volume&#41;
+    rectplot &#61; linesegments&#33;&#40;ax, Rect&#40;-1, -1, 12, 12&#41;, linewidth&#61;2, color&#61;:red&#41;
+    on&#40;index_slider&#41; do idx
+        translate&#33;&#40;rectplot, 0,0,idx&#41;
+    end
+    heatmap&#40;fig&#91;1, 2&#93;, slice&#41;
+    slider &#61; DOM.div&#40;&quot;z-index: &quot;, index_slider, index_slider.value&#41;
+    return JSServe.record_states&#40;session, DOM.div&#40;slider, fig&#41;&#41;
+end</code></pre> <h2 id=execute_javascript_directly ><a href="#execute_javascript_directly" class=header-anchor >Execute Javascript directly</a></h2> <p>JSServe makes it easy to build whole HTML and JS applications. You can for example directly register javascript function that get run on change.</p> <pre><code class=language-julia >using JSServe: onjs
+
+app &#61; App&#40;&#41; do session::Session
+    s1 &#61; Slider&#40;1:100&#41;
+    slider_val &#61; DOM.p&#40;s1&#91;&#93;&#41; # initialize with current value
+    # call the &#96;on_update&#96; function whenever s1.value changes in JS:
+    onjs&#40;session, s1.value, js&quot;&quot;&quot;function on_update&#40;new_value&#41; &#123;
+        //interpolating of DOM nodes and other Julia values work mostly as expected:
+        const p_element &#61; &#36;&#40;slider_val&#41;
+        p_element.innerText &#61; new_value
+    &#125;
+    &quot;&quot;&quot;&#41;
+
+    return DOM.div&#40;&quot;slider 1: &quot;, s1, slider_val&#41;
+end</code></pre> <p>One can also interpolate plots into JS and update those via JS. The problem is, that there isn&#39;t an amazing interface yet. The returned object is directly a THREE object, with all plot attributes converted into Javascript types. The good news is, all attributes should be in either <code>three_scene.material.uniforms</code>, or <code>three_scene.geometry.attributes</code>. Going forward, we should create an API in WGLMakie, that makes it as easy as in Julia: <code>plot.attribute &#61; value</code>. But while this isn&#39;t in place, logging the the returned object makes it pretty easy to figure out what to do - btw, the JS console &#43; logging is amazing and makes it very easy to play around with the object once logged.</p> <pre><code class=language-julia >using JSServe: onjs, evaljs, on_document_load
+
+app &#61; App&#40;&#41; do session::Session
+    s1 &#61; Slider&#40;1:100&#41;
+    slider_val &#61; DOM.p&#40;s1&#91;&#93;&#41; # initialize with current value
+
+    fig, ax, splot &#61; scatter&#40;1:4&#41;
+
+    # With on_document_load one can run JS after everything got loaded.
+    # This is an alternative to &#96;evaljs&#96;, which we can&#39;t use here,
+    # since it gets run asap, which means the plots won&#39;t be found yet.
+
+    on_document_load&#40;session, js&quot;&quot;&quot;
+        const plots &#61; &#36;&#40;splot&#41;
+        const scatter_plot &#61; plots&#91;0&#93;
+        // open the console with ctr&#43;shift&#43;i, to inspect the values
+        // tip - you can right click on the log and store the actual variable as a global, and directly interact with it to change the plot.
+        console.log&#40;scatter_plot&#41;
+        console.log&#40;scatter_plot.material.uniforms&#41;
+        console.log&#40;scatter_plot.geometry.attributes&#41;
+    &quot;&quot;&quot;&#41;
+
+    # with the above, we can find out that the positions are stored in &#96;offset&#96;
+    # &#40;*sigh*, this is because threejs special cases &#96;position&#96; attributes so it can&#39;t be used&#41;
+    # Now, lets go and change them when using the slider :&#41;
+    onjs&#40;session, s1.value, js&quot;&quot;&quot;function on_update&#40;new_value&#41; &#123;
+        const plots &#61; &#36;&#40;splot&#41;
+        const scatter_plot &#61; plots&#91;0&#93;
+
+        // change first point x &#43; y value
+        scatter_plot.geometry.attributes.offset.array&#91;0&#93; &#61; &#40;new_value/100&#41; * 4
+        scatter_plot.geometry.attributes.offset.array&#91;1&#93; &#61; &#40;new_value/100&#41; * 4
+        // this always needs to be set of geometry attributes after an update
+        scatter_plot.geometry.attributes.offset.needsUpdate &#61; true
+    &#125;
+    &quot;&quot;&quot;&#41;
+    # and for got measures, add a slider to change the color:
+    color_slider &#61; Slider&#40;LinRange&#40;0, 1, 100&#41;&#41;
+    onjs&#40;session, color_slider.value, js&quot;&quot;&quot;function on_update&#40;hue&#41; &#123;
+        const plot &#61; &#36;&#40;splot&#41;&#91;0&#93;
+        const color &#61; new THREE.Color&#40;&#41;
+        color.setHSL&#40;hue, 1.0, 0.5&#41;
+        plot.material.uniforms.color.value.x &#61; color.r
+        plot.material.uniforms.color.value.y &#61; color.g
+        plot.material.uniforms.color.value.z &#61; color.b
+    &#125;&quot;&quot;&quot;&#41;
+
+    markersize &#61; Slider&#40;1:100&#41;
+    onjs&#40;session, markersize.value, js&quot;&quot;&quot;function on_update&#40;size&#41; &#123;
+        const plot &#61; &#36;&#40;splot&#41;&#91;0&#93;
+        plot.material.uniforms.markersize.value.x &#61; size
+        plot.material.uniforms.markersize.value.y &#61; size
+    &#125;&quot;&quot;&quot;&#41;
+    return DOM.div&#40;s1, color_slider, markersize, fig&#41;
+end</code></pre> <p>This summarizes the current state of interactivity with WGLMakie inside static pages.</p> <h1 id=plutoijulia ><a href="#plutoijulia" class=header-anchor >Pluto/IJulia</a></h1> <p>Note that the normal interactivity from Makie is preserved with WGLMakie in e.g. Pluto, as long as the Julia session is running. Which brings us to setting up Pluto/IJulia sessions&#33; The return value of your first cell must be the return value of the function <code>Page</code>. For example, your first cell can be</p> <pre><code class=language-julia >begin
+	using JSServe
+	Page&#40;&#41;
+end</code></pre> <p>As is common with files meant to be shared, you might wish to set up a temporary directory so as to not pollute other people&#39;s environment. The following code will also be a valid first cell.</p> <pre><code class=language-julia >begin
+	using Pkg
+	Pkg.activate&#40;mktempdir&#40;&#41;&#41;
+
+	Pkg.add&#40;&quot;JSServe&quot;&#41;
+	using JSServe
+	Page&#40;&#41;
+end</code></pre> <p>If you&#39;re accessing the notebook from another PC, you must set:</p> <pre><code class=language-julia >begin
+	using JSServe
+	Page&#40;listen_url&#61;&quot;0.0.0.0&quot;&#41;
+end</code></pre> <p>For more advanced setups consult the <code>?Page</code> docs and <code>JSServe.configure_server&#33;</code>.</p> <h2 id=styling ><a href="#styling" class=header-anchor >Styling</a></h2> <p>You may have noticed, styling isn&#39;t really amazing right now. The good news is, that one can use the whole mighty power of the CSS/HTML universe. If it wasn&#39;t clear so far, JSServe allows to load arbitrary css, and <code>DOM.xxx</code> wraps all existing HTML tags.</p> <pre><code class=language-julia >using Colors
+using JSServe: rows
+
+App&#40;&#41; do session::Session
+
+    hue_slider &#61; Slider&#40;0:360&#41;
+    color_swatch &#61; DOM.div&#40;class&#61;&quot;h-6 w-6 p-2 m-2 rounded shadow&quot;&#41;
+
+    onjs&#40;session, hue_slider.value, js&quot;&quot;&quot;function &#40;hue&#41;&#123;
+        &#36;&#40;color_swatch&#41;.style.backgroundColor &#61; &quot;hsl&#40;&quot; &#43; hue &#43; &quot;,60&#37;,50&#37;&#41;&quot;
+    &#125;&quot;&quot;&quot;&#41;
+
+    return DOM.div&#40;JSServe.TailwindCSS, rows&#40;hue_slider, color_swatch&#41;&#41;
+end</code></pre> <p>Tailwind is quite a amazing and has a great documentation especially for CSS beginners: https://tailwindcss.com/docs/</p> <p>Note, that JSServe.TailwindCSS is nothing but:</p> <pre><code class=language-julia >TailwindCSS &#61; JSServe.Asset&#40;&quot;/path/to/tailwind.min.css&quot;&#41;</code></pre>
+<p>So any other CSS file can be used.</p>
+<p>It&#39;s also pretty easy to make reusable blocks from styled elements. E.g. the <code>rows</code> function above is nothing but:</p>
+<pre><code class=language-julia >rows&#40;args...; class&#61;&quot;&quot;&#41; &#61; DOM.div&#40;args..., class&#61;class * &quot; flex flex-row&quot;&#41;</code></pre>
+<p>It would be more correct to define it as:</p>
+<pre><code class=language-julia >rows&#40;args...; class&#61;&quot;&quot;&#41; &#61; DOM.div&#40;JSServe.TailwindCSS, args..., class&#61;class * &quot; flex flex-row&quot;&#41;</code></pre>
+<p>JSServe will then make sure, that <code>JSServe.TailwindCSS</code> is loaded, and will only load it once&#33;</p>
+<p>Finally, lets create a styled, reusable card componenent:</p>
+<pre><code class=language-julia >using Markdown
+
+struct GridCard
+    elements::Any
+end
+
+GridCard&#40;elements...&#41; &#61; GridCard&#40;elements&#41;
+
+function JSServe.jsrender&#40;card::GridCard&#41;
+    return DOM.div&#40;JSServe.TailwindCSS, card.elements..., class&#61;&quot;rounded-lg p-2 m-2 shadow-lg grid auto-cols-max grid-cols-2 gap-4&quot;&#41;
+end
+
+App&#40;&#41; do session::Session
+    # We can now use this wherever we want:
+    fig &#61; Figure&#40;resolution&#61;&#40;200, 200&#41;&#41;
+    contour&#40;fig&#91;1,1&#93;, rand&#40;4,4&#41;&#41;
+    card &#61; GridCard&#40;
+        Slider&#40;1:100&#41;,
+        DOM.h1&#40;&quot;hello&quot;&#41;,
+        DOM.img&#40;src&#61;&quot;https://julialang.org/assets/infra/logo.svg&quot;&#41;,
+        fig
+    &#41;
+    # Markdown creates a DOM as well, and you can interpolate
+    # arbitrary jsrender&#39;able elements in there:
+    return md&quot;&quot;&quot;
+
+    # Wow, Markdown works as well?
+
+    &#36;&#40;card&#41;
+
+    &quot;&quot;&quot;
+end</code></pre>
+<p>Hopefully, over time there will be helper libraries with lots of stylised elements like the above, to make flashy dashboards with JSServe &#43; WGLMakie.</p>
+<h1 id=export ><a href="#export" class=header-anchor >Export</a></h1>
+<p>Documenter just renders the plots &#43; Page as html, so if you want to inline WGLMakie/JSServe objects into your own page, one can just use something like this:</p>
+<pre><code class=language-julia >using WGLMakie, JSServe
+
+using WGLMakie, JSServe
+WGLMakie.activate&#33;&#40;&#41;
+
+open&#40;&quot;index.html&quot;, &quot;w&quot;&#41; do io
+    println&#40;io, &quot;&quot;&quot;
+    &lt;html&gt;
+        &lt;head&gt;
+        &lt;/head&gt;
+        &lt;body&gt;
+    &quot;&quot;&quot;&#41;
+    # before doing anything else,
+    # make sure the Page setup code gets rendered as HTML
+    show&#40;io, MIME&quot;text/html&quot;&#40;&#41;, Page&#40;exportable&#61;true, offline&#61;true&#41;&#41;
+    # Then, you can just inline plots or whatever you want :&#41;
+    show&#40;io, MIME&quot;text/html&quot;&#40;&#41;, scatter&#40;1:4&#41;&#41;
+    show&#40;io, MIME&quot;text/html&quot;&#40;&#41;, surface&#40;rand&#40;4, 4&#41;&#41;&#41;
+    # or anything else from JSServe, or that can be displayed as html:
+    show&#40;io, MIME&quot;text/html&quot;&#40;&#41;, JSServe.Slider&#40;1:3&#41;&#41;
+    println&#40;io, &quot;&quot;&quot;
+        &lt;/body&gt;
+    &lt;/html&gt;
+    &quot;&quot;&quot;&#41;
+end</code></pre>
+<h1 id=troubleshooting ><a href="#troubleshooting" class=header-anchor >Troubleshooting</a></h1>
+<h2 id=plots_dont_display_in_safari ><a href="#plots_dont_display_in_safari" class=header-anchor >Plots don&#39;t display in Safari</a></h2>
+<p>Safari users may need to <a href="https://discussions.apple.com/thread/8655829">enable</a> WebGL.</p>
+<div class=page-foot >
+  <div class=copyright >
+    &copy; Makie.jl. Last modified: August 10, 2021. Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
+      <p>These docs were autogenerated using Makie: v0.15.0, GLMakie: v0.4.4, CairoMakie: v0.6.3, WGLMakie: v0.4.4</p>
+  </div>
+</div>
+</div>
+
+      </div> 
+    </div>   
+
+    <div class=page__footer >
+      <footer>
+        
+        
+        <div class=page__footer-follow >
+          <ul class=social-icons >
+            <li><a href="https://twitter.com/MakiePlots" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden=true ></i> Twitter</a>
+            <li><a href="https://github.com/JuliaPlots/Makie.jl" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden=true ></i> GitHub</a>
+          </ul>
+        </div>
+        <div class=page__footer-copyright >&copy; Makie.jl. Powered by <a href="https://github.com/tlienart/Franklin.jl">Franklin</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel=nofollow >Minimal Mistakes</a>.</div>
+      </footer>
+    </div>
+
+    <script src="/previews/PR1212/libs/minimal-mistakes/main.min.js"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.8.2/js/all.js" integrity="sha384-DJ25uNYET2XCl5ZF++U8eNxPWqcKohUUBUpKGlNLMchM7q4Wjg2CUpjHLaL8yYPH" crossorigin=anonymous ></script>
+
+    
+    
+        <script src="/previews/PR1212/libs/highlight/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();hljs.configure({tabReplace: '    '});</script>

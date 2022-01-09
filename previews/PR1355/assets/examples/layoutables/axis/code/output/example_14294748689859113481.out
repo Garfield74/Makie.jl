@@ -1,0 +1,5 @@
+MethodError: convert_for_attribute(::Type{Float64}, ::Float64) is ambiguous. Candidates:
+  convert_for_attribute(t::Type{T}, value::T) where T in Makie.MakieLayout at /home/runner/work/Makie.jl/Makie.jl/src/makielayout/layoutables.jl:286
+  convert_for_attribute(t::Type{Float64}, x) in Makie.MakieLayout at /home/runner/work/Makie.jl/Makie.jl/src/makielayout/layoutables.jl:287
+Possible fix, define
+  convert_for_attribute(::Type{Float64}, ::Float64)

@@ -1,0 +1,62 @@
+<!doctype html> <!-- Minimal Mistakes Jekyll Theme 4.16.4 by Michael Rose Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes Free for personal and commercial use under the MIT license https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE --> <html lang=en > <meta charset=UTF-8 > <meta name=viewport  content="width=device-width, initial-scale=1"> <link rel=stylesheet  href="/previews/PR1212/libs/highlight/github.min.css"> <link rel=stylesheet  href="/previews/PR1212/css/franklin.css"> <link rel=stylesheet  href="/previews/PR1212/css/minimal-mistakes.css"> <link rel=stylesheet  href="/previews/PR1212/css/makie.css"> <link rel=icon  href="/previews/PR1212/assets/icon_transparent.png"> <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/fontawesome.min.css" rel=stylesheet  type="text/css"/> <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/solid.min.css" rel=stylesheet  type="text/css"/> <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/brands.min.css" rel=stylesheet  type="text/css"/> <!--[if IE ]> <style> /* old IE unsupported flexbox fixes */ .greedy-nav .site-title { padding-right: 3em; } .greedy-nav button { position: absolute; top: 0; right: 0; height: 100%; } </style> <![endif]--> <title>arrows</title> <body class=layout--single > <div class=masthead > <div class=masthead__inner-wrap > <div class=masthead__menu > <nav id=site-nav  class=greedy-nav > <a class=title-icon  href="/previews/PR1212/"><img src="/previews/PR1212/assets/makie_logo_transparent.svg"/></a> <ul class=visible-links > <li class=masthead__menu-item > <a href="https://github.com/JuliaPlots/Makie.jl"><img src="/previews/PR1212/assets/GitHub-Mark-64px.png" class=masthead-icon  /></a> <li class=masthead__menu-item ><a href="/previews/PR1212/examples/">Examples</a> <li class=masthead__menu-item ><a href="/previews/PR1212/tutorials/">Tutorials</a> <li class=masthead__menu-item ><a href="/previews/PR1212/documentation/">Documentation</a> </ul> <button class="greedy-nav__toggle hidden" type=button > <span class=visually-hidden >Toggle menu</span> <div class=navicon ></div> </button> <ul class="hidden-links hidden"></ul> </nav> </div> </div> </div> <div class=initial-content > <div id=main  role=main > <div class=franklin-content ><h1 id=arrows ><a href="#arrows" class=header-anchor >arrows</a></h1> <div class=docstring > <h2 class=doc-header  id=arrows > <a href="#arrows">arrows</a> <div class=doc-type ></div> </h2> <div class=doc-content ><pre><code class=language-julia >arrows&#40;points, directions; kwargs...&#41;
+arrows&#40;x, y, u, v&#41;
+arrows&#40;x::AbstractVector, y::AbstractVector, u::AbstractMatrix, v::AbstractMatrix&#41;
+arrows&#40;x, y, z, u, v, w&#41;</code></pre> <p>Plots arrows at the specified points with the specified components. <code>u</code> and <code>v</code> are interpreted as vector components &#40;<code>u</code> being the x and <code>v</code> being the y&#41;, and the vectors are plotted with the tails at <code>x</code>, <code>y</code>.</p> <p>If <code>x, y, u, v</code> are <code>&lt;: AbstractVector</code>, then each &#39;row&#39; is plotted as a single vector.</p> <p>If <code>u, v</code> are <code>&lt;: AbstractMatrix</code>, then <code>x</code> and <code>y</code> are interpreted as specifications for a grid, and <code>u, v</code> are plotted as arrows along the grid.</p> <p><code>arrows</code> can also work in three dimensions.</p> <h2 id=attributes__2 ><a href="#attributes__2" class=header-anchor >Attributes</a></h2> <p>Available attributes and their defaults for <code>MakieCore.Combined&#123;Makie.arrows, T&#125; where T</code> are: </p> <pre><code class=language-julia >align           :origin
+  ambient         Float32&#91;0.55, 0.55, 0.55&#93;
+  arrowcolor      MakieCore.Automatic&#40;&#41;
+  arrowhead       MakieCore.Automatic&#40;&#41;
+  arrowsize       MakieCore.Automatic&#40;&#41;
+  arrowtail       MakieCore.Automatic&#40;&#41;
+  color           :black
+  colormap        :viridis
+  diffuse         Float32&#91;0.4, 0.4, 0.4&#93;
+  inspectable     true
+  lengthscale     1.0f0
+  lightposition   :eyeposition
+  linecolor       MakieCore.Automatic&#40;&#41;
+  linestyle       &quot;nothing&quot;
+  linewidth       MakieCore.Automatic&#40;&#41;
+  markerspace     MakieCore.Pixel
+  nan_color       RGBA&#123;Float32&#125;&#40;0.0f0,0.0f0,0.0f0,0.0f0&#41;
+  normalize       false
+  overdraw        false
+  quality         32
+  shininess       32.0f0
+  specular        Float32&#91;0.2, 0.2, 0.2&#93;
+  ssao            false
+  transparency    false
+  visible         true</code></pre> </div> </div> <h3 id=attributes ><a href="#attributes" class=header-anchor >Attributes</a></h3> <ul> <li><p><code>arrowhead &#61; automatic</code>: Defines the marker &#40;2D&#41; or mesh &#40;3D&#41; that is used as the arrow head. The default for is <code>&#39;▲&#39;</code> in 2D and a cone mesh in 3D. For the latter the mesh should start at <code>Point3f0&#40;0&#41;</code> and point in positive z-direction.</p> <li><p><code>arrowtail &#61; automatic</code>: Defines the mesh used to draw the arrow tail in 3D. It should start at <code>Point3f0&#40;0&#41;</code> and extend in negative z-direction. The default is a cylinder. This has no effect on the 2D plot.</p> <li><p><code>quality &#61; 32</code>: Defines the number of angle subdivisions used when generating the arrow head and tail meshes. Consider lowering this if you have performance issues. Only applies to 3D plots.</p> <li><p><code>linecolor &#61; :black</code>: Sets the color used for the arrow tail which is represented by a line in 2D.</p> <li><p><code>arrowcolor &#61; linecolor</code>: Sets the color of the arrow head.</p> <li><p><code>arrowsize &#61; automatic</code>: Scales the size of the arrow head. This defaults to <code>0.3</code> in the 2D case and <code>Vec3f0&#40;0.2, 0.2, 0.3&#41;</code> in the 3D case. For the latter the first two components scale the radius &#40;in x/y direction&#41; and the last scales the length of the cone. If the arrowsize is set to 1, the cone will have a diameter and length of 1.</p> <li><p><code>linewidth &#61; automatic</code>: Scales the width/diameter of the arrow tail. Defaults to <code>1</code> for 2D and <code>0.05</code> for the 3D case.</p> <li><p><code>lengthscale &#61; 1f0</code>: Scales the length of the arrow tail.</p> <li><p><code>linestyle &#61; nothing</code>: Sets the linestyle used in 2D. Does not apply to 3D plots.</p> <li><p><code>normalize &#61; false</code>: By default the lengths of the directions given to <code>arrows</code> are used to scale the length of the arrow tails. If this attribute is set to true the directions are normalized, skipping this scaling.</p> <li><p><code>align &#61; :origin</code>: Sets how arrows are positioned. By default arrows start at the given positions and extend along the given directions. If this attribute is set to <code>:head</code>, <code>:lineend</code>, <code>:tailend</code>, <code>:headstart</code> or <code>:center</code> the given positions will be between the head and tail of each arrow instead.</p> </ul> <h3 id=examples ><a href="#examples" class=header-anchor >Examples</a></h3> <pre><code class=language-julia >using CairoMakie
+
+f &#61; Figure&#40;resolution &#61; &#40;800, 800&#41;&#41;
+Axis&#40;f&#91;1, 1&#93;, backgroundcolor &#61; &quot;black&quot;&#41;
+
+xs &#61; LinRange&#40;0, 2pi, 20&#41;
+ys &#61; LinRange&#40;0, 3pi, 20&#41;
+us &#61; &#91;sin&#40;x&#41; * cos&#40;y&#41; for x in xs, y in ys&#93;
+vs &#61; &#91;-cos&#40;x&#41; * sin&#40;y&#41; for x in xs, y in ys&#93;
+strength &#61; vec&#40;sqrt.&#40;us .^ 2 .&#43; vs .^ 2&#41;&#41;
+
+arrows&#33;&#40;xs, ys, us, vs, arrowsize &#61; 10, lengthscale &#61; 0.3,
+    arrowcolor &#61; strength, linecolor &#61; strength&#41;
+
+f</code></pre></p> <p> <a id=example_12707894566346229771 > <img src="/previews/PR1212/assets/examples/plotting_functions/arrows/code/output/example_12707894566346229771.png" alt=""> </a> <pre><code class=language-julia >using GLMakie
+
+ps &#61; &#91;Point3f0&#40;x, y, z&#41; for x in -5:2:5 for y in -5:2:5 for z in -5:2:5&#93;
+ns &#61; map&#40;p -&gt; 0.1 * Vec3f0&#40;p&#91;2&#93;, p&#91;3&#93;, p&#91;1&#93;&#41;, ps&#41;
+arrows&#40;
+    ps, ns, fxaa&#61;true, # turn on anti-aliasing
+    linecolor &#61; :gray, arrowcolor &#61; :black,
+    linewidth &#61; 0.1, arrowsize &#61; Vec3f0&#40;0.3, 0.3, 0.4&#41;,
+    align &#61; :center, axis&#61;&#40;type&#61;Axis3,&#41;
+&#41;</code></pre></p> <p> <a id=example_12260887234169936915 > <img src="/previews/PR1212/assets/examples/plotting_functions/arrows/code/output/example_12260887234169936915.png" alt=""> </a> <pre><code class=language-julia >using GLMakie
+using LinearAlgebra
+
+ps &#61; &#91;Point3f0&#40;x, y, z&#41; for x in -5:2:5 for y in -5:2:5 for z in -5:2:5&#93;
+ns &#61; map&#40;p -&gt; 0.1 * Vec3f0&#40;p&#91;2&#93;, p&#91;3&#93;, p&#91;1&#93;&#41;, ps&#41;
+lengths &#61; norm.&#40;ns&#41;
+arrows&#40;
+    ps, ns, fxaa&#61;true, # turn on anti-aliasing
+    color&#61;lengths,
+    linewidth &#61; 0.1, arrowsize &#61; Vec3f0&#40;0.3, 0.3, 0.4&#41;,
+    align &#61; :center, axis&#61;&#40;type&#61;Axis3,&#41;
+&#41;</code></pre></p> <p> <a id=example_1304087214845400306 > <img src="/previews/PR1212/assets/examples/plotting_functions/arrows/code/output/example_1304087214845400306.png" alt=""> </a> <div class=page-foot > <div class=copyright > &copy; Makie.jl. Last modified: August 10, 2021. Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>. <p>These docs were autogenerated using Makie: v0.15.0, GLMakie: v0.4.4, CairoMakie: v0.6.3, WGLMakie: v0.4.4</p> </div> </div> </div> </div> </div> <div class=page__footer > <footer> <div class=page__footer-follow > <ul class=social-icons > <li><a href="https://twitter.com/MakiePlots" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden=true ></i> Twitter</a> <li><a href="https://github.com/JuliaPlots/Makie.jl" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden=true ></i> GitHub</a> </ul> </div> <div class=page__footer-copyright >&copy; Makie.jl. Powered by <a href="https://github.com/tlienart/Franklin.jl">Franklin</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel=nofollow >Minimal Mistakes</a>.</div> </footer> </div> <script src="/previews/PR1212/libs/minimal-mistakes/main.min.js"></script> <script defer src="https://use.fontawesome.com/releases/v5.8.2/js/all.js" integrity="sha384-DJ25uNYET2XCl5ZF++U8eNxPWqcKohUUBUpKGlNLMchM7q4Wjg2CUpjHLaL8yYPH" crossorigin=anonymous ></script> <script src="/previews/PR1212/libs/highlight/highlight.pack.js"></script> <script>hljs.initHighlightingOnLoad();hljs.configure({tabReplace: ' '});</script>

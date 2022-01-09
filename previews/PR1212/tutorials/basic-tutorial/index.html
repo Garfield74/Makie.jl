@@ -1,0 +1,304 @@
+<!doctype html> <!-- Minimal Mistakes Jekyll Theme 4.16.4 by Michael Rose Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes Free for personal and commercial use under the MIT license https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE --> <html lang=en > <meta charset=UTF-8 > <meta name=viewport  content="width=device-width, initial-scale=1"> <link rel=stylesheet  href="/previews/PR1212/libs/highlight/github.min.css"> <link rel=stylesheet  href="/previews/PR1212/css/franklin.css"> <link rel=stylesheet  href="/previews/PR1212/css/minimal-mistakes.css"> <link rel=stylesheet  href="/previews/PR1212/css/makie.css"> <link rel=icon  href="/previews/PR1212/assets/icon_transparent.png"> <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/fontawesome.min.css" rel=stylesheet  type="text/css"/> <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/solid.min.css" rel=stylesheet  type="text/css"/> <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/brands.min.css" rel=stylesheet  type="text/css"/> <!--[if IE ]> <style> /* old IE unsupported flexbox fixes */ .greedy-nav .site-title { padding-right: 3em; } .greedy-nav button { position: absolute; top: 0; right: 0; height: 100%; } </style> <![endif]--> <title>Basic Tutorial</title> <body class=layout--single > <div class=masthead > <div class=masthead__inner-wrap > <div class=masthead__menu > <nav id=site-nav  class=greedy-nav > <a class=title-icon  href="/previews/PR1212/"><img src="/previews/PR1212/assets/makie_logo_transparent.svg"/></a> <ul class=visible-links > <li class=masthead__menu-item > <a href="https://github.com/JuliaPlots/Makie.jl"><img src="/previews/PR1212/assets/GitHub-Mark-64px.png" class=masthead-icon  /></a> <li class=masthead__menu-item ><a href="/previews/PR1212/examples/">Examples</a> <li class=masthead__menu-item ><a href="/previews/PR1212/tutorials/">Tutorials</a> <li class=masthead__menu-item ><a href="/previews/PR1212/documentation/">Documentation</a> </ul> <button class="greedy-nav__toggle hidden" type=button > <span class=visually-hidden >Toggle menu</span> <div class=navicon ></div> </button> <ul class="hidden-links hidden"></ul> </nav> </div> </div> </div> <div class=initial-content > <div id=main  role=main > <div class=franklin-content ><h1 id=basic_tutorial ><a href="#basic_tutorial" class=header-anchor >Basic Tutorial</a></h1> <h2 id=preface ><a href="#preface" class=header-anchor >Preface</a></h2> <p>Here is a quick tutorial to get you started with Makie&#33;</p> <p>We assume you have <a href="https://julialang.org/">Julia</a> and <code>CairoMakie.jl</code> &#40;or one of the other backends, i.e. <code>GLMakie.jl</code> or <code>WGLMakie.jl</code>&#41; installed already.</p> <p>This tutorial uses CairoMakie, but the code can be executed with any backend. CairoMakie can output beautiful static vector graphics, but it doesn&#39;t have the native ability to open interactive windows.</p> <p>To see the output of plotting commands when using CairoMakie, we recommend you either use an IDE which supports png or svg output, such as VSCode, Atom/Juno, Jupyter, Pluto, etc., or try using a viewer package such as <a href="https://github.com/queryverse/ElectronDisplay.jl">ElectronDisplay.jl</a>, or alternatively save your plots to files directly. The Julia REPL by itself does not have the ability to show plots.</p> <p>GLMakie can open interactive windows, or alternatively display bitmaps inline if <code>Makie.inline&#33;&#40;true&#41;</code> is called.</p> <p>WGLMakie shows interactive plots in environments that support interactive html displays, such as VSCode, Atom/Juno, Jupyter, Pluto, etc.</p> <p>For more information, have a look at <a href="@ref">Backends &amp; Output</a>.</p> <p>Ok, now that this is out of the way, let&#39;s get started&#33;</p> <h2 id=first_plot ><a href="#first_plot" class=header-anchor >First plot</a></h2> <p>First, we import CairoMakie.</p> <pre><code class=language-julia >using CairoMakie</code></pre>
+<p>Makie has many different plotting functions, one of the most common ones is <a href="/previews/PR1212/examples/plotting_functions/lines/index.html#lines">lines</a>. You can just call such a function and your plot will appear if your coding environment can show png or svg files.</p>
+<div class="admonition note"><p class=admonition-title >Note</p><p>Objects such as <a href="/previews/PR1212/documentation/figure/index.html#figures">Figure</a>, <code>FigureAxisPlot</code> or <code>Scene</code> are usually displayed whenever they are returned in global scope &#40;e.g. in the REPL&#41;. To display such objects from within a local scope, like from within a function, you can directly call <code>display&#40;figure&#41;</code>, for example.</p>
+</div>
+<pre><code class=language-julia >x &#61; range&#40;0, 10, length&#61;100&#41;
+y &#61; sin.&#40;x&#41;
+lines&#40;x, y&#41;</code></pre></p>
+<p>
+  <a id=example_7476458710482869362 >
+   <img src="/previews/PR1212/assets/tutorials/basic-tutorial/code/output/example_7476458710482869362.png" alt=""> 
+  </a>
+  
+<p>Another common function is <a href="/previews/PR1212/examples/plotting_functions/scatter/index.html#scatter">scatter</a>.</p>
+<pre><code class=language-julia >using CairoMakie
+
+x &#61; range&#40;0, 10, length&#61;100&#41;
+y &#61; sin.&#40;x&#41;
+scatter&#40;x, y&#41;</code></pre></p>
+<p>
+  <a id=example_8304609491846763097 >
+   <img src="/previews/PR1212/assets/tutorials/basic-tutorial/code/output/example_8304609491846763097.png" alt=""> 
+  </a>
+  
+<h2 id=multiple_plots ><a href="#multiple_plots" class=header-anchor >Multiple plots</a></h2>
+<p>Every plotting function has a version with and one without <code>&#33;</code>. For example, there&#39;s <code>scatter</code> and <code>scatter&#33;</code>, <code>lines</code> and <code>lines&#33;</code>, etc. The functions without a <code>&#33;</code> always create a new axis with a plot inside, while the functions with <code>&#33;</code> plot into an already existing axis.</p>
+<p>Here&#39;s how you could plot two lines on top of each other.</p>
+<pre><code class=language-julia >using CairoMakie
+
+x &#61; range&#40;0, 10, length&#61;100&#41;
+y1 &#61; sin.&#40;x&#41;
+y2 &#61; cos.&#40;x&#41;
+
+lines&#40;x, y1&#41;
+lines&#33;&#40;x, y2&#41;
+current_figure&#40;&#41;</code></pre></p>
+<p>
+  <a id=example_14401808332526033325 >
+   <img src="/previews/PR1212/assets/tutorials/basic-tutorial/code/output/example_14401808332526033325.png" alt=""> 
+  </a>
+  
+<p>The second <code>lines&#33;</code> call plots into the axis created by the first <code>lines</code> call. If you don&#39;t specify an axis to plot into, it&#39;s as if you had called <code>lines&#33;&#40;current_axis&#40;&#41;, ...&#41;</code>.</p>
+<p>The call to <code>current_figure</code> is necessary here, because functions with <code>&#33;</code> return only the newly created plot object, but this alone does not cause the figure to display when returned.</p>
+<h2 id=attributes ><a href="#attributes" class=header-anchor >Attributes</a></h2>
+<p>Every plotting function has attributes which you can set through keyword arguments. The lines in the previous example both have the same default color, which we can change easily.</p>
+<pre><code class=language-julia >using CairoMakie
+
+x &#61; range&#40;0, 10, length&#61;100&#41;
+y1 &#61; sin.&#40;x&#41;
+y2 &#61; cos.&#40;x&#41;
+
+lines&#40;x, y1, color &#61; :red&#41;
+lines&#33;&#40;x, y2, color &#61; :blue&#41;
+current_figure&#40;&#41;</code></pre></p>
+<p>
+  <a id=example_16104267023422442261 >
+   <img src="/previews/PR1212/assets/tutorials/basic-tutorial/code/output/example_16104267023422442261.png" alt=""> 
+  </a>
+  
+<p>Other plotting functions have different attributes. The function <code>scatter</code>, for example, does not only have the <code>color</code> attribute, but also a <code>markersize</code> attribute.</p>
+<pre><code class=language-julia >using CairoMakie
+
+x &#61; range&#40;0, 10, length&#61;100&#41;
+y1 &#61; sin.&#40;x&#41;
+y2 &#61; cos.&#40;x&#41;
+
+scatter&#40;x, y1, color &#61; :red, markersize &#61; 5&#41;
+scatter&#33;&#40;x, y2, color &#61; :blue, markersize &#61; 10&#41;
+current_figure&#40;&#41;</code></pre></p>
+<p>
+  <a id=example_14348472925365601418 >
+   <img src="/previews/PR1212/assets/tutorials/basic-tutorial/code/output/example_14348472925365601418.png" alt=""> 
+  </a>
+  
+<p>If you save the plot object returned from a call like <code>scatter&#33;</code>, you can also manipulate its attributes later with the syntax <code>plot.attribute &#61; new_value</code>.</p>
+<pre><code class=language-julia >using CairoMakie
+
+x &#61; range&#40;0, 10, length&#61;100&#41;
+y1 &#61; sin.&#40;x&#41;
+y2 &#61; cos.&#40;x&#41;
+
+scatter&#40;x, y1, color &#61; :red, markersize &#61; 5&#41;
+sc &#61; scatter&#33;&#40;x, y2, color &#61; :blue, markersize &#61; 10&#41;
+sc.color &#61; :green
+sc.markersize &#61; 20
+current_figure&#40;&#41;</code></pre></p>
+<p>
+  <a id=example_17613010744264748378 >
+   <img src="/previews/PR1212/assets/tutorials/basic-tutorial/code/output/example_17613010744264748378.png" alt=""> 
+  </a>
+  
+<h2 id=array_attributes ><a href="#array_attributes" class=header-anchor >Array attributes</a></h2>
+<p>A lot of attributes can be set to either a single value or an array with as many elements as there are data points. For example, it is usually much more performant to draw many points with one scatter object, than to create many scatter objects with one point each.</p>
+<p>Here are the two scatter plots again, but one has varying markersize, and the other varying color.</p>
+<pre><code class=language-julia >using CairoMakie
+
+x &#61; range&#40;0, 10, length&#61;100&#41;
+y1 &#61; sin.&#40;x&#41;
+y2 &#61; cos.&#40;x&#41;
+
+scatter&#40;x, y1, color &#61; :red, markersize &#61; range&#40;5, 15, length&#61;100&#41;&#41;
+sc &#61; scatter&#33;&#40;x, y2, color &#61; range&#40;0, 1, length&#61;100&#41;, colormap &#61; :thermal&#41;
+
+current_figure&#40;&#41;</code></pre></p>
+<p>
+  <a id=example_10357445111122165713 >
+   <img src="/previews/PR1212/assets/tutorials/basic-tutorial/code/output/example_10357445111122165713.png" alt=""> 
+  </a>
+  
+<p>Note that the color array does not actually contain colors, rather the numerical values are mapped to the plot&#39;s <code>colormap</code>. There are many different colormaps to choose from, take a look on the <a href="/previews/PR1212/documentation/colors/index.html#colors">Colors</a> page.</p>
+<p>The values are mapped to colors via the <code>colorrange</code> attribute, which by default goes from the minimum to the maximum color value, but we can also limit or expand the range manually. For example, we can constrain the previous scatter plot&#39;s color range to &#40;0.25, 0.75&#41;, which will clip the colors at the bottom and the top quarters.</p>
+<pre><code class=language-julia >sc.colorrange &#61; &#40;0.25, 0.75&#41;
+
+current_figure&#40;&#41;</code></pre></p>
+<p>
+  <a id=example_8125838355419472826 >
+   <img src="/previews/PR1212/assets/tutorials/basic-tutorial/code/output/example_8125838355419472826.png" alt=""> 
+  </a>
+  
+<p>Of course you can also use an array of colors directly, in which case the <code>colorrange</code> is ignored:</p>
+<pre><code class=language-julia >using CairoMakie
+
+x &#61; range&#40;0, 10, length&#61;100&#41;
+y &#61; sin.&#40;x&#41;
+
+colors &#61; repeat&#40;&#91;:crimson, :dodgerblue, :slateblue1, :sienna1, :orchid1&#93;, 20&#41;
+
+scatter&#40;x, y, color &#61; colors, markersize &#61; 20&#41;</code></pre></p>
+<p>
+  <a id=example_2033433841566096269 >
+   <img src="/previews/PR1212/assets/tutorials/basic-tutorial/code/output/example_2033433841566096269.png" alt=""> 
+  </a>
+  
+<h2 id=simple_legend ><a href="#simple_legend" class=header-anchor >Simple legend</a></h2>
+<p>If you add label attributes to your plots, you can call the <code>axislegend</code> function to add a legend with all labeled plots to the current axis.</p>
+<pre><code class=language-julia >using CairoMakie
+
+x &#61; range&#40;0, 10, length&#61;100&#41;
+y1 &#61; sin.&#40;x&#41;
+y2 &#61; cos.&#40;x&#41;
+
+lines&#40;x, y1, color &#61; :red, label &#61; &quot;sin&quot;&#41;
+lines&#33;&#40;x, y2, color &#61; :blue, label &#61; &quot;cos&quot;&#41;
+axislegend&#40;&#41;
+current_figure&#40;&#41;</code></pre></p>
+<p>
+  <a id=example_2618343872335953557 >
+   <img src="/previews/PR1212/assets/tutorials/basic-tutorial/code/output/example_2618343872335953557.png" alt=""> 
+  </a>
+  
+<h2 id=subplots ><a href="#subplots" class=header-anchor >Subplots</a></h2>
+<p>Makie uses a powerful layout system under the hood, which allows you to create very complex figures with many subplots. For the easiest way to do this, we need a <a href="/previews/PR1212/documentation/figure/index.html#figures">Figure</a> object. So far, we haven&#39;t seen this explicitly, it was created in the background in the first plotting function call.</p>
+<p>We can also create a <a href="/previews/PR1212/documentation/figure/index.html#figures">Figure</a> directly and then continue working with it. We can make subplots by giving the location of the subplot in our layout grid as the first argument to our plotting function. The basic syntax for specifying the location in a figure is <code>fig&#91;row, col&#93;</code>.</p>
+<pre><code class=language-julia >using CairoMakie
+
+x &#61; LinRange&#40;0, 10, 100&#41;
+y &#61; sin.&#40;x&#41;
+
+fig &#61; Figure&#40;&#41;
+lines&#40;fig&#91;1, 1&#93;, x, y, color &#61; :red&#41;
+lines&#40;fig&#91;1, 2&#93;, x, y, color &#61; :blue&#41;
+lines&#40;fig&#91;2, 1:2&#93;, x, y, color &#61; :green&#41;
+
+fig</code></pre></p>
+<p>
+  <a id=example_14555578102859101249 >
+   <img src="/previews/PR1212/assets/tutorials/basic-tutorial/code/output/example_14555578102859101249.png" alt=""> 
+  </a>
+  
+<p>Each <code>lines</code> call creates a new axis in the position given as the first argument, that&#39;s why we use <code>lines</code> and not <code>lines&#33;</code> here.</p>
+<h2 id=constructing_axes_manually ><a href="#constructing_axes_manually" class=header-anchor >Constructing axes manually</a></h2>
+<p>Like <a href="/previews/PR1212/documentation/figure/index.html#figures">Figure</a>s, we can also create axes manually. This is useful if we want to prepare an empty axis to then plot into it later.</p>
+<p>The default 2D axis that we have created implicitly so far is called <a href="/previews/PR1212/examples/layoutables/axis/index.html#axis">Axis</a> and can also be created in a specific position in the figure by passing that position as the first argument.</p>
+<p>For example, we can create a figure with three axes.</p>
+<pre><code class=language-julia >using CairoMakie
+
+fig &#61; Figure&#40;&#41;
+ax1 &#61; Axis&#40;fig&#91;1, 1&#93;&#41;
+ax2 &#61; Axis&#40;fig&#91;1, 2&#93;&#41;
+ax3 &#61; Axis&#40;fig&#91;2, 1:2&#93;&#41;
+fig</code></pre></p>
+<p>
+  <a id=example_17115619397357073819 >
+   <img src="/previews/PR1212/assets/tutorials/basic-tutorial/code/output/example_17115619397357073819.png" alt=""> 
+  </a>
+  
+<p>And then we can continue to plot into these empty axes.</p>
+<pre><code class=language-julia >lines&#33;&#40;ax1, 0..10, sin&#41;
+lines&#33;&#40;ax2, 0..10, cos&#41;
+lines&#33;&#40;ax3, 0..10, sqrt&#41;
+fig</code></pre></p>
+<p>
+  <a id=example_17749365253106285125 >
+   <img src="/previews/PR1212/assets/tutorials/basic-tutorial/code/output/example_17749365253106285125.png" alt=""> 
+  </a>
+  
+<p>Note, the notation <code>0..10</code> above creates a closed interval from <code>0</code> to <code>10</code> &#40;see <a href="https://github.com/JuliaMath/IntervalSets.jl"><code>IntervalSets.jl</code></a> for further details&#41;.</p>
+<p>Axes also have many attributes that you can set, for example to give them a title, or labels.</p>
+<pre><code class=language-julia >ax1.title &#61; &quot;sin&quot;
+ax2.title &#61; &quot;cos&quot;
+ax3.title &#61; &quot;sqrt&quot;
+
+ax1.ylabel &#61; &quot;amplitude&quot;
+ax3.ylabel &#61; &quot;amplitude&quot;
+ax3.xlabel &#61; &quot;time&quot;
+fig</code></pre></p>
+<p>
+  <a id=example_13557654570063234937 >
+   <img src="/previews/PR1212/assets/tutorials/basic-tutorial/code/output/example_13557654570063234937.png" alt=""> 
+  </a>
+  
+<h2 id=legend_and_colorbar ><a href="#legend_and_colorbar" class=header-anchor >Legend and Colorbar</a></h2>
+<p>We have seen two <code>Layoutables</code> so far, the <a href="/previews/PR1212/examples/layoutables/axis/index.html#axis">Axis</a> and the <a href="/previews/PR1212/examples/layoutables/legend/index.html#legend">Legend</a> which was created by the function <code>axislegend</code>. All <code>Layoutable</code>s can be placed into the layout of a figure at arbitrary positions, which makes it easy to assemble complex figures.</p>
+<p>In the same way as with the <a href="/previews/PR1212/examples/layoutables/axis/index.html#axis">Axis</a> before, you can also create a <a href="/previews/PR1212/examples/layoutables/legend/index.html#legend">Legend</a> manually and then place it freely, wherever you want, in the figure. There are multiple ways to create <a href="/previews/PR1212/examples/layoutables/legend/index.html#legend">Legend</a>s, for one of them you pass one vector of plot objects and one vector of label strings.</p>
+<p>You can see here that we can deconstruct the return value from the two <code>lines</code> calls into one newly created axis and one plot object each. We can then feed the plot objects to the legend constructor. We place the legend in the second column and across both rows, which centers it nicely next to the two axes.</p>
+<pre><code class=language-julia >using CairoMakie
+
+fig &#61; Figure&#40;&#41;
+ax1, l1 &#61; lines&#40;fig&#91;1, 1&#93;, 0..10, sin, color &#61; :red&#41;
+ax2, l2 &#61; lines&#40;fig&#91;2, 1&#93;, 0..10, cos, color &#61; :blue&#41;
+Legend&#40;fig&#91;1:2, 2&#93;, &#91;l1, l2&#93;, &#91;&quot;sin&quot;, &quot;cos&quot;&#93;&#41;
+fig</code></pre></p>
+<p>
+  <a id=example_16508636194737698766 >
+   <img src="/previews/PR1212/assets/tutorials/basic-tutorial/code/output/example_16508636194737698766.png" alt=""> 
+  </a>
+  
+<p>The <a href="/previews/PR1212/examples/layoutables/colorbar/index.html#colorbar">Colorbar</a> works in a very similar way. We just need to pass a position in the figure to it, and one plot object. In this example, we use a <code>heatmap</code>.</p>
+<p>You can see here that we split the return value of <code>heatmap</code> into three parts: the newly created figure, the axis and the heatmap plot object. This is useful as we can then continue with the figure <code>fig</code> and the heatmap <code>hm</code> which we need for the colorbar.</p>
+<pre><code class=language-julia >using CairoMakie
+
+fig, ax, hm &#61; heatmap&#40;randn&#40;20, 20&#41;&#41;
+Colorbar&#40;fig&#91;1, 2&#93;, hm&#41;
+fig</code></pre></p>
+<p>
+  <a id=example_8050001396277137576 >
+   <img src="/previews/PR1212/assets/tutorials/basic-tutorial/code/output/example_8050001396277137576.png" alt=""> 
+  </a>
+  
+<p>The previous short syntax is basically equivalent to this longer, manual version. You can switch between those workflows however you please.</p>
+<pre><code class=language-julia >using CairoMakie
+
+fig &#61; Figure&#40;&#41;
+ax &#61; Axis&#40;fig&#91;1, 1&#93;&#41;
+hm &#61; heatmap&#33;&#40;ax, randn&#40;20, 20&#41;&#41;
+Colorbar&#40;fig&#91;1, 2&#93;, hm&#41;
+fig</code></pre></p>
+<p>
+  <a id=example_6225888241151240853 >
+   <img src="/previews/PR1212/assets/tutorials/basic-tutorial/code/output/example_6225888241151240853.png" alt=""> 
+  </a>
+  
+<h2 id=passing_attributes_to_figure_and_axis ><a href="#passing_attributes_to_figure_and_axis" class=header-anchor >Passing attributes to Figure and Axis</a></h2>
+<p>For one-off plots, it can be convenient to set axis or figure settings directly with the plotting command. You can do this using the plotting functions without the <code>&#33;</code> suffix, like <code>lines</code> or <code>scatter</code>, because these always create a new axis and also create a new figure if they are not plotting onto an existing one. This is explained further under <a href="/previews/PR1212/documentation/plot_method_signatures/index.html#plot_method_signatures">Plot Method Signatures</a>.</p>
+<p>You can pass axis attributes under the keyword <code>axis</code> and figure attributes under the keyword <code>figure</code>.</p>
+<pre><code class=language-julia >using CairoMakie
+
+heatmap&#40;randn&#40;20, 20&#41;,
+    figure &#61; &#40;backgroundcolor &#61; :pink,&#41;,
+    axis &#61; &#40;aspect &#61; 1, xlabel &#61; &quot;x axis&quot;, ylabel &#61; &quot;y axis&quot;&#41;
+&#41;</code></pre></p>
+<p>
+  <a id=example_15035588595016389094 >
+   <img src="/previews/PR1212/assets/tutorials/basic-tutorial/code/output/example_15035588595016389094.png" alt=""> 
+  </a>
+  
+<p>If you set only one attribute, be careful to do <code>axis &#61; &#40;key &#61; value,&#41;</code> &#40;note the trailing comma&#41;, otherwise you&#39;re not creating a <code>NamedTuple</code> but a local variable <code>key</code>.</p>
+<h2 id=next_steps ><a href="#next_steps" class=header-anchor >Next steps</a></h2>
+<p>We&#39;ve only looked at a small subset of Makie&#39;s functionality here.</p>
+<p>You can read about the different available plotting functions with examples in the Plotting Functions section.</p>
+<p>If you want to learn about making complex figures with nested sublayouts, have a look at the <a href="/previews/PR1212/tutorials/layout-tutorial/index.html#layout_tutorial">Layout Tutorial</a> section.</p>
+<p>If you&#39;re interested in creating interactive visualizations that use Makie&#39;s special <code>Observables</code> workflow, this is explained in more detail in the <a href="@ref">Observables &amp; Interaction</a> section.</p>
+<p>If you want to create animated movies, you can find more information in the <a href="/previews/PR1212/documentation/animation/index.html#animations">Animations</a> section.</p>
+<div class=page-foot >
+  <div class=copyright >
+    &copy; Makie.jl. Last modified: August 10, 2021. Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
+      <p>These docs were autogenerated using Makie: v0.15.0, GLMakie: v0.4.4, CairoMakie: v0.6.3, WGLMakie: v0.4.4</p>
+  </div>
+</div>
+</div>
+
+      </div> 
+    </div>   
+
+    <div class=page__footer >
+      <footer>
+        
+        
+        <div class=page__footer-follow >
+          <ul class=social-icons >
+            <li><a href="https://twitter.com/MakiePlots" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden=true ></i> Twitter</a>
+            <li><a href="https://github.com/JuliaPlots/Makie.jl" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden=true ></i> GitHub</a>
+          </ul>
+        </div>
+        <div class=page__footer-copyright >&copy; Makie.jl. Powered by <a href="https://github.com/tlienart/Franklin.jl">Franklin</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel=nofollow >Minimal Mistakes</a>.</div>
+      </footer>
+    </div>
+
+    <script src="/previews/PR1212/libs/minimal-mistakes/main.min.js"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.8.2/js/all.js" integrity="sha384-DJ25uNYET2XCl5ZF++U8eNxPWqcKohUUBUpKGlNLMchM7q4Wjg2CUpjHLaL8yYPH" crossorigin=anonymous ></script>
+
+    
+    
+        <script src="/previews/PR1212/libs/highlight/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();hljs.configure({tabReplace: '    '});</script>

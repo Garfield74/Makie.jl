@@ -1,0 +1,305 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.16.4 by Michael Rose
+  Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+   <link rel="stylesheet" href="/v0.15.1/libs/highlight/github.min.css">
+   
+  <link rel="stylesheet" href="/v0.15.1/css/franklin.css">
+<link rel="stylesheet" href="/v0.15.1/css/minimal-mistakes.css">
+<link rel="stylesheet" href="/v0.15.1/css/makie.css">
+<link rel="icon" href="/v0.15.1/assets/icon_transparent.png">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/fontawesome.min.css" rel="stylesheet" type="text/css"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/solid.min.css" rel="stylesheet" type="text/css"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/brands.min.css" rel="stylesheet" type="text/css"/>
+<!--[if IE ]>
+<style>
+  /* old IE unsupported flexbox fixes */
+  .greedy-nav .site-title {
+    padding-right: 3em;
+  }
+  .greedy-nav button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+  }
+</style>
+<![endif]-->
+
+   <title>hist</title>  
+  <!-- end custom head snippets -->
+</head>
+<body class="layout--single">
+  <div class="masthead">
+    <div class="masthead__inner-wrap">
+        <div class="masthead__menu">
+            <nav id="site-nav" class="greedy-nav">
+                <a class="title-icon" href="/v0.15.1/"><img src="/v0.15.1/assets/makie_logo_transparent.svg"/></a>
+                <!-- github link -->
+                
+
+                <ul class="visible-links">
+                    <li class="masthead__menu-item">
+                        <a href="https://github.com/JuliaPlots/Makie.jl"><img src="/v0.15.1/assets/GitHub-Mark-64px.png" class="masthead-icon" /></a>
+                    </li>
+                    <li class="masthead__menu-item"><a href="/v0.15.1/examples/">Examples</a></li>
+                    <li class="masthead__menu-item"><a href="/v0.15.1/tutorials/">Tutorials</a></li>
+                    <li class="masthead__menu-item"><a href="/v0.15.1/documentation/">Documentation</a></li>
+                </ul>
+                <button class="greedy-nav__toggle" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+                <ul class="hidden-links hidden"></ul>
+            </nav>
+        </div>
+    </div>
+</div>
+  <div class="initial-content">
+    <div id="main" role="main">
+      <div id="overlay"></div>
+      <div id="navbar-container">
+        <div id="navbar">
+          <form id="lunrSearchForm" name="lunrSearchForm" action="/v0.15.1/search/index.html">
+            <input class="search-input" name="q" placeholder="Search docs" type="text">
+          </form>
+          <h1>Navigation</h1>
+          <ul><li><div class="tocitem-container"><a  href="/v0.15.1/">Home</a></div></li>
+<li><input class="collapse-toggle" id="menuitem-2" type="checkbox" checked><div class="tocitem-container"><label class="tocexpander" for="menuitem-2"><i class="docs-chevron"></i></label><a  href="/v0.15.1/examples">Examples</a></div><ul><li><input class="collapse-toggle" id="menuitem-2-1" type="checkbox" ><div class="tocitem-container"><label class="tocexpander" for="menuitem-2-1"><i class="docs-chevron"></i></label><a  href="/v0.15.1/examples/layoutables">Layoutables &amp; Widgets</a></div><ul><li><div class="tocitem-container"><a  href="/v0.15.1/examples/layoutables/axis">Axis</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/layoutables/axis3">Axis3</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/layoutables/box">Box</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/layoutables/button">Button</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/layoutables/colorbar">Colorbar</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/layoutables/gridlayout">GridLayout</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/layoutables/intervalslider">IntervalSlider</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/layoutables/label">Label</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/layoutables/legend">Legend</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/layoutables/lscene">LScene</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/layoutables/menu">Menu</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/layoutables/slider">Slider</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/layoutables/toggle">Toggle</a></div></li>
+</ul></li>
+<li><input class="collapse-toggle" id="menuitem-2-2" type="checkbox" checked><div class="tocitem-container"><label class="tocexpander" for="menuitem-2-2"><i class="docs-chevron"></i></label><a  href="/v0.15.1/examples/plotting_functions">Plotting functions</a></div><ul><li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/arrows">arrows</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/band">band</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/barplot">barplot</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/boxplot">boxplot</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/contour">contour</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/contourf">contourf</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/crossbar">crossbar</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/density">density</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/errorbars">errorbars</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/heatmap">heatmap</a></div></li>
+<li><div class="tocitem-container"><a class = active href="/v0.15.1/examples/plotting_functions/hist">hist</a></div><ul class="page-content">
+<li><a href="#hist">hist</a></li>
+<li><ul>
+<li><a href="#examples">Examples</a></li>
+<li><ul>
+<li><a href="#histogram_with_labels">Histogram with labels</a></li>
+<li><a href="#moving_histograms">Moving histograms</a></li>
+</ul>
+</ul>
+</ul>
+</li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/image">image</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/lines">lines</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/linesegments">linesegments</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/mesh">mesh</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/meshscatter">meshscatter</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/poly">poly</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/rangebars">rangebars</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/scatter">scatter</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/scatterlines">scatterlines</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/series">series</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/stairs">stairs</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/stem">stem</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/streamplot">streamplot</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/surface">surface</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/text">text</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/violin">violin</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/volume">volume</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/volumeslices">volumeslices</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/examples/plotting_functions/wireframe">wireframe</a></div></li>
+</ul></li>
+</ul></li>
+<li><input class="collapse-toggle" id="menuitem-3" type="checkbox" ><div class="tocitem-container"><label class="tocexpander" for="menuitem-3"><i class="docs-chevron"></i></label><a  href="/v0.15.1/tutorials">Tutorials</a></div><ul><li><div class="tocitem-container"><a  href="/v0.15.1/tutorials/basic-tutorial">Basic Tutorial</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/tutorials/layout-tutorial">Layout Tutorial</a></div></li>
+</ul></li>
+<li><input class="collapse-toggle" id="menuitem-4" type="checkbox" ><div class="tocitem-container"><label class="tocexpander" for="menuitem-4"><i class="docs-chevron"></i></label><a  href="/v0.15.1/documentation">Documentation</a></div><ul><li><div class="tocitem-container"><a  href="/v0.15.1/documentation/animation">Animations</a></div></li>
+<li><input class="collapse-toggle" id="menuitem-4-2" type="checkbox" ><div class="tocitem-container"><label class="tocexpander" for="menuitem-4-2"><i class="docs-chevron"></i></label><a  href="/v0.15.1/documentation/backends_and_output">Backends &amp; Output</a></div><ul><li><div class="tocitem-container"><a  href="/v0.15.1/documentation/backends_and_output/figure_size">Exporting a Figure with physical dimensions</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/documentation/backends_and_output/wglmakie">JSServe and WGLMakie</a></div></li>
+</ul></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/documentation/cameras">Cameras</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/documentation/colors">Colors</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/documentation/events">Events</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/documentation/faq">Frequently Asked Questions</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/documentation/figure">Figures</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/documentation/inspector">Inspecting Data</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/documentation/latex">LaTeX</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/documentation/layoutables">Layoutables</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/documentation/layouting">How layouts work</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/documentation/lighting">Lighting</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/documentation/nodes">Observables &amp; Interaction</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/documentation/plot_method_signatures">Plot Method Signatures</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/documentation/recipes">Plot Recipes</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/documentation/remote">Remote servers</a></div></li>
+<li><div class="tocitem-container"><a  href="/v0.15.1/documentation/scenes">Scenes</a></div></li>
+<li><input class="collapse-toggle" id="menuitem-4-18" type="checkbox" ><div class="tocitem-container"><label class="tocexpander" for="menuitem-4-18"><i class="docs-chevron"></i></label><a  href="/v0.15.1/documentation/theming">Theming</a></div><ul><li><div class="tocitem-container"><a  href="/v0.15.1/documentation/theming/predefined_themes">Predefined themes</a></div></li>
+</ul></li>
+</ul></li>
+</ul>
+        </div>
+      </div>
+
+<!-- Content appended here -->
+<div class="franklin-content"><h1 id="hist"><a href="#hist" class="header-anchor">hist</a></h1>
+  <div class="docstring">
+      <h2 class="doc-header" id="hist">
+        <a href="#hist">hist</a>
+        <div class="doc-type"></div>
+      </h2>
+      <div class="doc-content"><pre><code class="language-julia">hist&#40;values; bins &#61; 15, normalization &#61; :none&#41;</code></pre>
+<p>Plot a histogram of <code>values</code>. <code>bins</code> can be an <code>Int</code> to create that number of equal-width bins over the range of <code>values</code>. Alternatively, it can be a sorted iterable of bin edges. The histogram can be normalized by setting <code>normalization</code>. Possible values are:</p>
+<ul>
+<li><p><code>:pdf</code>: Normalize by sum of weights and bin sizes. Resulting histogram  has norm 1 and represents a PDF.</p>
+</li>
+<li><p><code>:density</code>: Normalize by bin sizes only. Resulting histogram represents  count density of input and does not have norm 1. Will not modify the  histogram if it already represents a density &#40;<code>h.isdensity &#61;&#61; 1</code>&#41;.</p>
+</li>
+<li><p><code>:probability</code>: Normalize by sum of weights only. Resulting histogram  represents the fraction of probability mass for each bin and does not have  norm 1.</p>
+</li>
+<li><p><code>:none</code>: Do not normalize.</p>
+</li>
+</ul>
+<p>The following attributes can move the histogram around, which comes in handy when placing multiple histograms into one plot:</p>
+<ul>
+<li><p>offset &#61; 0.0: adds an offset to every value</p>
+</li>
+<li><p>fillto &#61; 0.0: defines where the bar starts</p>
+</li>
+<li><p>scale_to &#61; nothing: allows to scale all values to a certain height</p>
+</li>
+<li><p>flip &#61; false: flips all values</p>
+</li>
+</ul>
+<p>Color can either be:</p>
+<ul>
+<li><p>a vector of <code>bins</code> colors</p>
+</li>
+<li><p>a single color</p>
+</li>
+<li><p><code>:values</code>, to color the bars with the values from the histogram</p>
+</li>
+</ul>
+<h2 id="attributes"><a href="#attributes" class="header-anchor">Attributes</a></h2>
+<p>Available attributes and their defaults for <code>MakieCore.Combined&#123;Makie.hist, T&#125; where T</code> are: </p>
+<pre><code class="language-julia">bar_labels             &quot;nothing&quot;
+  bins                   15
+  color                  RGBA&#123;Float32&#125;&#40;0.0f0,0.0f0,0.0f0,0.6f0&#41;
+  cycle                  &#91;:color &#61;&gt; :patchcolor&#93;
+  fillto                 MakieCore.Automatic&#40;&#41;
+  flip_labels_at         Inf
+  label_color            :black
+  label_font             &quot;Dejavu Sans&quot;
+  label_formatter        Makie.bar_label_formatter
+  label_offset           5
+  label_size             20
+  normalization          :none
+  offset                 0.0
+  over_background_color  MakieCore.Automatic&#40;&#41;
+  over_bar_color         MakieCore.Automatic&#40;&#41;
+  scale_to               &quot;nothing&quot;</code></pre>
+</div>
+  </div>
+
+<h3 id="examples"><a href="#examples" class="header-anchor">Examples</a></h3>
+<pre><code class="language-julia">using GLMakie
+
+data &#61; randn&#40;1000&#41;
+
+f &#61; Figure&#40;&#41;
+hist&#40;f&#91;1, 1&#93;, data, bins &#61; 10&#41;
+hist&#40;f&#91;1, 2&#93;, data, bins &#61; 20, color &#61; :red, strokewidth &#61; 1, strokecolor &#61; :black&#41;
+hist&#40;f&#91;2, 1&#93;, data, bins &#61; &#91;-5, -2, -1, 0, 1, 2, 5&#93;, color &#61; :gray&#41;
+hist&#40;f&#91;2, 2&#93;, data, normalization &#61; :pdf&#41;
+f</code></pre></p>
+<p>
+  <a id="example_12136940384025334420">
+   <img src="/v0.15.1/assets/examples/plotting_functions/hist/code/output/example_12136940384025334420.png" alt=""> 
+  </a>
+  
+<h4 id="histogram_with_labels"><a href="#histogram_with_labels" class="header-anchor">Histogram with labels</a></h4>
+<p>You can use all the same arguments as <a href="@ref"><code>barplot</code></a>:</p>
+<pre><code class="language-julia">using CairoMakie
+
+data &#61; randn&#40;1000&#41;
+
+hist&#40;data, normalization &#61; :pdf, bar_labels &#61; :values,
+     label_formatter&#61;x-&gt; round&#40;x, digits&#61;2&#41;, label_size &#61; 15,
+     strokewidth &#61; 0.5, strokecolor &#61; &#40;:black, 0.5&#41;, color &#61; :values&#41;</code></pre></p>
+<p>
+  <a id="example_18267513311309602405">
+   <img src="/v0.15.1/assets/examples/plotting_functions/hist/code/output/example_18267513311309602405.png" alt=""> 
+  </a>
+  
+<h4 id="moving_histograms"><a href="#moving_histograms" class="header-anchor">Moving histograms</a></h4>
+<p>With <code>scale_to</code>, and <code>offset</code>, one can put multiple histograms into the same plot. Note, that offset automatically sets fillto, to move the whole barplot. Also, one can use a negative <code>scale_to</code> amount to flip the histogram.</p>
+<pre><code class="language-julia">using CairoMakie
+
+fig &#61; Figure&#40;&#41;
+ax &#61; Axis&#40;fig&#91;1, 1&#93;&#41;
+for i in 1:5
+     hist&#33;&#40;ax, randn&#40;1000&#41;, scale_to&#61;-0.6, offset&#61;i, direction&#61;:x&#41;
+end
+fig</code></pre></p>
+<p>
+  <a id="example_7412694190589125397">
+   <img src="/v0.15.1/assets/examples/plotting_functions/hist/code/output/example_7412694190589125397.png" alt=""> 
+  </a>
+  
+<div class="page-foot">
+  <div class="copyright">
+    &copy; Makie.jl. Last modified: August 21, 2021. Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
+      <p>These docs were autogenerated using Makie: v0.15.1, GLMakie: v0.4.5, CairoMakie: v0.6.4, WGLMakie: v0.4.5</p>
+  </div>
+</div>
+</div><!-- CONTENT ENDS HERE -->
+
+      </div> <!-- closure of main -->
+    </div>   <!-- closure of class initial--content -->
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+        <!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+          <ul class="social-icons">
+            <li><a href="https://twitter.com/MakiePlots" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+            <li><a href="https://github.com/JuliaPlots/Makie.jl" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+          </ul>
+        </div>
+        <div class="page__footer-copyright">&copy; Makie.jl. Powered by <a href="https://github.com/tlienart/Franklin.jl">Franklin</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+      </footer>
+    </div>
+
+    <script src="/v0.15.1/libs/navbar.js"></script>
+    <script src="/v0.15.1/libs/lunr/lunr.min.js"></script>
+    <script src="/v0.15.1/libs/lunr/lunr_index.js"></script>
+    <script src="/v0.15.1/libs/lunr/lunrclient.min.js"></script>
+    <!-- <script src="/v0.15.1/libs/minimal-mistakes/main.min.js"></script> -->
+    <script defer src="https://use.fontawesome.com/releases/v5.8.2/js/all.js" integrity="sha384-DJ25uNYET2XCl5ZF++U8eNxPWqcKohUUBUpKGlNLMchM7q4Wjg2CUpjHLaL8yYPH" crossorigin="anonymous"></script>
+
+    
+    
+        <script src="/v0.15.1/libs/highlight/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();hljs.configure({tabReplace: '    '});</script>
+
+    
+  </body>
+</html>

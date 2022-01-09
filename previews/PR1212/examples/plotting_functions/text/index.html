@@ -1,0 +1,170 @@
+<!doctype html> <!-- Minimal Mistakes Jekyll Theme 4.16.4 by Michael Rose Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes Free for personal and commercial use under the MIT license https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE --> <html lang=en > <meta charset=UTF-8 > <meta name=viewport  content="width=device-width, initial-scale=1"> <link rel=stylesheet  href="/previews/PR1212/libs/highlight/github.min.css"> <link rel=stylesheet  href="/previews/PR1212/css/franklin.css"> <link rel=stylesheet  href="/previews/PR1212/css/minimal-mistakes.css"> <link rel=stylesheet  href="/previews/PR1212/css/makie.css"> <link rel=icon  href="/previews/PR1212/assets/icon_transparent.png"> <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/fontawesome.min.css" rel=stylesheet  type="text/css"/> <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/solid.min.css" rel=stylesheet  type="text/css"/> <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/brands.min.css" rel=stylesheet  type="text/css"/> <!--[if IE ]> <style> /* old IE unsupported flexbox fixes */ .greedy-nav .site-title { padding-right: 3em; } .greedy-nav button { position: absolute; top: 0; right: 0; height: 100%; } </style> <![endif]--> <title>text</title> <body class=layout--single > <div class=masthead > <div class=masthead__inner-wrap > <div class=masthead__menu > <nav id=site-nav  class=greedy-nav > <a class=title-icon  href="/previews/PR1212/"><img src="/previews/PR1212/assets/makie_logo_transparent.svg"/></a> <ul class=visible-links > <li class=masthead__menu-item > <a href="https://github.com/JuliaPlots/Makie.jl"><img src="/previews/PR1212/assets/GitHub-Mark-64px.png" class=masthead-icon  /></a> <li class=masthead__menu-item ><a href="/previews/PR1212/examples/">Examples</a> <li class=masthead__menu-item ><a href="/previews/PR1212/tutorials/">Tutorials</a> <li class=masthead__menu-item ><a href="/previews/PR1212/documentation/">Documentation</a> </ul> <button class="greedy-nav__toggle hidden" type=button > <span class=visually-hidden >Toggle menu</span> <div class=navicon ></div> </button> <ul class="hidden-links hidden"></ul> </nav> </div> </div> </div> <div class=initial-content > <div id=main  role=main > <div class=franklin-content ><h1 id=text ><a href="#text" class=header-anchor >text</a></h1> <div class=docstring > <h2 class=doc-header  id=text > <a href="#text">text</a> <div class=doc-type ></div> </h2> <div class=doc-content ><pre><code class=language-julia >text&#40;string&#41;</code></pre>
+<p>Plots a text.</p>
+</div>
+  </div>
+
+<h2 id=screen_space_text ><a href="#screen_space_text" class=header-anchor >Screen space text</a></h2>
+<p>By default, text is drawn in screen space &#40;<code>space &#61; :screen</code>&#41;. The text anchor is given in data coordinates, but the size of the glyphs is independent of data scaling. The boundingbox of the text will include every data point or every text anchor point. This also means that <code>autolimits&#33;</code> might cut off your text, because the glyphs don&#39;t have a meaningful size in data coordinates &#40;the size is independent of zoom level&#41;, and you have to take some care to manually place the text or set data limits such that it is fully visible.</p>
+<p>You can either plot one string with one position, or a vector of strings with a vector of positions.</p>
+<pre><code class=language-julia >using CairoMakie
+
+f &#61; Figure&#40;&#41;
+
+Axis&#40;f&#91;1, 1&#93;, aspect &#61; DataAspect&#40;&#41;, backgroundcolor &#61; :gray50&#41;
+
+scatter&#33;&#40;Point2f0&#40;0, 0&#41;&#41;
+text&#33;&#40;&quot;center&quot;, position &#61; &#40;0, 0&#41;, align &#61; &#40;:center, :center&#41;&#41;
+
+circlepoints &#61; &#91;&#40;cos&#40;a&#41;, sin&#40;a&#41;&#41; for a in LinRange&#40;0, 2pi, 16&#41;&#91;1:end-1&#93;&#93;
+scatter&#33;&#40;circlepoints&#41;
+text&#33;&#40;
+    &quot;this is point &quot; .* string.&#40;1:15&#41;,
+    position &#61; circlepoints,
+    rotation &#61; LinRange&#40;0, 2pi, 16&#41;&#91;1:end-1&#93;,
+    align &#61; &#40;:right, :baseline&#41;,
+    color &#61; cgrad&#40;:Spectral&#41;&#91;LinRange&#40;0, 1, 15&#41;&#93;
+&#41;
+
+f</code></pre></p>
+<p>
+  <a id=example_9180335225915783822 >
+   <img src="/previews/PR1212/assets/examples/plotting_functions/text/code/output/example_9180335225915783822.png" alt=""> 
+  </a>
+  
+<h2 id=data_space_text ><a href="#data_space_text" class=header-anchor >Data space text</a></h2>
+<p>For text whose dimensions are meaningful in data space, set <code>space &#61; :data</code>. This means that the boundingbox of the text in data coordinates will include every glyph.</p>
+<pre><code class=language-julia >using CairoMakie
+
+f &#61; Figure&#40;&#41;
+LScene&#40;f&#91;1, 1&#93;&#41;
+
+text&#33;&#40;
+    fill&#40;&quot;Makie&quot;, 7&#41;,
+    rotation &#61; &#91;i / 7 * 1.5pi for i in 1:7&#93;,
+    position &#61; &#91;Point3f0&#40;0, 0, i/2&#41; for i in 1:7&#93;,
+    color &#61; &#91;cgrad&#40;:viridis&#41;&#91;x&#93; for x in LinRange&#40;0, 1, 7&#41;&#93;,
+    align &#61; &#40;:left, :baseline&#41;,
+    textsize &#61; 1,
+    space &#61; :data
+&#41;
+
+f</code></pre></p>
+<p>
+  <a id=example_9572458377144007811 >
+   <img src="/previews/PR1212/assets/examples/plotting_functions/text/code/output/example_9572458377144007811.png" alt=""> 
+  </a>
+  
+<h2 id=justification ><a href="#justification" class=header-anchor >Justification</a></h2>
+<p>By default, justification of multiline text follows alignment. Text that is left aligned is also left justified. You can override this with the <code>justification</code> attribute.</p>
+<pre><code class=language-julia >using CairoMakie
+
+scene &#61; Scene&#40;camera &#61; campixel&#33;, show_axis &#61; false, resolution &#61; &#40;800, 800&#41;&#41;
+
+points &#61; &#91;Point&#40;x, y&#41; .* 200 for x in 1:3 for y in 1:3&#93;
+scatter&#33;&#40;scene, points, marker &#61; :circle, markersize &#61; 10px&#41;
+
+symbols &#61; &#40;:left, :center, :right&#41;
+
+for &#40;&#40;justification, halign&#41;, point&#41; in zip&#40;Iterators.product&#40;symbols, symbols&#41;, points&#41;
+
+    t &#61; text&#33;&#40;scene, &quot;a\nshort\nparagraph&quot;,
+        color &#61; &#40;:black, 0.5&#41;,
+        position &#61; point,
+        align &#61; &#40;halign, :center&#41;,
+        justification &#61; justification&#41;
+
+    bb &#61; boundingbox&#40;t&#41;
+    wireframe&#33;&#40;scene, bb, color &#61; &#40;:red, 0.2&#41;&#41;
+end
+
+for &#40;p, al&#41; in zip&#40;points&#91;3:3:end&#93;, &#40;:left, :center, :right&#41;&#41;
+    text&#33;&#40;scene, &quot;align :&quot; * string&#40;al&#41;, position &#61; p .&#43; &#40;0, 80&#41;,
+        align &#61; &#40;:center, :baseline&#41;&#41;
+end
+
+for &#40;p, al&#41; in zip&#40;points&#91;7:9&#93;, &#40;:left, :center, :right&#41;&#41;
+    text&#33;&#40;scene, &quot;justification\n:&quot; * string&#40;al&#41;, position &#61; p .&#43; &#40;80, 0&#41;,
+        align &#61; &#40;:center, :top&#41;, rotation &#61; pi/2&#41;
+end
+
+scene</code></pre></p>
+<p>
+  <a id=example_12580848530414642567 >
+   <img src="/previews/PR1212/assets/examples/plotting_functions/text/code/output/example_12580848530414642567.png" alt=""> 
+  </a>
+  
+<h2 id=offset ><a href="#offset" class=header-anchor >Offset</a></h2>
+<p>The offset attribute can be used to shift text away from its position. This is especially useful with <code>space &#61; :screen</code>, for example to place text together with barplots. You can specify the end of the barplots in data coordinates, and then offset the text a little bit to the left.</p>
+<pre><code class=language-julia >using CairoMakie
+
+f &#61; Figure&#40;&#41;
+
+horsepower &#61; &#91;52, 78, 80, 112, 140&#93;
+cars &#61; &#91;&quot;Kia&quot;, &quot;Mini&quot;, &quot;Honda&quot;, &quot;Mercedes&quot;, &quot;Ferrari&quot;&#93;
+
+ax &#61; Axis&#40;f&#91;1, 1&#93;, xlabel &#61; &quot;horse power&quot;&#41;
+tightlimits&#33;&#40;ax, Left&#40;&#41;&#41;
+hideydecorations&#33;&#40;ax&#41;
+
+barplot&#33;&#40;horsepower, direction &#61; :x&#41;
+text&#33;&#40;cars, position &#61; Point.&#40;horsepower, 1:5&#41;, align &#61; &#40;:right, :center&#41;,
+    offset &#61; &#40;-20, 0&#41;, color &#61; :white&#41;
+
+f</code></pre></p>
+<p>
+  <a id=example_8467954534360929428 >
+   <img src="/previews/PR1212/assets/examples/plotting_functions/text/code/output/example_8467954534360929428.png" alt=""> 
+  </a>
+  
+<h2 id=mathtex ><a href="#mathtex" class=header-anchor >MathTeX</a></h2>
+<p>Makie can render LaTeXStrings via <a href="https://github.com/Kolaru/MathTeXEngine.jl/">MathTeXEngine.jl</a>. For example, you can pass L-strings as labels to the legend.</p>
+<pre><code class=language-julia >using CairoMakie
+
+f &#61; Figure&#40;&#41;
+ax &#61; Axis&#40;f&#91;1, 1&#93;&#41;
+
+lines&#33;&#40;0..10, x -&gt; sin&#40;3x&#41; / &#40;cos&#40;x&#41; &#43; 2&#41;,
+    label &#61; L&quot;\frac&#123;\sin&#40;3x&#41;&#125;&#123;\cos&#40;x&#41; &#43; 2&#125;&quot;&#41;
+lines&#33;&#40;0..10, x -&gt; sin&#40;x^2&#41; / &#40;cos&#40;sqrt&#40;x&#41;&#41; &#43; 2&#41;,
+    label &#61; L&quot;\frac&#123;\sin&#40;x^2&#41;&#125;&#123;\cos&#40;\sqrt&#123;x&#125;&#41; &#43; 2&#125;&quot;&#41;
+
+Legend&#40;f&#91;1, 2&#93;, ax&#41;
+
+f</code></pre></p>
+<p>
+  <a id=example_7163903792067819962 >
+   <img src="/previews/PR1212/assets/examples/plotting_functions/text/code/output/example_7163903792067819962.png" alt=""> 
+  </a>
+  
+<div class=page-foot >
+  <div class=copyright >
+    &copy; Makie.jl. Last modified: August 10, 2021. Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
+      <p>These docs were autogenerated using Makie: v0.15.0, GLMakie: v0.4.4, CairoMakie: v0.6.3, WGLMakie: v0.4.4</p>
+  </div>
+</div>
+</div>
+
+      </div> 
+    </div>   
+
+    <div class=page__footer >
+      <footer>
+        
+        
+        <div class=page__footer-follow >
+          <ul class=social-icons >
+            <li><a href="https://twitter.com/MakiePlots" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden=true ></i> Twitter</a>
+            <li><a href="https://github.com/JuliaPlots/Makie.jl" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden=true ></i> GitHub</a>
+          </ul>
+        </div>
+        <div class=page__footer-copyright >&copy; Makie.jl. Powered by <a href="https://github.com/tlienart/Franklin.jl">Franklin</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel=nofollow >Minimal Mistakes</a>.</div>
+      </footer>
+    </div>
+
+    <script src="/previews/PR1212/libs/minimal-mistakes/main.min.js"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.8.2/js/all.js" integrity="sha384-DJ25uNYET2XCl5ZF++U8eNxPWqcKohUUBUpKGlNLMchM7q4Wjg2CUpjHLaL8yYPH" crossorigin=anonymous ></script>
+
+    
+    
+        <script src="/previews/PR1212/libs/highlight/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();hljs.configure({tabReplace: '    '});</script>

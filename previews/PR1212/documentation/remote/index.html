@@ -1,0 +1,56 @@
+<!doctype html> <!-- Minimal Mistakes Jekyll Theme 4.16.4 by Michael Rose Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes Free for personal and commercial use under the MIT license https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE --> <html lang=en > <meta charset=UTF-8 > <meta name=viewport  content="width=device-width, initial-scale=1"> <link rel=stylesheet  href="/previews/PR1212/libs/highlight/github.min.css"> <link rel=stylesheet  href="/previews/PR1212/css/franklin.css"> <link rel=stylesheet  href="/previews/PR1212/css/minimal-mistakes.css"> <link rel=stylesheet  href="/previews/PR1212/css/makie.css"> <link rel=icon  href="/previews/PR1212/assets/icon_transparent.png"> <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/fontawesome.min.css" rel=stylesheet  type="text/css"/> <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/solid.min.css" rel=stylesheet  type="text/css"/> <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/brands.min.css" rel=stylesheet  type="text/css"/> <!--[if IE ]> <style> /* old IE unsupported flexbox fixes */ .greedy-nav .site-title { padding-right: 3em; } .greedy-nav button { position: absolute; top: 0; right: 0; height: 100%; } </style> <![endif]--> <title>Using Makie on a remote server</title> <body class=layout--single > <div class=masthead > <div class=masthead__inner-wrap > <div class=masthead__menu > <nav id=site-nav  class=greedy-nav > <a class=title-icon  href="/previews/PR1212/"><img src="/previews/PR1212/assets/makie_logo_transparent.svg"/></a> <ul class=visible-links > <li class=masthead__menu-item > <a href="https://github.com/JuliaPlots/Makie.jl"><img src="/previews/PR1212/assets/GitHub-Mark-64px.png" class=masthead-icon  /></a> <li class=masthead__menu-item ><a href="/previews/PR1212/examples/">Examples</a> <li class=masthead__menu-item ><a href="/previews/PR1212/tutorials/">Tutorials</a> <li class=masthead__menu-item ><a href="/previews/PR1212/documentation/">Documentation</a> </ul> <button class="greedy-nav__toggle hidden" type=button > <span class=visually-hidden >Toggle menu</span> <div class=navicon ></div> </button> <ul class="hidden-links hidden"></ul> </nav> </div> </div> </div> <div class=initial-content > <div id=main  role=main > <div class=franklin-content ><h1 id=using_makie_on_a_remote_server ><a href="#using_makie_on_a_remote_server" class=header-anchor >Using Makie on a remote server</a></h1> <p>Makie can be used remotely and it supports working headless systems &#40;such as CI servers&#41;.</p> <h2 id=glmakie ><a href="#glmakie" class=header-anchor >GLMakie</a></h2> <p>For <a href="https://github.com/JuliaPlots/GLMakie.jl">GLMakie</a> you can either use X11 forwarding to render on the local host or use <a href="https://www.virtualgl.org/">VirtualGL</a> to render on the remote server.</p> <h3 id=glmakie_with_x11_forwarding ><a href="#glmakie_with_x11_forwarding" class=header-anchor >GLMakie with X11 forwarding</a></h3> <p>In this scenario you need an X server on the remote and you will have to connect to the remote server with</p> <pre><code class=language-julia >ssh -X user@host</code></pre>
+<p>See <a href="https://unix.stackexchange.com/questions/12755/how-to-forward-x-over-ssh-to-run-graphics-applications-remotely">here</a> about more details about X11 forwarding.</p>
+<h3 id=glmakie_with_virtualgl ><a href="#glmakie_with_virtualgl" class=header-anchor >GLMakie with VirtualGL</a></h3>
+<p>The first step is to <a href="https://cdn.rawgit.com/VirtualGL/virtualgl/2.6.3/doc/index.html#hd005">install VirtualGL</a> on the remote server &#40;<a href="https://virtualgl.org/Documentation/OSSupport">Linux only</a>&#41; and on the local client. If you need to establish the connection to the server via a secondary intermediate server, VirtualGL also needs to be installed there. On the remote server you will need to <a href="https://cdn.rawgit.com/VirtualGL/virtualgl/2.6.5/doc/index.html#hd006">configure the VirtualGL server</a>. Be sure to <a href="https://cdn.rawgit.com/VirtualGL/virtualgl/2.6.5/doc/index.html#hd006002001">check that the configuration is ok</a>.</p>
+<p>After everything is set up, you can connect to the remote server via</p>
+<pre><code class=language-julia >/opt/VirtualGL/bin/vglconnect -s user@server</code></pre>
+<p>and then you will have to start julia via VirtualGL</p>
+<pre><code class=language-julia >/opt/VirtualGL/bin/vglrun julia</code></pre>
+<h3 id=glmakie_in_ci ><a href="#glmakie_in_ci" class=header-anchor >GLMakie in CI</a></h3>
+<p>You can also use GLMakie on CI or servers without a GPU by using <code>xvfb</code> for software rendering. This procedure is used in the <a href="https://github.com/JuliaPlots/GLMakie.jl/blob/8954fc34354a09ceb11159a8e8e35429c05a710f/.github/workflows/ci.yml#L41-L42">GLMakie tests</a>.</p>
+<h2 id=wglmakie ><a href="#wglmakie" class=header-anchor >WGLMakie</a></h2>
+<p>For WGLMakie, you can setup a server with JSServe and serve the content from a remote server. This also works for creating interactive plots with Documenter. Check out the <a href="http://juliaplots.org/WGLMakie.jl/stable/">docs</a> for more details about this.</p>
+<p>If you want to use WGLMakie in VS Code on a remote server, you will have to forward the port used by WGLMakie in order for the plot pane integration to work. If you don&#39;t need to change the port on which WGLMakie, you will just have to <a href="https://code.visualstudio.com/docs/remote/ssh#_forwarding-a-port-creating-ssh-tunnel">forward</a> the 9284 port.</p>
+<p>If you want to change the port on which WGLMakie runs on the remote, say <code>8081</code>, you will have to use the following</p>
+<pre><code class=language-julia >using JSServe
+
+JSServe.configure_server&#33;&#40;listen_port&#61;8081&#41;</code></pre>
+<p>before any plotting commands with WGLMakie.</p>
+<p>If you also need to use a different port than <code>8081</code> on the <em>local</em> machine, say <code>8081</code>, you will also need to set the <code>forwarded_port</code> like this:</p>
+<pre><code class=language-julia >using JSServe
+
+JSServe.configure_server&#33;&#40;listen_port&#61;8081, forwarded_port&#61;8080&#41;</code></pre>
+<h2 id=cairomakie ><a href="#cairomakie" class=header-anchor >CairoMakie</a></h2>
+<p>For CairoMakie there shouldn&#39;t be any difference in using it on a remote or locally.</p>
+<div class=page-foot >
+  <div class=copyright >
+    &copy; Makie.jl. Last modified: August 10, 2021. Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
+      <p>These docs were autogenerated using Makie: v0.15.0, GLMakie: v0.4.4, CairoMakie: v0.6.3, WGLMakie: v0.4.4</p>
+  </div>
+</div>
+</div>
+
+      </div> 
+    </div>   
+
+    <div class=page__footer >
+      <footer>
+        
+        
+        <div class=page__footer-follow >
+          <ul class=social-icons >
+            <li><a href="https://twitter.com/MakiePlots" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden=true ></i> Twitter</a>
+            <li><a href="https://github.com/JuliaPlots/Makie.jl" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden=true ></i> GitHub</a>
+          </ul>
+        </div>
+        <div class=page__footer-copyright >&copy; Makie.jl. Powered by <a href="https://github.com/tlienart/Franklin.jl">Franklin</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel=nofollow >Minimal Mistakes</a>.</div>
+      </footer>
+    </div>
+
+    <script src="/previews/PR1212/libs/minimal-mistakes/main.min.js"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.8.2/js/all.js" integrity="sha384-DJ25uNYET2XCl5ZF++U8eNxPWqcKohUUBUpKGlNLMchM7q4Wjg2CUpjHLaL8yYPH" crossorigin=anonymous ></script>
+
+    
+    
+        <script src="/previews/PR1212/libs/highlight/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();hljs.configure({tabReplace: '    '});</script>
